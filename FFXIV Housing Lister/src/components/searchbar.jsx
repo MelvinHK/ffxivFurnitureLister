@@ -26,26 +26,24 @@ function Searchbar() {
   };
 
   return (
-    <>
-      <div ref={resultsRef} className='relative'>
-        {/* Search Bar */}
-        <form className='flex'>
-          <input type='text' value={query} onChange={e => setQuery(e.target.value)}></input>
-          <button type='submit' onClick={e => handleSubmit(e)}>
-            Search
-          </button>
-        </form>
-        {/* Search Results */}
-        {isResultsHidden ? <></> :
-          <div className='absolute w-full'>
-            {queryResults.map((result) =>
-              <button key={result.ID} className='text-left w-full'>{result.Name}</button>
-            )}
-            <div className="pad">{queryStatus}</div>
-          </div>
-        }
-      </div>
-    </>
+    <div ref={resultsRef} className='relative'>
+      {/* Search Bar */}
+      <form className='flex'>
+        <input type='text' value={query} onChange={e => setQuery(e.target.value)}></input>
+        <button type='submit' onClick={e => handleSubmit(e)}>
+          Search
+        </button>
+      </form>
+      {/* Search Results */}
+      {isResultsHidden ? <></> :
+        <div className='absolute w-full'>
+          {queryResults.map((result) =>
+            <button key={result.ID} className='text-left w-full'>{result.Name}</button>
+          )}
+          <div className="pad">{queryStatus}</div>
+        </div>
+      }
+    </div>
   );
 }
 
