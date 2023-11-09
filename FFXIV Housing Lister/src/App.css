@@ -2,6 +2,10 @@
     display: flex;
 }
 
+.gap {
+    gap: 1rem;
+}
+
 .relative {
     position: relative;
 }

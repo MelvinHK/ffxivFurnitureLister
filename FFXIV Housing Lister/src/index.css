@@ -50,3 +50,9 @@ button {
 button:hover {
   border-color: #646cff;
 }
+
+th {
+  padding: 0.75rem 0.5rem;
+  text-align: left;
+  font-weight: 500;
+}

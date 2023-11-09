@@ -1,14 +1,14 @@
 import { useState, useRef } from 'react';
 import { useOutsideClickAlerter } from '../functions';
 
-function Searchbar() {
+function Searchbar({ itemList, setItemList }) {
   const [query, setQuery] = useState("");
   const [queryResults, setQueryResults] = useState([]);
   const [queryStatus, setQueryStatus] = useState("");
   const [isResultsHidden, setIsResultsHidden] = useState(false);
 
-  const resultsRef = useRef(null);
-  useOutsideClickAlerter(resultsRef, setIsResultsHidden);
+  const searchContainer = useRef(null);
+  useOutsideClickAlerter(searchContainer, setIsResultsHidden);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +26,7 @@ function Searchbar() {
   };
 
   return (
-    <div ref={resultsRef} className='relative'>
+    <div ref={searchContainer} className='relative'>
       {/* Search Bar */}
       <form className='flex'>
         <input type='text' value={query} onChange={e => setQuery(e.target.value)}></input>
@@ -37,9 +37,18 @@ function Searchbar() {
       {/* Search Results */}
       {isResultsHidden ? <></> :
         <div className='absolute w-full'>
-          {queryResults.map((result) =>
-            <button key={result.ID} className='text-left w-full'>{result.Name}</button>
-          )}
+          {queryResults.map((result) => {
+            const newItem = {
+              id: result.ID,
+              name: result.Name,
+              quantity: 1
+            };
+            return (
+              <button key={result.ID} onClick={() => setItemList([...itemList, newItem])} className='text-left w-full'>
+                {result.Name}
+              </button>
+            );
+          })}
           <div className="pad">{queryStatus}</div>
         </div>
       }
