@@ -1,0 +1,35 @@
+.flex {
+    display: flex;
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.flex-1 {
+    flex: 1 1 0%;
+}
+
+.m-5 {
+    margin: 1.25rem;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.w-25 {
+    width: 25%;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.pad {
+    padding: 0.75rem 0.5rem;
+}
