@@ -41,7 +41,9 @@ function Searchbar({ itemList, setItemList }) {
             const newItem = {
               id: result.ID,
               name: result.Name,
-              quantity: 1
+              quantity: 1,
+              gil: null,
+              materials: null
             };
             return (
               <button key={result.ID} onClick={() => setItemList([...itemList, newItem])} className='text-left w-full'>
