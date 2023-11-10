@@ -1,4 +1,7 @@
+import ItemRow from "./itemRow";
+
 function ItemList({ itemList }) {
+
   return (
     <div className='flex-1'>
       <table className='w-full'>
@@ -11,16 +14,7 @@ function ItemList({ itemList }) {
           </tr>
         </thead>
         <tbody>
-          {itemList.map((item) => {
-            return (
-              <tr key={item.id}>
-                <td className="pad">{item.name}</td>
-                <td className="pad">{item.quantity}</td>
-                <td className="pad">{item.gil}</td>
-                <td className="pad">{item.materials}</td>
-              </tr>
-            );
-          })}
+          {itemList.map(item => <ItemRow item={item} />)}
         </tbody>
       </table>
     </div>

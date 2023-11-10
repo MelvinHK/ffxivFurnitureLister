@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { useOutsideClickAlerter } from '../functions';
+import { useOutsideIsClicked, fetchItems } from '../functions';
 
 function Searchbar({ itemList, setItemList }) {
   const [query, setQuery] = useState("");
@@ -8,7 +8,7 @@ function Searchbar({ itemList, setItemList }) {
   const [isResultsHidden, setIsResultsHidden] = useState(false);
 
   const searchContainer = useRef(null);
-  useOutsideClickAlerter(searchContainer, setIsResultsHidden);
+  useOutsideIsClicked(searchContainer, setIsResultsHidden);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,11 +18,16 @@ function Searchbar({ itemList, setItemList }) {
     setIsResultsHidden(false);
     setQueryStatus("Searching...");
 
-    const response = await fetch(`https://xivapi.com/search?string=*${query}*&filters=ItemSearchCategory.Category=4&limit=10`);
-    const items = await response.json();
+    const items = await fetchItems(query);
 
-    items.Results.length > 0 ? setQueryStatus("") : setQueryStatus(`No results found for "${query}"`);
-    setQueryResults(items.Results);
+    items.length > 0 ? setQueryStatus("") : setQueryStatus(`No results found for "${query}"`);
+    setQueryResults(items);
+  };
+
+  const handleAddItem = (newItem) => {
+    if (itemList.find(existingItem => existingItem.id === newItem.id))
+      return;
+    setItemList([...itemList, newItem]);
   };
 
   return (
@@ -46,7 +51,7 @@ function Searchbar({ itemList, setItemList }) {
               materials: null
             };
             return (
-              <button key={result.ID} onClick={() => setItemList([...itemList, newItem])} className='text-left w-full'>
+              <button key={result.ID} onClick={() => handleAddItem(newItem)} className='text-left w-full'>
                 {result.Name}
               </button>
             );
