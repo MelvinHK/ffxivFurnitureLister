@@ -1,6 +1,9 @@
+import { useContext } from "react";
 import ItemRow from "./itemRow";
+import { ItemListContext } from '../App';
 
-function ItemList({ itemList }) {
+function ItemList() {
+  const { itemList, setItemList } = useContext(ItemListContext);
 
   return (
     <div className='flex-1'>

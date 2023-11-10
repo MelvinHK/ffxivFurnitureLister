@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
+import { updateItemInList } from "../functions";
+import { ItemListContext } from '../App';
 
 function ItemRow({ item }) {
     const [values, setValues] = useState({
@@ -10,9 +12,13 @@ function ItemRow({ item }) {
     });
     const [tempQuantity, setTempQuantity] = useState(1);
 
-    const validateQuantity = (value) => {
-        setValues({ ...values, quantity: (value < 1) ? 1 : (value > 999) ? 999 : value });
-        setTempQuantity((value < 1) ? 1 : (value > 999) ? 999 : value);
+    const { itemList, setItemList } = useContext(ItemListContext);
+
+    const validateAndSetQuantity = (value) => {
+        value = (value < 1) ? 1 : (value > 999) ? 999 : value;
+        setValues({ ...values, quantity: value });
+        setTempQuantity(value);
+        updateItemInList(itemList, setItemList, values.id, "quantity", value);
     };
 
     return (
@@ -21,7 +27,7 @@ function ItemRow({ item }) {
             <td className="pad flex">
                 <input type="number" min="1" max="999" value={tempQuantity}
                     onChange={e => setTempQuantity(e.target.value)}
-                    onBlur={() => validateQuantity(tempQuantity)}></input>
+                    onBlur={() => validateAndSetQuantity(tempQuantity)}></input>
             </td>
             <td className="pad">{values.gil}</td>
             <td className="pad">{values.materials}</td>

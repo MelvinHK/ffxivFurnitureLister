@@ -1,7 +1,8 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import { useOutsideIsClicked, fetchItems } from '../functions';
+import { ItemListContext } from '../App';
 
-function Searchbar({ itemList, setItemList }) {
+function Searchbar() {
   const [query, setQuery] = useState("");
   const [queryResults, setQueryResults] = useState([]);
   const [queryStatus, setQueryStatus] = useState("");
@@ -9,6 +10,8 @@ function Searchbar({ itemList, setItemList }) {
 
   const searchContainer = useRef(null);
   useOutsideIsClicked(searchContainer, setIsResultsHidden);
+
+  const { itemList, setItemList } = useContext(ItemListContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
