@@ -14,7 +14,7 @@ function ItemList({ itemList }) {
           </tr>
         </thead>
         <tbody>
-          {itemList.map(item => <ItemRow item={item} />)}
+          {itemList.map(item => <ItemRow key={item.id} item={item} />)}
         </tbody>
       </table>
     </div>

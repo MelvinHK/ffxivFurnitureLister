@@ -12,7 +12,10 @@ function ItemRow({ item }) {
     return (
         <tr key={values.id}>
             <td className="pad">{values.name}</td>
-            <td className="pad">{values.quantity}</td>
+            <td className="pad flex">
+                <input type="number" min="1" value={values.quantity}
+                    onChange={e => setValues({ ...values, quantity: e.target.value })}></input>
+            </td>
             <td className="pad">{values.gil}</td>
             <td className="pad">{values.materials}</td>
         </tr>
