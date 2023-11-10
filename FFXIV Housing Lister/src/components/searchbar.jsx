@@ -51,7 +51,8 @@ function Searchbar() {
               name: result.Name,
               quantity: 1,
               gil: null,
-              materials: null
+              materials: null,
+              isComplete: false
             };
             return (
               <button key={result.ID} onClick={() => handleAddItem(newItem)} className='text-left w-full'>

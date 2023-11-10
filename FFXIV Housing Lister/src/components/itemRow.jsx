@@ -3,13 +3,7 @@ import { updateItemInList } from "../functions";
 import { ItemListContext } from '../App';
 
 function ItemRow({ item }) {
-    const [values, setValues] = useState({
-        id: item.id,
-        name: item.name,
-        quantity: item.quantity,
-        gil: item.gil,
-        materials: item.materials
-    });
+    const [values, setValues] = useState({ ...item });
     const [tempQuantity, setTempQuantity] = useState(1);
 
     const { itemList, setItemList } = useContext(ItemListContext);
@@ -19,6 +13,7 @@ function ItemRow({ item }) {
         setValues({ ...values, quantity: value });
         setTempQuantity(value);
         updateItemInList(itemList, setItemList, values.id, "quantity", value);
+        console.log(itemList);
     };
 
     return (
