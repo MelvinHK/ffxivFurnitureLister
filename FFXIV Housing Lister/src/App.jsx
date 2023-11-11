@@ -25,7 +25,7 @@ function App() {
   return (
     <div className='flex gap m-5'>
       <ItemListContext.Provider value={itemListContextValues}>
-        <div className='flex-col'>
+        <div className='flex-col gap'>
           <Searchbar />
           <MarketBoard />
         </div>

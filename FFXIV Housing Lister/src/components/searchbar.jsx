@@ -60,7 +60,9 @@ function Searchbar() {
               </button>
             );
           })}
-          <div className="pad">{queryStatus}</div>
+          {queryStatus == "" ? <></> :
+            <div className="pad black">{queryStatus}</div>
+          }
         </div>
       }
     </div>
