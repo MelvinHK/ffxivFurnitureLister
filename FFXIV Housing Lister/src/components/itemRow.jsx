@@ -4,12 +4,14 @@ import { ItemListContext } from '../App';
 function ItemRow({ itemProp }) {
   const [item, setItem] = useState();
   const [quantityInput, setQuantityInput] = useState();
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState();
 
   const { updateItemInList } = useContext(ItemListContext);
 
-  useEffect(() => { // Synchronisation allows items to be updated from other components
+  useEffect(() => { // Synchronisation that allows item row to be updated from other components
     setItem(itemProp);
     setQuantityInput(itemProp.quantity);
+    setIsCheckboxChecked(itemProp.isComplete);
   }, [itemProp]);
 
   const validateAndSetQuantity = (value) => {
@@ -18,11 +20,21 @@ function ItemRow({ itemProp }) {
     updateItemInList(item.id, "quantity", value);
   };
 
+  const handleCheckbox = (checked) => {
+    setIsCheckboxChecked(checked);
+    updateItemInList(item.id, "isComplete", checked);
+  };
+
   return (
     item == null ? <></> :
-      <tr key={item.id}>
-        <td className="pad">{item.name}</td>
-        <td className="pad flex">
+      <tr key={item.id} className={isCheckboxChecked ? "complete" : ""}>
+        <td className="pad">
+          <div className="flex gap align-center">
+            <input type="checkbox" onChange={e => handleCheckbox(e.target.checked)}></input>
+            {item.name}
+          </div>
+        </td>
+        <td className="pad">
           <input type="number" min="1" max="999" value={quantityInput}
             onChange={e => setQuantityInput(e.target.value)}
             onBlur={() => validateAndSetQuantity(quantityInput)}></input>

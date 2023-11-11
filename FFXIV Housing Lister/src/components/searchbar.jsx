@@ -11,7 +11,7 @@ function Searchbar() {
   const searchContainer = useRef(null);
   useOutsideIsClicked(searchContainer, setIsResultsHidden);
 
-  const { itemList, setItemList, updateItemInList } = useContext(ItemListContext);
+  const { itemList, setItemList } = useContext(ItemListContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

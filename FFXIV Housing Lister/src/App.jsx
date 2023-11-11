@@ -24,7 +24,10 @@ function App() {
   return (
     <div className='flex gap m-5'>
       <ItemListContext.Provider value={list}>
-        <Searchbar />
+        <div className='flex-col'>
+          <Searchbar />
+          
+        </div>
         <ItemList />
       </ItemListContext.Provider>
     </div>
