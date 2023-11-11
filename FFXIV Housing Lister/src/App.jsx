@@ -1,7 +1,8 @@
 import { useState, createContext } from 'react';
+import './App.css';
 import Searchbar from './components/searchbar';
 import ItemList from './components/itemlist';
-import './App.css';
+import MarketBoard from './components/marketBoard';
 
 export const ItemListContext = createContext();
 
@@ -19,14 +20,14 @@ function App() {
     return itemList.find(item => item.id === id);
   };
 
-  const list = { itemList, setItemList, updateItemInList, getItemInList };
+  const itemListContextValues = { itemList, setItemList, updateItemInList, getItemInList };
 
   return (
     <div className='flex gap m-5'>
-      <ItemListContext.Provider value={list}>
+      <ItemListContext.Provider value={itemListContextValues}>
         <div className='flex-col'>
           <Searchbar />
-          
+          <MarketBoard />
         </div>
         <ItemList />
       </ItemListContext.Provider>
