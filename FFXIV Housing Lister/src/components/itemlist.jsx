@@ -3,7 +3,7 @@ import ItemRow from "./itemRow";
 import { ItemListContext } from '../App';
 
 function ItemList() {
-  const { itemList, setItemList } = useContext(ItemListContext);
+  const { itemList } = useContext(ItemListContext);
 
   return (
     <div className='flex-1'>
@@ -17,7 +17,7 @@ function ItemList() {
           </tr>
         </thead>
         <tbody>
-          {itemList.map(item => <ItemRow key={item.id} item={item} />)}
+          {itemList.map(item => <ItemRow key={item.id} itemProp={item} />)}
         </tbody>
       </table>
     </div>

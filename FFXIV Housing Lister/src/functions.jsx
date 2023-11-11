@@ -13,19 +13,3 @@ export const fetchItems = async (name) => {
   const items = await response.json();
   return items.Results;
 };
-
-export const updateItemInList = (itemList, setItemList, id, property, newValue) => {
-  for (let i = 0; i < itemList.length; i++)
-    if (itemList[i].id == id) {
-      const updatedItemList = { ...itemList[i], [property]: newValue };
-      const newItemList = [
-        ...itemList.slice(0, i),
-        updatedItemList,
-        ...itemList.slice(i + 1)
-      ];
-      setItemList(newItemList);
-      return true;
-    }
-
-  return false;
-};

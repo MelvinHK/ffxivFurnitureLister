@@ -1,33 +1,36 @@
-import { useContext, useState } from "react";
-import { updateItemInList } from "../functions";
+import { useContext, useEffect, useState } from "react";
 import { ItemListContext } from '../App';
 
-function ItemRow({ item }) {
-    const [values, setValues] = useState({ ...item });
-    const [tempQuantity, setTempQuantity] = useState(1);
+function ItemRow({ itemProp }) {
+  const [item, setItem] = useState();
+  const [quantityInput, setQuantityInput] = useState();
 
-    const { itemList, setItemList } = useContext(ItemListContext);
+  const { updateItemInList } = useContext(ItemListContext);
 
-    const validateAndSetQuantity = (value) => {
-        value = (value < 1) ? 1 : (value > 999) ? 999 : value;
-        setValues({ ...values, quantity: value });
-        setTempQuantity(value);
-        updateItemInList(itemList, setItemList, values.id, "quantity", value);
-        console.log(itemList);
-    };
+  useEffect(() => { // Synchronisation allows items to be updated from other components
+    setItem(itemProp);
+    setQuantityInput(itemProp.quantity);
+  }, [itemProp]);
 
-    return (
-        <tr key={values.id}>
-            <td className="pad">{values.name}</td>
-            <td className="pad flex">
-                <input type="number" min="1" max="999" value={tempQuantity}
-                    onChange={e => setTempQuantity(e.target.value)}
-                    onBlur={() => validateAndSetQuantity(tempQuantity)}></input>
-            </td>
-            <td className="pad">{values.gil}</td>
-            <td className="pad">{values.materials}</td>
-        </tr>
-    );
+  const validateAndSetQuantity = (value) => {
+    value = (value < 1) ? 1 : (value > 999) ? 999 : Number(value);
+    setQuantityInput(value);
+    updateItemInList(item.id, "quantity", value);
+  };
+
+  return (
+    item == null ? <></> :
+      <tr key={item.id}>
+        <td className="pad">{item.name}</td>
+        <td className="pad flex">
+          <input type="number" min="1" max="999" value={quantityInput}
+            onChange={e => setQuantityInput(e.target.value)}
+            onBlur={() => validateAndSetQuantity(quantityInput)}></input>
+        </td>
+        <td className="pad">{item.gil}</td>
+        <td className="pad">{item.materials}</td>
+      </tr>
+  );
 }
 
 export default ItemRow;
