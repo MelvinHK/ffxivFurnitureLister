@@ -30,6 +30,7 @@ function App() {
           <MarketBoard />
         </div>
         <ItemList />
+        <button onClick={() => updateItemInList(23892, "isComplete", true)}>debug</button>
       </ItemListContext.Provider>
     </div>
   );
