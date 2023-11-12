@@ -17,9 +17,11 @@ function App() {
 
   const updateAllMarketBoardPrices = (listings) => {
     const itemListClone = structuredClone(itemList);
-    itemListClone.forEach(itemClone =>
-      itemClone.marketBoardPrice = listings[itemClone.id]
-    );
+    itemListClone.forEach(itemClone => {
+      if (itemClone.gilShopPrice)
+        return;
+      itemClone.marketBoardPrice = listings[itemClone.id];
+    });
     setItemList(itemListClone);
   };
 
@@ -36,10 +38,10 @@ function App() {
         <div id="utility-column" className='flex-col gap'>
           <Searchbar />
           <MarketBoard />
+          <button onClick={() => console.log(itemList)}>log items</button>
         </div>
         <ItemList />
       </ItemListContext.Provider>
-      <button onClick={() => console.log(itemList)}>log items</button>
     </div>
   );
 }
