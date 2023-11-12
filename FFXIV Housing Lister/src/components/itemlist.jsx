@@ -6,7 +6,7 @@ function ItemList() {
   const { itemList } = useContext(ItemListContext);
 
   return (
-    <div className='flex-1'>
+    <div id="item-list" className='flex-1'>
       <table className='w-full'>
         <thead>
           <tr>

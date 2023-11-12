@@ -1,5 +1,5 @@
 import { useState, useRef, useContext } from 'react';
-import { useOutsideIsClicked, fetchItems, fetchItemShopPrice } from '../functions';
+import { useOutsideIsClicked, fetchItems, fetchGilShopPrice } from '../functions';
 import { ItemListContext } from '../App';
 
 function Searchbar() {
@@ -30,7 +30,7 @@ function Searchbar() {
   const handleAddItem = async (newItem) => {
     if (itemList.find(existingItem => existingItem.id === newItem.id))
       return;
-    newItem.gilShopPrice = await fetchItemShopPrice(newItem.id);
+    newItem.gilShopPrice = await fetchGilShopPrice(newItem.id);
     setItemList([...itemList, newItem]);
   };
 
@@ -38,7 +38,7 @@ function Searchbar() {
     <div ref={searchContainer} className='relative'>
       {/* Search Bar */}
       <form className='flex'>
-        <input type='text' value={query} onChange={e => setQuery(e.target.value)}></input>
+        <input type='text' className="flex-1" value={query} onChange={e => setQuery(e.target.value)}></input>
         <button type='submit' onClick={e => handleSubmit(e)}>
           Search
         </button>
@@ -51,8 +51,8 @@ function Searchbar() {
               id: result.ID,
               name: result.Name,
               quantity: 1,
-              gilShopPrice: 0,
-              marketBoardPrice: 0,
+              gilShopPrice: null,
+              marketBoardPrice: null,
               materials: null,
               isComplete: false
             };

@@ -16,21 +16,18 @@ function App() {
     setItemList(newItemList);
   };
 
-  const getItemInList = (id) => {
-    return itemList.find(item => item.id === id);
-  };
-
-  const itemListContextValues = { itemList, setItemList, updateItemInList, getItemInList };
+  const itemListContextValues = { itemList, setItemList, updateItemInList };
 
   return (
     <div className='flex gap m-5'>
       <ItemListContext.Provider value={itemListContextValues}>
-        <div className='flex-col gap'>
+        <div id="utility-column" className='flex-col gap'>
           <Searchbar />
           <MarketBoard />
         </div>
         <ItemList />
       </ItemListContext.Provider>
+      <button onClick={() => console.log(itemList)}>log items</button>
     </div>
   );
 }

@@ -14,9 +14,15 @@ export const fetchItems = async (name) => {
   return items.Results;
 };
 
-export const fetchItemShopPrice = async (id) => {
+export const fetchGilShopPrice = async (id) => {
   const response = await fetch(`https://xivapi.com/item/${id}`);
   const item = await response.json();
   if (item.GameContentLinks.hasOwnProperty("GilShopItem"))
     return item.PriceMid;
+};
+
+export const fetchMarketBoardPrices = async (ids, location) => {
+  const response = await fetch(`https://universalis.app/api/v2/${location}/${String(ids)}`);
+  const listings = await response.json();
+  return ids.length > 1 ? listings.items : listings;
 };

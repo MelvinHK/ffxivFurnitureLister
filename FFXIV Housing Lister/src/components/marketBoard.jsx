@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ItemListContext } from "../App";
+import { fetchMarketBoardPrices } from "../functions";
 
 function MarketBoard() {
-  const [selected, setSelected] = useState();
+  const [location, setLocation] = useState("Select");
+
+  const { itemList, updateItemInList } = useContext(ItemListContext);
 
   const dataCentres = [
     "Aether",
@@ -101,12 +105,24 @@ function MarketBoard() {
     'Zurvan'
   ];
 
+  const handleFetch = async () => {
+    const fetchedListings = await fetchMarketBoardPrices(itemList.map(item => item.id), location);
+    if (itemList.length == 1)
+      updateItemInList(fetchedListings.itemID, "marketBoardPrice", fetchedListings);
+    else {
+      const keys = Object.keys(fetchedListings);
+      keys.forEach(key => {
+        updateItemInList(Number(key), "marketBoardPrice", fetchedListings[key]);
+      });
+    }
+  };
+
   return (
     <div>
-      <h4>Market Board</h4>
+      <h4>Market Board Prices</h4>
       <form className="flex-col w-full border-box">
         <label>Data Centre / Home World </label>
-        <select>
+        <select value={location} onChange={e => setLocation(e.target.value)}>
           <option>Select</option>
           <optgroup label="Data Centres">
             {dataCentres.map(name => <option key={name}>{name}</option>)}
@@ -116,7 +132,9 @@ function MarketBoard() {
           </optgroup>
         </select>
       </form>
-    </div>
+      <button className="pad w-full" onClick={() => handleFetch()}>Fetch</button>
+      <p className="text-small">Items purchased from NPC gil merchants <img src="../../gilShopIcon.webp" className="icon-relative"></img> won't have their prices fetched.</p>
+    </div >
   );
 }
 
