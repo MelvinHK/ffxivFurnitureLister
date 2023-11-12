@@ -1,5 +1,5 @@
 import { useState, useRef, useContext } from 'react';
-import { useOutsideIsClicked, fetchItems } from '../functions';
+import { useOutsideIsClicked, fetchItems, fetchItemShopPrice } from '../functions';
 import { ItemListContext } from '../App';
 
 function Searchbar() {
@@ -27,9 +27,10 @@ function Searchbar() {
     setQueryResults(items);
   };
 
-  const handleAddItem = (newItem) => {
+  const handleAddItem = async (newItem) => {
     if (itemList.find(existingItem => existingItem.id === newItem.id))
       return;
+    newItem.gilShopPrice = await fetchItemShopPrice(newItem.id);
     setItemList([...itemList, newItem]);
   };
 
@@ -50,7 +51,8 @@ function Searchbar() {
               id: result.ID,
               name: result.Name,
               quantity: 1,
-              gil: null,
+              gilShopPrice: 0,
+              marketBoardPrice: 0,
               materials: null,
               isComplete: false
             };

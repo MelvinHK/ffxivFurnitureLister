@@ -13,3 +13,10 @@ export const fetchItems = async (name) => {
   const items = await response.json();
   return items.Results;
 };
+
+export const fetchItemShopPrice = async (id) => {
+  const response = await fetch(`https://xivapi.com/item/${id}`);
+  const item = await response.json();
+  if (item.GameContentLinks.hasOwnProperty("GilShopItem"))
+    return item.PriceMid;
+};

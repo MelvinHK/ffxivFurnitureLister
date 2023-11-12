@@ -36,9 +36,20 @@ function ItemRow({ item }) {
           onBlur={() => validateAndSetQuantity(tempQuantity)}>
         </input>
       </td>
-      <td className="pad" onClick={() => console.log(item)}>{item.gil}</td>
+      <td className="pad">
+        <div className="flex align-center">
+          {item.gilShopPrice ? <>
+            {item.gilShopPrice * item.quantity}
+            <img className="icon" src="../../gilShopIcon.webp"></img>
+          </> : <></>}
+          {item.marketBoardPrice ? <>
+            {item.marketBoardPrice * item.quantity}
+            <img className="icon" src="../../marketBoardIcon.webp"></img>
+          </> : <></>}
+        </div>
+      </td>
       <td className="pad">{item.materials}</td>
-    </tr>
+    </tr >
   );
 }
 
