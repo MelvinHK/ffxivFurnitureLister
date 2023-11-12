@@ -59,6 +59,10 @@
     padding: 0.75rem 0.5rem;
 }
 
+.pad-small {
+    padding: 0.5rem 0.35rem;
+}
+
 .complete {
     background-color: rgba(191, 255, 95, 0.337);
 }
@@ -77,4 +81,17 @@
 
 .text-small {
     font-size: 0.75rem;
+}
+
+.remove-btn {
+    background-color: transparent;
+    border: none;
+}
+
+.remove-btn:hover {
+    color: rgb(255, 75, 75);
+}
+
+.right {
+    right: 0;
 }

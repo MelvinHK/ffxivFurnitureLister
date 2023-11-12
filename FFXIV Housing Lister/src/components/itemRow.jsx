@@ -6,30 +6,29 @@ function ItemRow({ item }) {
   const [calculatedMarketPrice, setCalculatedMarketPrice] = useState(0);
   const [unitsForSale, setUnitsForSale] = useState(999);
 
+  const { updateItemValue, removeItem } = useContext(ItemListContext);
+
+  // Synchronise item quantity
   useEffect(() => {
     setTempQuantity(item.quantity);
   }, [item.quantity]);
 
+  // Synchronise total market board prices
   useEffect(() => {
     if (item.marketBoardPrice)
       setCalculatedMarketPrice(calculateMarketBoardPrice());
   }, [item.quantity, item.marketBoardPrice]);
 
+  // Synchronise max units available
   useEffect(() => {
     if (item.marketBoardPrice)
       setUnitsForSale(item.marketBoardPrice.unitsForSale);
   }, [item.marketBoardPrice]);
 
-  const { updateItemValue } = useContext(ItemListContext);
-
   const validateAndSetQuantity = (value) => {
     value = (value < 1) ? 1 : (value > unitsForSale) ? unitsForSale : Number(value);
     setTempQuantity(value);
     updateItemValue(item.id, "quantity", value);
-  };
-
-  const handleCheckbox = (checked) => {
-    updateItemValue(item.id, "isComplete", checked);
   };
 
   const calculateMarketBoardPrice = () => {
@@ -39,9 +38,13 @@ function ItemRow({ item }) {
     return price;
   };
 
+  const handleCheckbox = (checked) => {
+    updateItemValue(item.id, "isComplete", checked);
+  };
+
   return (
     <tr key={item.id} className={item.isComplete ? "complete" : ""}>
-      <td className="pad">
+      <td className="pad-small">
         <div className="flex gap align-center">
           <input type="checkbox" checked={item.isComplete}
             onChange={e => handleCheckbox(e.target.checked)}>
@@ -49,13 +52,13 @@ function ItemRow({ item }) {
           {item.name}
         </div>
       </td>
-      <td className="pad">
+      <td className="pad-small">
         <input type="number" min="1" max={unitsForSale} value={tempQuantity}
           onChange={e => setTempQuantity(e.target.value)}
           onBlur={() => validateAndSetQuantity(tempQuantity)}>
         </input>
       </td>
-      <td className="pad">
+      <td className="pad-small">
         <div className="flex align-center">
           {item.gilShopPrice ? <>
             {item.gilShopPrice * item.quantity}
@@ -67,8 +70,8 @@ function ItemRow({ item }) {
           </> : <></>}
         </div>
       </td>
-      <td className="pad">{item.materials}</td>
-    </tr >
+      <td className="pad-small">{item.materials}</td>
+    </tr>
   );
 }
 

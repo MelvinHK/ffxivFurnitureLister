@@ -25,11 +25,17 @@ function App() {
     setItemList(itemListClone);
   };
 
+  const removeItem = (id) => {
+    const i = itemList.findIndex(item => item.id == id);
+    setItemList(itemList.splice(i, 1));
+  };
+
   const itemListContextValues = {
     itemList,
     setItemList,
     updateItemValue,
-    updateAllMarketBoardPrices
+    updateAllMarketBoardPrices,
+    removeItem
   };
 
   return (

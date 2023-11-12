@@ -8,7 +8,18 @@ function MarketBoard() {
 
   const { itemList, updateItemValue, updateAllMarketBoardPrices } = useContext(ItemListContext);
 
+  const handleValidation = () => {
+    let errors = "";
+    if (itemList.length == 0)
+      errors += "Add at least one item to the list\n";
+    if (location == "Select")
+      errors += "Select a data centre or home world";
+    return errors == "" ? errors : alert(errors);
+  };
+
   const handleFetch = async () => {
+    if (handleValidation() != "") return;
+
     const fetchedListings = await fetchMarketBoardPrices(itemList.map(item => item.id), location);
     if (itemList.length == 1)
       updateItemValue(fetchedListings.itemID, "marketBoardPrice", fetchedListings);
@@ -31,7 +42,7 @@ function MarketBoard() {
           </optgroup>
         </select>
       </form>
-      <button className="pad w-full" onClick={() => handleFetch()}>Fetch</button>
+      <button className="pad w-full" onClick={() => { handleFetch(); }}>Fetch</button>
       <p className="text-small">Items purchased from NPC gil merchants <img src="../../gilShopIcon.webp" className="icon-relative"></img> won't have their prices fetched.</p>
     </div >
   );
