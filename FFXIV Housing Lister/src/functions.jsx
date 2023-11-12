@@ -17,8 +17,7 @@ export const fetchItems = async (name) => {
 export const fetchGilShopPrice = async (id) => {
   const response = await fetch(`https://xivapi.com/item/${id}`);
   const item = await response.json();
-  if (item.GameContentLinks.hasOwnProperty("GilShopItem"))
-    return item.PriceMid;
+  return (item.GameContentLinks.hasOwnProperty("GilShopItem")) ? item.PriceMid : null;
 };
 
 export const fetchMarketBoardPrices = async (ids, location) => {

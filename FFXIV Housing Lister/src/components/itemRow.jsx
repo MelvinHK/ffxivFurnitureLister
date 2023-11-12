@@ -8,16 +8,16 @@ function ItemRow({ item }) {
     setTempQuantity(item.quantity);
   }, [item.quantity]);
 
-  const { updateItemInList } = useContext(ItemListContext);
+  const { updateItemValue } = useContext(ItemListContext);
 
   const validateAndSetQuantity = (value) => {
     value = (value < 1) ? 1 : (value > 999) ? 999 : Number(value);
     setTempQuantity(value);
-    updateItemInList(item.id, "quantity", value);
+    updateItemValue(item.id, "quantity", value);
   };
 
   const handleCheckbox = (checked) => {
-    updateItemInList(item.id, "isComplete", checked);
+    updateItemValue(item.id, "isComplete", checked);
   };
 
   return (

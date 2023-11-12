@@ -9,14 +9,26 @@ export const ItemListContext = createContext();
 function App() {
   const [itemList, setItemList] = useState([]);
 
-  const updateItemInList = (id, property, newValue) => {
-    const i = itemList.findIndex(item => item.id === id);
-    const updatedItem = { ...itemList[i], [property]: newValue };
-    const newItemList = [...itemList.slice(0, i), updatedItem, ...itemList.slice(i + 1)];
-    setItemList(newItemList);
+  const updateItemValue = (id, property, newValue) => {
+    setItemList(itemList.map(item =>
+      (item.id === id) ? { ...item, [property]: newValue } : item
+    ));
   };
 
-  const itemListContextValues = { itemList, setItemList, updateItemInList };
+  const updateAllMarketBoardPrices = (listings) => {
+    const itemListClone = structuredClone(itemList);
+    itemListClone.forEach(itemClone =>
+      itemClone.marketBoardPrice = listings[itemClone.id]
+    );
+    setItemList(itemListClone);
+  };
+
+  const itemListContextValues = {
+    itemList,
+    setItemList,
+    updateItemValue,
+    updateAllMarketBoardPrices
+  };
 
   return (
     <div className='flex gap m-5'>
