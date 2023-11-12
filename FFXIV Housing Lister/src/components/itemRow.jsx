@@ -12,7 +12,7 @@ function ItemRow({ item }) {
 
   useEffect(() => {
     if (item.marketBoardPrice)
-      setCalculatedMarketPrice(handleMarketBoardPrice());
+      setCalculatedMarketPrice(calculateMarketBoardPrice());
   }, [item.quantity, item.marketBoardPrice]);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ function ItemRow({ item }) {
     updateItemValue(item.id, "isComplete", checked);
   };
 
-  const handleMarketBoardPrice = () => {
+  const calculateMarketBoardPrice = () => {
     let price = 0;
     for (let i = 0; i < item.quantity; i++)
       price += item.marketBoardPrice.listings[i].pricePerUnit;
