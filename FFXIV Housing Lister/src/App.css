@@ -64,7 +64,7 @@
 }
 
 .checked {
-    background-color: rgba(95, 186, 255, 0.337);
+    background-color: rgba(95, 186, 255, 0.337) !important;
 }
 
 .black {
@@ -80,7 +80,7 @@
 }
 
 .text-small {
-    font-size: 0.75rem;
+    font-size: 0.85rem;
 }
 
 .remove-btn {

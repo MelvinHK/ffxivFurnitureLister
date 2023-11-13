@@ -53,7 +53,7 @@ function ItemRow({ item }) {
         </div>
       </td>
       <td className="pad-small">
-        <input type="number" min="1" max={unitsForSale} value={tempQuantity}
+        <input className="pad-small" type="number" min="1" max={unitsForSale} value={tempQuantity}
           onChange={e => setTempQuantity(e.target.value)}
           onBlur={() => validateAndSetQuantity(tempQuantity)}>
         </input>

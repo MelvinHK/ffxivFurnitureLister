@@ -43,7 +43,7 @@ function App() {
         <div id="utility-column" className='flex-col gap'>
           <Searchbar />
           <MarketBoard />
-          <button onClick={() => console.log(itemList)}>log items</button>
+          {/* <button onClick={() => console.log(itemList)}>log items</button> */}
         </div>
         <ItemList />
       </ItemListContext.Provider>

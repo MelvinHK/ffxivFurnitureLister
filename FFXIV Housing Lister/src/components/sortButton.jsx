@@ -18,9 +18,7 @@ function SortButton() {
 
   const sortByName = () => {
     const sortedList = [...itemList].sort((a, b) => {
-      const nameA = a.name.toUpperCase();
-      const nameB = b.name.toUpperCase();
-      return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+      return (a.name < b.name) ? -1 : (a.name > b.name) ? 1 : 0;
     });
 
     setItemList(sortedList);
@@ -38,7 +36,7 @@ function SortButton() {
       const comparisons = [a, b];
 
       for (let i = 0; i < comparisons.length; i++) {
-        if (comparisons[i].gilShopPrice == null) {
+        if (!comparisons[i].gilShopPrice && comparisons[i].marketBoardPrice) {
           let marketPriceTotal = 0;
 
           for (let j = 0; j < comparisons[i].quantity; j++)
