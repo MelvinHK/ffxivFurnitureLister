@@ -22,7 +22,7 @@ function MarketBoard() {
 
     const fetchedListings = await fetchMarketBoardPrices(itemList.map(item => item.id), location);
 
-    if (itemList.length == 1 && !itemList[0].gilShopPrice) {
+    if (itemList.length == 1 && !itemList[0].gilShopPrice) { // This is stupid
       updateItemValue(fetchedListings.itemID, {
         marketBoardPrice: fetchedListings,
         quantity: (itemList[0].quantity > fetchedListings.unitsForSale) ? fetchedListings.unitsForSale : itemList[0].quantity
