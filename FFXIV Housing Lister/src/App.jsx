@@ -9,15 +9,23 @@ export const ItemListContext = createContext();
 function App() {
   const [itemList, setItemList] = useState([]);
 
-  const updateItemValue = (id, property, newValue) => {
+  const updateItemValue = (id, updatedProperties) => {
     setItemList(itemList.map(item => {
-      return (item.id === id) ? { ...item, [property]: newValue } : item;
+      return (item.id === id) ? { ...item, ...updatedProperties } : item;
     }));
   };
 
   const updateAllMarketBoardPrices = (listings) => {
     setItemList(itemList.map(item => {
-      return (!item.gilShopPrice) ? { ...item, ["marketBoardPrice"]: listings[item.id] } : item;
+      if (!item.gilShopPrice) {
+        return {
+          ...item,
+          marketBoardPrice: listings[item.id],
+          quantity: (item.quantity > listings[item.id].unitsForSale) ? listings[item.id].unitsForSale : item.quantity
+        };
+      } else {
+        return item;
+      }
     }));
   };
 

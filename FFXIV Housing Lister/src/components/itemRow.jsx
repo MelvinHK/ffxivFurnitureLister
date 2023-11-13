@@ -28,7 +28,7 @@ function ItemRow({ item }) {
   const validateAndSetQuantity = (value) => {
     value = (value < 1) ? 1 : (value > unitsForSale) ? unitsForSale : Number(value);
     setTempQuantity(value);
-    updateItemValue(item.id, "quantity", value);
+    updateItemValue(item.id, { quantity: value });
   };
 
   const calculateMarketBoardPrice = () => {
@@ -39,7 +39,7 @@ function ItemRow({ item }) {
   };
 
   const handleCheckbox = (checked) => {
-    updateItemValue(item.id, "isChecked", checked);
+    updateItemValue(item.id, { isChecked: checked });
   };
 
   return (
