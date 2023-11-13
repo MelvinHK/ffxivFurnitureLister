@@ -8,7 +8,7 @@ function ItemList() {
   const { itemList } = useContext(ItemListContext);
 
   return (
-    <div id="item-list" className='flex-1 flex-col'>
+    <div id="item-list" className='flex-1 flex-col gap'>
       <div className="flex gap">
         <SortButton />
         <RemoveButton />
