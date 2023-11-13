@@ -34,39 +34,37 @@ function Searchbar() {
     setItemList([...itemList, newItem]);
   };
 
+  const queryResultsDisplay = queryResults.map((result) => {
+    const newItem = {
+      id: result.ID,
+      name: result.Name,
+      quantity: 1,
+      gilShopPrice: null,
+      marketBoardPrice: null,
+      materials: null,
+      isChecked: false
+    };
+
+    return (
+      <button key={result.ID} onClick={() => handleAddItem(newItem)} className='text-left w-full'>
+        {result.Name}
+      </button>
+    );
+  });
+
   return (
     <div ref={searchContainer} className='relative'>
       {/* Search Bar */}
       <form className='flex'>
         <input type='text' className="flex-1" value={query} onChange={e => setQuery(e.target.value)}></input>
-        <button type='submit' onClick={e => handleSubmit(e)}>
-          Search
-        </button>
+        <button type='submit' onClick={e => handleSubmit(e)}>Search</button>
       </form>
       {/* Search Results */}
       {isResultsHidden ? <></> :
         <div className='absolute w-full'>
-          {queryResults.map((result) => {
-            const newItem = {
-              id: result.ID,
-              name: result.Name,
-              quantity: 1,
-              gilShopPrice: null,
-              marketBoardPrice: null,
-              materials: null,
-              isComplete: false
-            };
-            return (
-              <button key={result.ID} onClick={() => handleAddItem(newItem)} className='text-left w-full'>
-                {result.Name}
-              </button>
-            );
-          })}
-          {queryStatus == "" ? <></> :
-            <div className="pad black">{queryStatus}</div>
-          }
-        </div>
-      }
+          {queryResultsDisplay}
+          {queryStatus == "" ? <></> : <div className="pad black">{queryStatus}</div>}
+        </div>}
     </div>
   );
 }

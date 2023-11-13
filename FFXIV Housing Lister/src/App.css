@@ -63,8 +63,8 @@
     padding: 0.5rem 0.35rem;
 }
 
-.complete {
-    background-color: rgba(191, 255, 95, 0.337);
+.checked {
+    background-color: rgba(95, 186, 255, 0.337);
 }
 
 .black {

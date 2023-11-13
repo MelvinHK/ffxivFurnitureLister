@@ -10,24 +10,19 @@ function App() {
   const [itemList, setItemList] = useState([]);
 
   const updateItemValue = (id, property, newValue) => {
-    setItemList(itemList.map(item =>
-      (item.id === id) ? { ...item, [property]: newValue } : item
-    ));
+    setItemList(itemList.map(item => {
+      return (item.id === id) ? { ...item, [property]: newValue } : item;
+    }));
   };
 
   const updateAllMarketBoardPrices = (listings) => {
-    const itemListClone = structuredClone(itemList);
-    itemListClone.forEach(itemClone => {
-      if (itemClone.gilShopPrice)
-        return;
-      itemClone.marketBoardPrice = listings[itemClone.id];
-    });
-    setItemList(itemListClone);
+    setItemList(itemList.map(item => {
+      return (!item.gilShopPrice) ? { ...item, ["marketBoardPrice"]: listings[item.id] } : item;
+    }));
   };
 
-  const removeItem = (id) => {
-    const i = itemList.findIndex(item => item.id == id);
-    setItemList(itemList.splice(i, 1));
+  const removeCheckedItems = () => {
+    setItemList(itemList.filter(item => !item.isChecked));
   };
 
   const itemListContextValues = {
@@ -35,7 +30,7 @@ function App() {
     setItemList,
     updateItemValue,
     updateAllMarketBoardPrices,
-    removeItem
+    removeCheckedItems
   };
 
   return (

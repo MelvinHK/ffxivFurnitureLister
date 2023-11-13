@@ -6,7 +6,7 @@ function ItemRow({ item }) {
   const [calculatedMarketPrice, setCalculatedMarketPrice] = useState(0);
   const [unitsForSale, setUnitsForSale] = useState(999);
 
-  const { updateItemValue, removeItem } = useContext(ItemListContext);
+  const { updateItemValue } = useContext(ItemListContext);
 
   // Synchronise item quantity
   useEffect(() => {
@@ -39,14 +39,14 @@ function ItemRow({ item }) {
   };
 
   const handleCheckbox = (checked) => {
-    updateItemValue(item.id, "isComplete", checked);
+    updateItemValue(item.id, "isChecked", checked);
   };
 
   return (
-    <tr key={item.id} className={item.isComplete ? "complete" : ""}>
+    <tr key={item.id} className={item.isChecked ? "checked" : ""}>
       <td className="pad-small">
         <div className="flex gap align-center">
-          <input type="checkbox" checked={item.isComplete}
+          <input type="checkbox" checked={item.isChecked}
             onChange={e => handleCheckbox(e.target.checked)}>
           </input>
           {item.name}

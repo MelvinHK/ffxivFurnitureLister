@@ -4,7 +4,7 @@ import { fetchMarketBoardPrices } from "../functions";
 import { dataCentres, homeWorlds } from "../serverNames";
 
 function MarketBoard() {
-  const [location, setLocation] = useState("Select");
+  const [location, setLocation] = useState("-");
 
   const { itemList, updateItemValue, updateAllMarketBoardPrices } = useContext(ItemListContext);
 
@@ -12,7 +12,7 @@ function MarketBoard() {
     let errors = "";
     if (itemList.length == 0)
       errors += "Add at least one item to the list\n";
-    if (location == "Select")
+    if (location == "-")
       errors += "Select a data centre or home world";
     return errors == "" ? errors : alert(errors);
   };
@@ -33,7 +33,7 @@ function MarketBoard() {
       <form className="flex-col w-full border-box">
         <label>Data Centre / Home World </label>
         <select value={location} onChange={e => setLocation(e.target.value)}>
-          <option>Select</option>
+          <option>-</option>
           <optgroup label="Data Centres">
             {dataCentres.map(name => <option key={name}>{name}</option>)}
           </optgroup>
