@@ -23,5 +23,5 @@ export const fetchGilShopPrice = async (id) => {
 export const fetchMarketBoardPrices = async (ids, location) => {
   const response = await fetch(`https://universalis.app/api/v2/${location}/${String(ids)}`);
   const listings = await response.json();
-  return ids.length > 1 ? listings.items : listings;
+  return ids.length > 1 ? listings.items : { [String(ids)]: listings };
 };
