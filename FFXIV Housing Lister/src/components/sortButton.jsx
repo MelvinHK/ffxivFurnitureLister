@@ -35,19 +35,21 @@ function SortButton() {
 
   const sortByGil = () => {
     const sortedList = [...itemList].sort((a, b) => {
-      const items = [a, b];
+      const comparisons = [a, b];
 
-      for (let i = 0; i < items.length; i++) {
-        if (items[i].gilShopPrice == null) {
+      for (let i = 0; i < comparisons.length; i++) {
+        if (comparisons[i].gilShopPrice == null) {
           let marketPriceTotal = 0;
-          for (let j = 0; j < items[i].quantity; j++)
-            marketPriceTotal += items[i].marketBoardPrice.listings[j].pricePerUnit;
-          items[i] = marketPriceTotal;
+
+          for (let j = 0; j < comparisons[i].quantity; j++)
+            marketPriceTotal += comparisons[i].marketBoardPrice.listings[j].pricePerUnit;
+
+          comparisons[i] = marketPriceTotal;
         } else {
-          items[i] = items[i].gilShopPrice * items[i].quantity;
+          comparisons[i] = comparisons[i].gilShopPrice * comparisons[i].quantity;
         }
       }
-      return items[1] - items[0];
+      return comparisons[1] - comparisons[0];
     });
 
     setItemList(sortedList);
