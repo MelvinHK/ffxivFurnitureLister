@@ -22,7 +22,11 @@ function App() {
   };
 
   const removeCheckedItems = () => {
-    setItemList(itemList.filter(item => !item.isChecked));
+    if (document.getElementsByClassName("checked").length == 0)
+      return alert("Error: There are no selected items to remove...");
+
+    if (confirm("Remove selected items?"))
+      setItemList(itemList.filter(item => !item.isChecked));
   };
 
   const itemListContextValues = {

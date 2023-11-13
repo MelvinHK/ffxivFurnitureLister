@@ -11,10 +11,10 @@ function MarketBoard() {
   const handleValidation = () => {
     let errors = "";
     if (itemList.length == 0)
-      errors += "Add at least one item to the list\n";
+      errors += "- Add at least one item to the list\n";
     if (location == "-")
-      errors += "Select a data centre or home world";
-    return errors == "" ? errors : alert(errors);
+      errors += "- Select a data centre or home world";
+    return errors == "" ? errors : alert("Error(s):\n" + errors);
   };
 
   const handleFetch = async () => {

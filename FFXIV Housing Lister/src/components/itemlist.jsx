@@ -2,6 +2,7 @@ import { useContext } from "react";
 import ItemRow from "./itemRow";
 import { ItemListContext } from '../App';
 import SortButton from "./sortButton";
+import RemoveButton from "./removeButton";
 
 function ItemList() {
   const { itemList } = useContext(ItemListContext);
@@ -10,6 +11,7 @@ function ItemList() {
     <div id="item-list" className='flex-1 flex-col'>
       <div className="flex gap">
         <SortButton />
+        <RemoveButton />
       </div>
       <table className='w-full'>
         <thead>
