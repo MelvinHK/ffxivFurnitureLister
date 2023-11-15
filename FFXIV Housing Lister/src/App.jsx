@@ -17,7 +17,7 @@ function App() {
 
   const updateAllMarketBoardPrices = (listings) => {
     setItemList(itemList.map(item => {
-      if (!item.gilShopPrice && listings[item.id]) {
+      if (!item.gilShopPrice && listings[item.id] == listings[item.id].itemID) {
         return {
           ...item,
           marketBoardPrice: listings[item.id],
