@@ -32,6 +32,9 @@ function ItemRow({ item }) {
   };
 
   const calculateMarketBoardPrice = () => {
+    if (item.marketBoardPrice == "N/A")
+      return "N/A";
+
     let price = 0;
     for (let i = 0; i < item.quantity; i++)
       price += item.marketBoardPrice.listings[i].pricePerUnit;
@@ -63,15 +66,17 @@ function ItemRow({ item }) {
           {item.gilShopPrice ? <>
             {item.gilShopPrice * item.quantity}
             <img className="icon" src="../../gilShopIcon.webp"></img>
-          </> : <></>}
-          {item.marketBoardPrice ? <>
-            {calculatedMarketPrice}
-            <img className="icon" src="../../marketBoardIcon.webp"></img>
-          </> : <></>}
+          </> :
+            item.marketBoardPrice ? <>
+              {calculatedMarketPrice}
+              <img className="icon" src="../../marketBoardIcon.webp"></img>
+            </> :
+              <></>
+          }
         </div>
       </td>
       <td className="pad-small">{item.materials}</td>
-    </tr>
+    </tr >
   );
 }
 

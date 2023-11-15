@@ -9,7 +9,7 @@ export const useOutsideIsClicked = (ref, isOutside) => {
 };
 
 export const fetchItems = async (name) => {
-  const response = await fetch(`https://xivapi.com/search?string=*${name}*&filters=ItemSearchCategory.Category=4&limit=10`);
+  const response = await fetch(`https://xivapi.com/search?string=*${name}*&filters=ItemSortCategory.ID=50&limit=10`);
   const items = await response.json();
   return items.Results;
 };

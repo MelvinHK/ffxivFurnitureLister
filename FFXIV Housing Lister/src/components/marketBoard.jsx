@@ -20,7 +20,12 @@ function MarketBoard() {
   const handleFetch = async () => {
     if (handleValidation() != "")
       return;
-    const fetchedListings = await fetchMarketBoardPrices(itemList.map(item => item.id), location);
+    
+    const notGilShopItems = itemList.filter(item => !item.gilShopPrice);
+    if (notGilShopItems.length == 0)
+      return;
+
+    const fetchedListings = await fetchMarketBoardPrices(notGilShopItems.map(item => item.id), location);
     updateAllMarketBoardPrices(fetchedListings);
   };
 
