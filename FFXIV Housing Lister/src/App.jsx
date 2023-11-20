@@ -3,11 +3,13 @@ import './App.css';
 import Searchbar from './components/searchbar';
 import ItemList from './components/itemlist';
 import MarketBoard from './components/marketBoard';
+import AboutPopup from './components/aboutPopup';
 
 export const ItemListContext = createContext();
 
 function App() {
   const [itemList, setItemList] = useState([]);
+  const [showAbout, setShowAbout] = useState(false);
 
   const updateItemValue = (id, updatedProperties) => {
     setItemList(itemList.map(item => {
@@ -43,17 +45,19 @@ function App() {
     setItemList,
     updateItemValue,
     updateAllMarketBoardPrices,
-    removeCheckedItems
+    removeCheckedItems,
+    setShowAbout
   };
 
   return (
-    <div className='flex gap m-5'>
+    <div id="container" className='flex gap m-5'>
       <ItemListContext.Provider value={itemListContextValues}>
         <div id="utility-column" className='flex-col gap'>
           <Searchbar />
           <MarketBoard />
         </div>
         <ItemList />
+        {showAbout ? <AboutPopup /> : <></>}
       </ItemListContext.Provider>
     </div>
   );

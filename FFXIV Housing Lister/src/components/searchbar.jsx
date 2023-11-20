@@ -57,7 +57,7 @@ function Searchbar() {
     <div ref={searchContainer} className='relative'>
       {/* Search Bar */}
       <form className='flex'>
-        <input type='text' className="flex-1" value={query} onChange={e => setQuery(e.target.value)}></input>
+        <input type='text' className="flex-1" value={query} onChange={e => setQuery(e.target.value)} placeholder='Item Name'></input>
         <button type='submit' onClick={e => handleSubmit(e)}>Search</button>
       </form>
       {/* Search Results */}

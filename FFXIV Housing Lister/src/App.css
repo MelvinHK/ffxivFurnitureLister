@@ -1,5 +1,12 @@
+#container {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1.25rem;
+    max-width: 92rem;
+}
+
 #utility-column {
-    width: 300px;
+    width: 21.5rem;
 }
 
 .flex {
@@ -33,10 +40,6 @@
 
 .border-box {
     box-sizing: border-box;
-}
-
-.m-5 {
-    margin: 1.25rem;
 }
 
 .w-full {
@@ -83,7 +86,7 @@
     font-size: 0.85rem;
 }
 
-.remove-btn {
+.icon-btn {
     background-color: transparent;
     border: none;
 }
@@ -92,6 +95,45 @@
     color: rgb(255, 75, 75);
 }
 
+.about-btn {
+    margin-left: auto;
+}
+
+.about-btn:hover,
+.popup-close-btn:hover {
+    color: #646cff;
+}
+
 .right {
     right: 0;
+}
+
+.popup-overlay {
+    position: absolute;
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-window {
+    position: relative;
+    ;
+    background: #242424;
+    padding: 1rem;
+    width: 35rem;
+    margin: 1.25rem;
+}
+
+.popup-close-btn {
+    padding: 0;
+    cursor: pointer;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    font-size: large;
 }

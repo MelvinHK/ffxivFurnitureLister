@@ -3,6 +3,7 @@ import ItemRow from "./itemRow";
 import { ItemListContext } from '../App';
 import SortButton from "./sortButton";
 import RemoveButton from "./removeButton";
+import AboutButton from "./aboutButton";
 
 function ItemList() {
   const { itemList } = useContext(ItemListContext);
@@ -12,6 +13,7 @@ function ItemList() {
       <div className="flex gap">
         <SortButton />
         <RemoveButton />
+        <AboutButton />
       </div>
       <table className='w-full'>
         <thead>
