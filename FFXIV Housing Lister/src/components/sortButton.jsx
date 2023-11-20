@@ -36,13 +36,19 @@ function SortButton() {
       const comparisons = [a, b];
 
       for (let i = 0; i < comparisons.length; i++) {
+        // Check if the item price is from the market board
         if (!comparisons[i].gilShopPrice && comparisons[i].marketBoardPrice) {
-          let marketPriceTotal = 0;
+          if (comparisons[i].marketBoardPrice == "N/A") {
+            comparisons[i] = 0;
+          } else {
+            let marketPriceTotal = 0;
 
-          for (let j = 0; j < comparisons[i].quantity; j++)
-            marketPriceTotal += comparisons[i].marketBoardPrice.listings[j].pricePerUnit;
+            // Sum item price in accordance to the inputted quantity
+            for (let j = 0; j < comparisons[i].quantity; j++)
+              marketPriceTotal += comparisons[i].marketBoardPrice.listings[j].pricePerUnit;
 
-          comparisons[i] = marketPriceTotal;
+            comparisons[i] = marketPriceTotal;
+          }
         } else {
           comparisons[i] = comparisons[i].gilShopPrice * comparisons[i].quantity;
         }
