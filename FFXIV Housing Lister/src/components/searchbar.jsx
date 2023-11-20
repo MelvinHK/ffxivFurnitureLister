@@ -22,9 +22,10 @@ function Searchbar() {
     setQueryStatus("Searching...");
 
     const items = await fetchItems(query);
-
-    items.length > 0 ? setQueryStatus("") : setQueryStatus(`No results found for "${query}"`);
-    setQueryResults(items);
+    if (items) {
+      items.length > 0 ? setQueryStatus("") : setQueryStatus(`No results found for "${query}"`);
+      setQueryResults(items);
+    }
   };
 
   const handleAddItem = async (newItem) => {
