@@ -17,19 +17,16 @@ function App() {
 
   const updateAllMarketBoardPrices = (listings) => {
     setItemList(itemList.map(item => {
-      console.log(listings);
-      if (!item.gilShopPrice && listings[item.id].itemID != 0) {
-        return {
-          ...item,
-          marketBoardPrice: listings[item.id],
-          quantity: (item.quantity > listings[item.id].unitsForSale) ? listings[item.id].unitsForSale : item.quantity
-        };
-      } else {
+      if (item.gilShopPrice || !listings[item.id] || listings[item.id].itemID == 0)
         return {
           ...item,
           marketBoardPrice: "N/A"
         };
-      }
+      return {
+        ...item,
+        marketBoardPrice: listings[item.id],
+        quantity: (item.quantity > listings[item.id].unitsForSale) ? listings[item.id].unitsForSale : item.quantity
+      };
     }));
   };
 
@@ -55,7 +52,6 @@ function App() {
         <div id="utility-column" className='flex-col gap'>
           <Searchbar />
           <MarketBoard />
-          <button onClick={() => console.log(itemList)}>log items</button>
         </div>
         <ItemList />
       </ItemListContext.Provider>
