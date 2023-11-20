@@ -12,7 +12,7 @@ function AboutPopup() {
         <p>A Final Fantasy XIV tool for creating housing-item lists.</p>
         <ul>
           <li>Calculate total gil prices from NPC gil shops and the market board.</li>
-          <li>View items' available recipes.</li>
+          <li>View items' available recipes and amount of materials required.</li>
           <li>Save lists in the browser.</li>
           <li>Import housing files from MakePlace.</li>
         </ul>
