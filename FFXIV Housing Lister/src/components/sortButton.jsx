@@ -8,12 +8,17 @@ function SortButton() {
 
   const handleSort = (value) => {
     setSortOption(value);
-    if (value == "Name")
-      sortByName();
-    else if (value == "Quantity")
-      sortByQuantity();
-    else if (value == "Gil")
-      sortByGil();
+
+    switch (value) {
+      case "Name":
+        sortByName();
+        break;
+      case "Quantity":
+        sortByQuantity();
+        break;
+      case "Gil":
+        sortByGil();
+    }
   };
 
   const sortByName = () => {
@@ -33,27 +38,23 @@ function SortButton() {
 
   const sortByGil = () => {
     const sortedList = [...itemList].sort((a, b) => {
-      const comparisons = [a, b];
-
-      for (let i = 0; i < comparisons.length; i++) {
-        if (!comparisons[i].gilShopPrice && comparisons[i].marketBoardPrice) { // 1. Item is market board related:
-          if (comparisons[i].marketBoardPrice == "N/A") { // Check if it's market prohibited...
-            comparisons[i] = 0;
-          } else { // ...otherwise, sum market prices in accordance to the inputted quantity.
-            let marketPriceTotal = 0;
-
-            for (let j = 0; j < comparisons[i].quantity; j++)
-              marketPriceTotal += comparisons[i].marketBoardPrice.listings[j].pricePerUnit;
-
-            comparisons[i] = marketPriceTotal;
+      const getPrice = (item) => {
+        if (item.gilShopPrice) {
+          return item.gilShopPrice * item.quantity;
+        } else if (item.marketBoardPrice) {
+          if (item.marketBoardPrice === "N/A") {
+            return 0;
+          } else {
+            return item.marketBoardPrice.listings
+              .slice(0, item.quantity)
+              .reduce((total, listing) => total + listing.pricePerUnit, 0);
           }
-        } else if (comparisons[i].gilShopPrice) { // 2. Item is gil shop related:
-          comparisons[i] = comparisons[i].gilShopPrice * comparisons[i].quantity;
-        } else { // 3. Item has no price attached to it (e.g. User hasn't fetched market board price, or error):
-          comparisons[i] = 0;
+        } else {
+          return 0;
         }
-      }
-      return comparisons[1] - comparisons[0];
+      };
+
+      return getPrice(b) - getPrice(a);
     });
 
     setItemList(sortedList);

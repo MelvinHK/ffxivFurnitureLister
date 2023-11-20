@@ -35,10 +35,9 @@ function ItemRow({ item }) {
     if (item.marketBoardPrice == "N/A")
       return "N/A";
 
-    let price = 0;
-    for (let i = 0; i < item.quantity; i++)
-      price += item.marketBoardPrice.listings[i].pricePerUnit;
-    return price;
+    return item.marketBoardPrice.listings
+      .slice(0, item.quantity)
+      .reduce((total, listing) => total + listing.pricePerUnit, 0);
   };
 
   const handleCheckbox = (checked) => {
