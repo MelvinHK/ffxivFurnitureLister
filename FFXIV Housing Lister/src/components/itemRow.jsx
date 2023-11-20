@@ -68,7 +68,7 @@ function ItemRow({ item }) {
             <img className="icon" src="../../gilShopIcon.webp"></img>
           </> :
             item.marketBoardPrice ? <>
-              {calculatedMarketPrice}
+              {unitsForSale == 0 ? <span className="text-small">Out of stock</span> : calculatedMarketPrice}
               <img className="icon" src="../../marketBoardIcon.webp"></img>
             </> :
               <></>
