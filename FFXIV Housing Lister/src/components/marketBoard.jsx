@@ -21,7 +21,7 @@ function MarketBoard() {
   };
 
   const handleFetch = async () => {
-    if (handleValidation() != "")
+    if (handleValidation() != '')
       return;
 
     const notGilShopItems = itemList.filter(item => !item.gilShopPrice);
