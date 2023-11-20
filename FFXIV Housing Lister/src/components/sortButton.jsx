@@ -36,21 +36,21 @@ function SortButton() {
       const comparisons = [a, b];
 
       for (let i = 0; i < comparisons.length; i++) {
-        // Check if the item price is from the market board
-        if (!comparisons[i].gilShopPrice && comparisons[i].marketBoardPrice) {
-          if (comparisons[i].marketBoardPrice == "N/A") {
+        if (!comparisons[i].gilShopPrice && comparisons[i].marketBoardPrice) { // 1. Item is market board related:
+          if (comparisons[i].marketBoardPrice == "N/A") { // Check if it's market prohibited...
             comparisons[i] = 0;
-          } else {
+          } else { // ...otherwise, sum market prices in accordance to the inputted quantity.
             let marketPriceTotal = 0;
 
-            // Sum item price in accordance to the inputted quantity
             for (let j = 0; j < comparisons[i].quantity; j++)
               marketPriceTotal += comparisons[i].marketBoardPrice.listings[j].pricePerUnit;
 
             comparisons[i] = marketPriceTotal;
           }
-        } else {
+        } else if (comparisons[i].gilShopPrice) { // 2. Item is gil shop related:
           comparisons[i] = comparisons[i].gilShopPrice * comparisons[i].quantity;
+        } else { // 3. Item has no price attached to it (e.g. User hasn't fetched market board price, or error):
+          comparisons[i] = 0;
         }
       }
       return comparisons[1] - comparisons[0];
