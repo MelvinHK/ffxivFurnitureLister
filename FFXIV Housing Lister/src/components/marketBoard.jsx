@@ -6,15 +6,18 @@ import { dataCentres, homeWorlds } from "../serverNames";
 function MarketBoard() {
   const [location, setLocation] = useState("-");
 
-  const { itemList, updateItemValue, updateAllMarketBoardPrices } = useContext(ItemListContext);
+  const { itemList, updateAllMarketBoardPrices } = useContext(ItemListContext);
 
   const handleValidation = () => {
-    let errors = "";
-    if (itemList.length == 0)
-      errors += "- Add at least one item to the list\n";
-    if (location == "-")
-      errors += "- Select a data centre or home world";
-    return errors == "" ? errors : alert("Error(s):\n" + errors);
+    const errors = [];
+    if (itemList.length === 0)
+      errors.push("- Add at least one item to the list");
+
+    if (location === "-")
+      errors.push("- Select a data centre or home world");
+
+    const errorMessage = errors.join('\n');
+    return errorMessage === '' ? errorMessage : alert(`Error(s):\n${errorMessage}`);
   };
 
   const handleFetch = async () => {
