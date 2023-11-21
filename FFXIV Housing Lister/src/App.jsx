@@ -3,13 +3,14 @@ import './App.css';
 import Searchbar from './components/searchbar';
 import ItemList from './components/itemlist';
 import MarketBoard from './components/marketBoard';
-import AboutPopup from './components/aboutPopup';
+import Modal from './components/modal';
 
 export const ItemListContext = createContext();
 
 function App() {
   const [itemList, setItemList] = useState([]);
-  const [showAbout, setShowAbout] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState(<></>);
 
   const updateItemValue = (id, updatedProperties) => {
     setItemList(itemList.map(item => {
@@ -46,7 +47,8 @@ function App() {
     updateItemValue,
     updateAllMarketBoardPrices,
     removeCheckedItems,
-    setShowAbout
+    setShowModal,
+    setModalContent
   };
 
   return (
@@ -57,7 +59,7 @@ function App() {
           <MarketBoard />
         </div>
         <ItemList />
-        {showAbout ? <AboutPopup /> : <></>}
+        {showModal ? <Modal>{modalContent}</Modal> : <></>}
       </ItemListContext.Provider>
     </div>
   );
