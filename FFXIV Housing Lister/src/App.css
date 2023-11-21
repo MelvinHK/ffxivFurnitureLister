@@ -3,10 +3,20 @@
     margin-right: auto;
     padding: 1.25rem;
     max-width: 92rem;
+    height: 100vh;
 }
 
 #utility-column {
     width: 21.5rem;
+}
+
+#item-list {
+    height: 100%;
+}
+
+#item-table-container {
+    max-height: 100%;
+    overflow: auto;
 }
 
 .flex {
@@ -46,12 +56,12 @@
     width: 100%;
 }
 
-.w-25 {
-    width: 25%;
-}
-
 .h-full {
     height: 100%;
+}
+
+.mh-100 {
+    max-height: 100%;
 }
 
 .text-left {
@@ -64,6 +74,10 @@
 
 .pad-small {
     padding: 0.5rem 0.35rem;
+}
+
+.pad-0 {
+    padding: 0;
 }
 
 .checked {
@@ -91,24 +105,33 @@
     border: none;
 }
 
+.icon-btn:hover,
+.modal-close-btn:hover {
+    color: #646cff;
+}
+
 .remove-btn:hover {
     color: rgb(255, 75, 75);
 }
 
 .about-btn {
     margin-left: auto;
+    padding-right: 0;
 }
 
-.about-btn:hover,
-.popup-close-btn:hover {
+.market-price-btn {
     color: #646cff;
+}
+
+.market-price-btn:hover {
+    text-decoration: underline;
 }
 
 .right {
     right: 0;
 }
 
-.popup-overlay {
+.modal-overlay {
     position: absolute;
     display: flex;
     top: 0;
@@ -120,20 +143,41 @@
     align-items: center;
 }
 
-.popup-window {
+.modal-window {
     position: relative;
-    ;
     background: #242424;
-    padding: 1rem;
+    padding: 0 1rem 1rem 1rem;
     width: 35rem;
     margin: 1.25rem;
+    max-height: 90%;
+    overflow: auto;
 }
 
-.popup-close-btn {
+.modal-close-btn-wrapper {
+    position: absolute;
+    top: 0.75rem;
+    right: 2rem;
+}
+
+.modal-close-btn {
     padding: 0;
     cursor: pointer;
-    position: absolute;
-    top: 0.5rem;
-    right: 0.75rem;
+    position: fixed;
     font-size: large;
+}
+
+#item-list th {
+    padding: 0.75rem 0.5rem;
+}
+
+.modal-window th {
+    padding-top: 1rem;
+}
+
+.modal-window h4 {
+    margin-top: 1rem;
+}
+
+#item-list table tbody tr:hover {
+    background-color: #1a1a1a;
 }

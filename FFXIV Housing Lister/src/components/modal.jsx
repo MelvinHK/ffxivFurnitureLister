@@ -5,10 +5,12 @@ function Modal({ children }) {
   const { setShowModal } = useContext(ItemListContext);
 
   return (
-    <div className="popup-overlay">
-      <div className="popup-window">
-        <span className="popup-close-btn" onClick={() => setShowModal(false)}>&#x2715;</span>
+    <div className="modal-overlay">
+      <div className="modal-window">
         {children}
+        <div className="modal-close-btn-wrapper">
+          <span className="modal-close-btn" onClick={() => setShowModal(false)}>&#x2715;</span>
+        </div>
       </div>
     </div>
   );

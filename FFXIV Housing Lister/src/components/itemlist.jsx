@@ -15,19 +15,21 @@ function ItemList() {
         <RemoveButton />
         <AboutButton />
       </div>
-      <table className='w-full'>
-        <thead>
-          <tr>
-            <th>Item Name</th>
-            <th>Quantity</th>
-            <th>Gil</th>
-            <th>Materials</th>
-          </tr>
-        </thead>
-        <tbody>
-          {itemList.map(item => <ItemRow key={item.id} item={item} />)}
-        </tbody>
-      </table>
+      <div id="item-table-container">
+        <table className='w-full'>
+          <tbody>
+            {itemList.map(item => <ItemRow key={item.id} item={item} />)}
+          </tbody>
+          <thead>
+            <tr>
+              <th>Item Name</th>
+              <th>Quantity</th>
+              <th>Gil</th>
+              <th>Materials</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
     </div>
   );
 }

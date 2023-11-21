@@ -52,7 +52,7 @@ function App() {
   };
 
   return (
-    <div id="container" className='flex gap m-5'>
+    <div id="container" className='flex gap m-5 border-box'>
       <ItemListContext.Provider value={itemListContextValues}>
         <div id="utility-column" className='flex-col gap'>
           <Searchbar />
