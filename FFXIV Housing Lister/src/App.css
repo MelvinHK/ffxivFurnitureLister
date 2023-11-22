@@ -17,6 +17,7 @@
 #item-table-container {
     max-height: 100%;
     overflow: auto;
+    scrollbar-gutter: stable;
 }
 
 .flex {
@@ -62,6 +63,10 @@
 
 .mh-100 {
     max-height: 100%;
+}
+
+.ml-auto {
+    margin-left: auto;
 }
 
 .text-left {
@@ -183,6 +188,23 @@
 }
 
 .submaterial {
-    text-indent: 1rem;
+    margin-left: 1rem;
     margin-top: -0.75rem;
+    opacity: 0.5;
+}
+
+#name-col {
+    width: auto;
+}
+
+#quantity-col {
+    width: auto;
+}
+
+#gil-col {
+    width: auto;
+}
+
+#materials-col {
+    width: 20%;
 }

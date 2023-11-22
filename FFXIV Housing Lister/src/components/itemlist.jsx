@@ -17,6 +17,12 @@ function ItemList() {
       </div>
       <div id="item-table-container">
         <table className='w-full'>
+          <colgroup>
+            <col id="name-col"></col>
+            <col id="quantity-col"></col>
+            <col id="gil-col"></col>
+            <col id="materials-col"></col>
+          </colgroup>
           <tbody>
             {itemList.map(item => <ItemRow key={item.id} item={item} />)}
           </tbody>
