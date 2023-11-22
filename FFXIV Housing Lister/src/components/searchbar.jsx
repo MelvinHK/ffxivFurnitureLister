@@ -1,15 +1,15 @@
 import { useState, useRef, useContext } from 'react';
-import { useOutsideIsClicked, fetchItems, fetchGilShopPrice } from '../functions';
+import { useOutsideIsClicked, searchItems, getGilShopPrice, fetchItem, getMaterials } from '../functions';
 import { ItemListContext } from '../App';
 
 function Searchbar() {
   const [query, setQuery] = useState("");
   const [queryResults, setQueryResults] = useState([]);
   const [queryStatus, setQueryStatus] = useState("");
-  const [isResultsHidden, setIsResultsHidden] = useState(false);
+  const [showResults, setShowResults] = useState(false);
 
   const searchContainer = useRef(null);
-  useOutsideIsClicked(searchContainer, setIsResultsHidden);
+  useOutsideIsClicked(searchContainer, setShowResults);
 
   const { itemList, setItemList } = useContext(ItemListContext);
 
@@ -18,10 +18,10 @@ function Searchbar() {
     if (query == null || query.match(/^\s*$/) !== null) return;
 
     setQueryResults([]);
-    setIsResultsHidden(false);
+    setShowResults(false);
     setQueryStatus("Searching...");
 
-    const items = await fetchItems(query);
+    const items = await searchItems(query);
     if (items) {
       items.length > 0 ? setQueryStatus("") : setQueryStatus(`No results found for "${query}"`);
       setQueryResults(items);
@@ -31,7 +31,11 @@ function Searchbar() {
   const handleAddItem = async (newItem) => {
     if (itemList.find(existingItem => existingItem.id === newItem.id))
       return;
-    newItem.gilShopPrice = await fetchGilShopPrice(newItem.id);
+
+    const item = await fetchItem(newItem.id);
+    newItem.gilShopPrice = getGilShopPrice(item);
+    newItem.materials = await getMaterials(item);
+
     setItemList([...itemList, newItem]);
   };
 
@@ -61,7 +65,7 @@ function Searchbar() {
         <button type='submit' onClick={e => handleSubmit(e)}>Search</button>
       </form>
       {/* Search Results */}
-      {isResultsHidden ? <></> :
+      {showResults ? <></> :
         <div className='absolute w-full'>
           {queryResultsDisplay}
           {queryStatus == "" ? <></> : <div className="pad black">{queryStatus}</div>}

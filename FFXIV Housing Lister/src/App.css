@@ -181,3 +181,8 @@
 #item-list table tbody tr:hover {
     background-color: #1a1a1a;
 }
+
+.submaterial {
+    text-indent: 1rem;
+    margin-top: -0.75rem;
+}

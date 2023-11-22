@@ -8,10 +8,10 @@ function AboutButton() {
   const aboutContent = () => {
     return (
       <>
-        <h4>FFXIV Housing Item Lister</h4>
+        <h4>FFXIV Furniture Lister</h4>
         <p>A Final Fantasy XIV tool for creating housing-item lists.</p>
         <ul>
-          <li>Calculate total gil prices from NPC gil shops and the market board.</li>
+          <li>Total gil prices from NPC gil shops and the market board.</li>
           <li>View items' available recipes and amount of materials required.</li>
           <li>Save lists in the browser.</li>
           <li>Import furniture shopping lists from <a href="https://makeplace.app/" target="_blank">MakePlace.</a></li>

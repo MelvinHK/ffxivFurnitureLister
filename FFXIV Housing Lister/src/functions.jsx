@@ -8,7 +8,7 @@ export const useOutsideIsClicked = (ref, isOutside) => {
   }, [ref]);
 };
 
-export const fetchItems = async (name) => {
+export const searchItems = async (name) => {
   try {
     const response = await fetch(`https://xivapi.com/search?string=*${name}*&filters=ItemSortCategory.ID=50&limit=10`);
     if (!response.ok)
@@ -22,17 +22,63 @@ export const fetchItems = async (name) => {
   }
 };
 
-export const fetchGilShopPrice = async (id) => {
+export const fetchItem = async (id) => {
   try {
     const response = await fetch(`https://xivapi.com/item/${id}`);
     if (!response.ok)
       throw new Error(response.status);
 
     const item = await response.json();
-    return (item.GameContentLinks.hasOwnProperty("GilShopItem")) ? item.PriceMid : null;
+    return item;
 
   } catch (error) {
-    alert(`Error: Unable to fetch gil price; something went wrong with the server request.`);
+    alert(`Error: Unable to fetch item; something went wrong with the server request.`);
+  }
+};
+
+export const getGilShopPrice = (item) => {
+  return item.GameContentLinks.hasOwnProperty("GilShopItem") ? item.PriceMid : null;
+};
+
+export const getMaterials = async (item) => {
+  try {
+    if (!item.Recipes)
+      return "N/A";
+
+    const response = await fetch(`https://xivapi.com/recipe/${item.Recipes[0].ID}`);
+    if (!response.ok)
+      throw new Error(response.status);
+
+    const recipe = await response.json();
+    const materials = [];
+
+    for (let i = 0; i < 8; i++) {
+      const ingredient = recipe[`ItemIngredient${i}`];
+      if (ingredient) {
+        var material = {
+          name: ingredient.Name,
+          amount: recipe[`AmountIngredient${i}`],
+          subMaterials: []
+        };
+        const ingredientRecipe = recipe[`ItemIngredientRecipe${i}`];
+        if (ingredientRecipe) {
+          for (let k = 0; k < 8; k++) {
+            const subIngredient = ingredientRecipe[0][`ItemIngredient${k}`];
+            if (subIngredient) {
+              material.subMaterials.push({
+                name: subIngredient.Name,
+                amount: ingredientRecipe[0][`AmountIngredient${k}`] * material.amount
+              });
+            }
+          }
+        }
+        materials.push(material);
+      }
+    }
+    return materials;
+
+  } catch (error) {
+    alert(`Error: Unable to fetch materials; something went wrong with the server request.`);
   }
 };
 
