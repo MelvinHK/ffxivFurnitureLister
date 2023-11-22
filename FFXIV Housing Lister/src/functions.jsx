@@ -54,16 +54,20 @@ export const getMaterials = async (item) => {
 
     for (let i = 0; i < 8; i++) {
       const ingredient = recipe[`ItemIngredient${i}`];
+
       if (ingredient) {
         var material = {
           name: ingredient.Name,
           amount: recipe[`AmountIngredient${i}`],
           subMaterials: []
         };
+
         const ingredientRecipe = recipe[`ItemIngredientRecipe${i}`];
+
         if (ingredientRecipe) {
           for (let k = 0; k < 8; k++) {
             const subIngredient = ingredientRecipe[0][`ItemIngredient${k}`];
+
             if (subIngredient) {
               material.subMaterials.push({
                 name: subIngredient.Name,
@@ -79,6 +83,7 @@ export const getMaterials = async (item) => {
 
   } catch (error) {
     alert(`Error: Unable to fetch materials; something went wrong with the server request.`);
+    return "N/A";
   }
 };
 
