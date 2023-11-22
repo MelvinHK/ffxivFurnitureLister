@@ -1,5 +1,5 @@
 import { useState, useRef, useContext } from 'react';
-import { useOutsideIsClicked, searchItems, getGilShopPrice, fetchItem, getMaterials } from '../functions';
+import { useOutsideIsClicked, searchItems, getGilShopPrice, fetchItem, fetchMaterials } from '../functions';
 import { ItemListContext } from '../App';
 
 function Searchbar() {
@@ -34,7 +34,7 @@ function Searchbar() {
 
     const item = await fetchItem(newItem.id);
     newItem.gilShopPrice = getGilShopPrice(item);
-    newItem.materials = await getMaterials(item);
+    newItem.materials = await fetchMaterials(item);
 
     setItemList([...itemList, newItem]);
   };

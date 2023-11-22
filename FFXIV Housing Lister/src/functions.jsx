@@ -40,7 +40,7 @@ export const getGilShopPrice = (item) => {
   return item.GameContentLinks.hasOwnProperty("GilShopItem") ? item.PriceMid : null;
 };
 
-export const getMaterials = async (item) => {
+export const fetchMaterials = async (item) => {
   try {
     if (!item.Recipes)
       return "N/A";
