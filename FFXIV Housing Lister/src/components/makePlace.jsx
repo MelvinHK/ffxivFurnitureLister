@@ -28,12 +28,9 @@ function MakePlace() {
     }, {});
 
     const itemList = [];
-    const recipeIDs = [];
-
-    items.forEach(item => {
-      if (item.Recipes)
-        recipeIDs.push(item.Recipes[0].ID);
-    });
+    const recipeIDs = items
+      .filter(item => item.Recipes)
+      .map(item => item.Recipes[0].ID);
 
     const multipleMaterials = await fetchMaterialsByIDs(recipeIDs);
 
