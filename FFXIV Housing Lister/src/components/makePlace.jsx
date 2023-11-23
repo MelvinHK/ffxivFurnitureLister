@@ -7,15 +7,12 @@ function MakePlace() {
 
   const getItemIDs = (file) => {
     const properties = ["exteriorFixture", "exteriorFurniture", "interiorFixture", "interiorFurniture"];
-    const ids = [];
 
-    properties.forEach(property => {
-      file[property].forEach(item => {
-        if (item.itemId != 0)
-          ids.push(item.itemId);
-      });
-    });
-
+    const ids = properties
+      .flatMap(property => file[property]
+        .filter(item => item.itemId !== 0)
+        .map(item => item.itemId));
+        
     return ids;
   };
 

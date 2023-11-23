@@ -33,7 +33,7 @@ function ItemRow({ item }) {
   };
 
   const calculateMarketBoardPrice = () => {
-    if (item.marketBoardPrice == "N/A")
+    if (item.marketBoardPrice === "N/A")
       return "N/A";
 
     return item.marketBoardPrice.listings
@@ -103,10 +103,10 @@ function ItemRow({ item }) {
             </> :
             item.marketBoardPrice ?
               <>
-                {unitsForSale == 0 ?
+                {unitsForSale === 0 ?
                   <span className="text-small">Out of stock</span>
                   :
-                  calculatedMarketPrice == "N/A" ?
+                  calculatedMarketPrice === "N/A" ?
                     <span className="o-5">{calculatedMarketPrice}</span>
                     :
                     <button className="link-btn pad-0" onClick={() => { setShowModal(true); setModalContent(marketBoardModalContent()); }}>
@@ -120,7 +120,7 @@ function ItemRow({ item }) {
       </td>
       {/* Materials */}
       <td className="pad-small">
-        {item.materials == "N/A" ?
+        {item.materials === "N/A" ?
           <span className="o-5">{item.materials}</span>
           :
           showMaterials ?
