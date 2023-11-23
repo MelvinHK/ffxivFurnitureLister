@@ -128,11 +128,13 @@
     padding-right: 0;
 }
 
-.market-price-btn {
+.link-btn {
+    background-color: transparent;
+    border: none;
     color: #646cff;
 }
 
-.market-price-btn:hover {
+.link-btn:hover {
     text-decoration: underline;
 }
 

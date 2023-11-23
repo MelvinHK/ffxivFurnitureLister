@@ -45,7 +45,7 @@ function ItemRow({ item }) {
     updateItemValue(item.id, { isChecked: checked });
   };
 
-  const marketBoardContent = () => {
+  const marketBoardModalContent = () => {
     const slicedListings = item.marketBoardPrice.listings.slice(0, item.quantity);
     return (
       <table className='w-full'>
@@ -109,11 +109,11 @@ function ItemRow({ item }) {
                   calculatedMarketPrice == "N/A" ?
                     <span className="o-5">{calculatedMarketPrice}</span>
                     :
-                    <button className="icon-btn market-price-btn pad-0" onClick={() => { setShowModal(true); setModalContent(marketBoardContent()); }}>
+                    <button className="link-btn pad-0" onClick={() => { setShowModal(true); setModalContent(marketBoardModalContent()); }}>
                       {calculatedMarketPrice}
                     </button>
                 }
-                <img className="icon" src="../../marketBoardIcon.webp"></img>
+                {calculatedMarketPrice != "N/A" ? <img className="icon" src="../../marketBoardIcon.webp"></img> : <></>}
               </> : <></>
           }
         </div>
@@ -143,7 +143,7 @@ function ItemRow({ item }) {
               </div>
             </button>
             :
-            <button onClick={() => setShowMaterials(true)} className="icon-btn text-small" title="Expand">. . .</button>
+            <button onClick={() => setShowMaterials(true)} className="link-btn text-small" title="Expand">. . .</button>
         }
       </td>
     </tr >

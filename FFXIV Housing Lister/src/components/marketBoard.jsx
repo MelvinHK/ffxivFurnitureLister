@@ -36,7 +36,10 @@ function MarketBoard() {
   return (
     <div>
       <h4>Market Board Prices</h4>
-      <p className="text-small">Fetches market board prices via <a href="https://universalis.app/" target="_blank">Universalis</a>.</p>
+      <p className="text-small">
+        Fetches market board prices via <a href="https://universalis.app/" target="_blank">Universalis</a>.
+        Gil-column cells that are blank may have their prices fetched.
+      </p>
       <form className="flex-col w-full border-box">
         <label>Data Centre / Home World </label>
         <select value={location} onChange={e => setLocation(e.target.value)}>
