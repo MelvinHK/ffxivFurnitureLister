@@ -12,38 +12,35 @@ function MakePlace() {
       .flatMap(property => file[property]
         .filter(item => item.itemId !== 0)
         .map(item => item.itemId));
-        
+
     return ids;
   };
 
   const handleAddItems = async (ids) => {
     const items = await fetchItemsByIDs([...new Set(ids)]);
 
-    const duplicateItemIDs = ids.reduce((acc, value) => {
+    const itemQuantities = ids.reduce((acc, value) => {
       acc[value] = (acc[value] || 0) + 1;
       return acc;
     }, {});
 
-    const itemList = [];
     const recipeIDs = items
       .filter(item => item.Recipes)
       .map(item => item.Recipes[0].ID);
 
     const multipleMaterials = await fetchMaterialsByIDs(recipeIDs);
 
-    items.forEach(item => {
-      itemList.push({
+    setItemList(items.map(item => {
+      return {
         id: item.ID,
         name: item.Name,
-        quantity: duplicateItemIDs[item.ID],
+        quantity: itemQuantities[item.ID],
         gilShopPrice: getGilShopPrice(item),
         marketBoardPrice: null,
         materials: multipleMaterials[item.ID] ? multipleMaterials[item.ID] : "N/A",
         isChecked: false
-      });
-    });
-
-    setItemList(itemList);
+      };
+    }));
   };
 
   const handleFile = (e) => {
