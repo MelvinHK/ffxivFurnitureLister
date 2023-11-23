@@ -23,7 +23,7 @@ export const fetchItemsByName = async (name) => {
 
 export const fetchItemsByIDs = async (ids) => {
   try {
-    const response = await fetch(`https://xivapi.com/item?ids=${String(ids)}&filters=ItemSortCategory.ID=50&limit=10&columns=ID,Name,GameContentLinks,PriceMid,Recipes`);
+    const response = await fetch(`https://xivapi.com/item?ids=${String(ids)}&filters=ItemSortCategory.ID=50&columns=ID,Name,GameContentLinks,PriceMid,Recipes`);
     if (!response.ok) throw new Error(response.status);
 
     const items = await response.json();
@@ -94,9 +94,14 @@ export const fetchMaterialsByIDs = async (ids) => {
     if (!response.ok) throw new Error(response.status);
 
     const data = await response.json();
-    const multipleMaterials = data.Results.map((recipe) => getMaterialsFromRecipe(recipe));
 
-    return multipleMaterials;
+    const materialsObject = {};
+
+    data.Results.forEach(recipe => {
+      Object.assign(materialsObject, { [recipe.ItemResultTargetID]: getMaterialsFromRecipe(recipe) });
+    });
+
+    return materialsObject;
 
   } catch (error) {
     alert(`Error: Unable to fetch materials; something went wrong with the server request.`);

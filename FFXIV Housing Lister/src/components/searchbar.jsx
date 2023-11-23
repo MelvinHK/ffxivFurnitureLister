@@ -65,7 +65,7 @@ function Searchbar() {
       </form>
       {/* Search Results */}
       {showResults ? <></> :
-        <div className='absolute w-full'>
+        <div id="search-results" className='absolute w-full'>
           {queryResultsDisplay}
           {queryStatus == "" ? <></> : <div className="pad black">{queryStatus}</div>}
         </div>}

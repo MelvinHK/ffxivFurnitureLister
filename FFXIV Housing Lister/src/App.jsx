@@ -4,6 +4,7 @@ import Searchbar from './components/searchbar';
 import ItemList from './components/itemlist';
 import MarketBoard from './components/marketBoard';
 import Modal from './components/modal';
+import MakePlace from './components/makePlace';
 
 export const ItemListContext = createContext();
 
@@ -57,6 +58,7 @@ function App() {
         <div id="utility-column" className='flex-col gap'>
           <Searchbar />
           <MarketBoard />
+          <MakePlace />
         </div>
         <ItemList />
         {showModal ? <Modal>{modalContent}</Modal> : <></>}

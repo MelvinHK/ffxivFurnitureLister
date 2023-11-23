@@ -10,6 +10,10 @@
     width: 21.5rem;
 }
 
+#search-results {
+    z-index: 2;
+}
+
 #item-list {
     height: 100%;
 }
@@ -211,4 +215,17 @@
 
 #materials-col {
     width: 20%;
+}
+
+.makeplace-btn-wrapper {
+    position: relative;
+}
+
+.makeplace-btn {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    cursor: pointer;
 }
