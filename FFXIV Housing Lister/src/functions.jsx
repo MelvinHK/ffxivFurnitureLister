@@ -40,50 +40,69 @@ export const getGilShopPrice = (item) => {
   return item.GameContentLinks.hasOwnProperty("GilShopItem") ? item.PriceMid : null;
 };
 
-export const fetchMaterials = async (item) => {
-  try {
-    if (!item.Recipes)
-      return "N/A";
+const getMaterialsFromRecipe = (recipe) => {
+  const materials = [];
 
-    const response = await fetch(`https://xivapi.com/recipe/${item.Recipes[0].ID}`);
-    if (!response.ok)
-      throw new Error(response.status);
+  for (let i = 0; i < 8; i++) {
+    const ingredient = recipe[`ItemIngredient${i}`];
 
-    const recipe = await response.json();
-    const materials = [];
+    if (!ingredient) continue;
 
-    for (let i = 0; i < 8; i++) {
-      const ingredient = recipe[`ItemIngredient${i}`];
+    const material = {
+      name: ingredient.Name,
+      amount: recipe[`AmountIngredient${i}`],
+      subMaterials: []
+    };
 
-      if (ingredient) {
-        var material = {
-          name: ingredient.Name,
-          amount: recipe[`AmountIngredient${i}`],
-          subMaterials: []
-        };
+    const ingredientRecipe = recipe[`ItemIngredientRecipe${i}`];
 
-        const ingredientRecipe = recipe[`ItemIngredientRecipe${i}`];
+    if (ingredientRecipe) {
+      for (let k = 0; k < 8; k++) {
+        const subIngredient = ingredientRecipe[0][`ItemIngredient${k}`];
 
-        if (ingredientRecipe) {
-          for (let k = 0; k < 8; k++) {
-            const subIngredient = ingredientRecipe[0][`ItemIngredient${k}`];
-
-            if (subIngredient) {
-              material.subMaterials.push({
-                name: subIngredient.Name,
-                amount: ingredientRecipe[0][`AmountIngredient${k}`] * material.amount
-              });
-            }
-          }
+        if (subIngredient) {
+          material.subMaterials.push({
+            name: subIngredient.Name,
+            amount: ingredientRecipe[0][`AmountIngredient${k}`] * material.amount
+          });
         }
-        materials.push(material);
       }
     }
-    return materials;
+    materials.push(material);
+  }
+
+  return materials;
+};
+
+export const fetchMaterials = async (item) => {
+  try {
+    if (!item.Recipes) return "N/A";
+
+    const response = await fetch(`https://xivapi.com/recipe/${item.Recipes[0].ID}`);
+    if (!response.ok) throw new Error(response.status);
+
+    const recipe = await response.json();
+    return getMaterialsFromRecipe(recipe);
 
   } catch (error) {
     alert(`Error: Unable to fetch materials; something went wrong with the server request.`);
     return "N/A";
+  }
+};
+
+export const fetchMaterialsByIDs = async (ids) => {
+  try {
+    const response = await fetch(`https://xivapi.com/recipe?ids=${String(ids)}&columns=*`);
+    if (!response.ok) throw new Error(response.status);
+
+    const data = await response.json();
+    const multipleMaterials = data.Results.map((recipe) => getMaterialsFromRecipe(recipe));
+
+    return multipleMaterials;
+
+  } catch (error) {
+    alert(`Error: Unable to fetch materials; something went wrong with the server request.`);
+    return [];
   }
 };
 
