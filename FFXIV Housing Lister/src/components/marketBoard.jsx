@@ -35,7 +35,7 @@ function MarketBoard() {
 
   return (
     <div>
-      <h4>Market Board Prices</h4>
+      <h4>Market Board</h4>
       <p className="text-small">
         Fetches market board prices via <a href="https://universalis.app/" target="_blank">Universalis</a>.
         Gil-column cells that are blank may have their prices fetched.

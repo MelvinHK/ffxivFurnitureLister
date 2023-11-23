@@ -58,7 +58,7 @@ function MakePlace() {
         const ids = getItemIDs(makePlaceFile);
         await handleAddItems(ids);
       } catch (error) {
-        console.error("Error parsing JSON:", error);
+        alert("Error parsing JSON:", error);
       }
     };
 
@@ -68,7 +68,7 @@ function MakePlace() {
   return (
     <div>
       <h4>MakePlace</h4>
-      <p className="text-small">Import a save file from <a href="https://makeplace.app/" target="_blank">MakePlace</a>.</p>
+      <p className="text-small">Import a .json save file from <a href="https://makeplace.app/" target="_blank">MakePlace</a>.</p>
       <button className="w-full pad makeplace-btn-wrapper">
         <input className="makeplace-btn" type="file" accept="application/json" onChange={(e) => handleFile(e)} />Choose File
       </button>

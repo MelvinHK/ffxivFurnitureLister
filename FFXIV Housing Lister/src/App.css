@@ -8,6 +8,8 @@
 
 #utility-column {
     width: 21.5rem;
+    overflow: auto;
+    overflow-x: hidden;
 }
 
 #search-results {

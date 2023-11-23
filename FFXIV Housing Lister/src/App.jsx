@@ -5,6 +5,7 @@ import ItemList from './components/itemlist';
 import MarketBoard from './components/marketBoard';
 import Modal from './components/modal';
 import MakePlace from './components/makePlace';
+import OpenSaveButton from './components/openSaveButton';
 
 export const ItemListContext = createContext();
 
@@ -59,6 +60,7 @@ function App() {
           <Searchbar />
           <MarketBoard />
           <MakePlace />
+          <OpenSaveButton />
         </div>
         <ItemList />
         {showModal ? <Modal>{modalContent}</Modal> : <></>}
