@@ -8,9 +8,9 @@ export const useOutsideIsClicked = (ref, isOutside) => {
   }, [ref]);
 };
 
-export const searchItems = async (name) => {
+export const fetchItemsByName = async (name) => {
   try {
-    const response = await fetch(`https://xivapi.com/search?string=*${name}*&filters=ItemSortCategory.ID=50&limit=10`);
+    const response = await fetch(`https://xivapi.com/search?string=*${name}*&filters=ItemSortCategory.ID=50&limit=10&columns=ID,Name,GameContentLinks,PriceMid,Recipes`);
     if (!response.ok)
       throw new Error(response.status);
 
@@ -18,21 +18,21 @@ export const searchItems = async (name) => {
     return items.Results;
 
   } catch (error) {
-    alert(`Error: Unable to search item; something went wrong with the server request.`);
+    alert(`Error: Unable to search items; something went wrong with the server request.`);
   }
 };
 
-export const fetchItem = async (id) => {
+export const fetchItemsByIDs = async (ids) => {
   try {
-    const response = await fetch(`https://xivapi.com/item/${id}`);
+    const response = await fetch(`https://xivapi.com/item?ids=${String(ids)}&filters=ItemSortCategory.ID=50&limit=10&columns=ID,Name,GameContentLinks,PriceMid,Recipes`);
     if (!response.ok)
       throw new Error(response.status);
 
-    const item = await response.json();
-    return item;
+    const items = await response.json();
+    return items.Results;
 
   } catch (error) {
-    alert(`Error: Unable to fetch item; something went wrong with the server request.`);
+    alert(`Error: Unable to search items; something went wrong with the server request.`);
   }
 };
 

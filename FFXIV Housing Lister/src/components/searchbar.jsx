@@ -1,5 +1,5 @@
 import { useState, useRef, useContext } from 'react';
-import { useOutsideIsClicked, searchItems, getGilShopPrice, fetchItem, fetchMaterials } from '../functions';
+import { useOutsideIsClicked, fetchItemsByName, getGilShopPrice, fetchMaterials } from '../functions';
 import { ItemListContext } from '../App';
 
 function Searchbar() {
@@ -21,20 +21,19 @@ function Searchbar() {
     setShowResults(false);
     setQueryStatus("Searching...");
 
-    const items = await searchItems(query);
+    const items = await fetchItemsByName(query);
     if (items) {
       items.length > 0 ? setQueryStatus("") : setQueryStatus(`No results found for "${query}"`);
       setQueryResults(items);
     }
   };
 
-  const handleAddItem = async (newItem) => {
+  const handleAddItem = async (newItem, queriedItem) => {
     if (itemList.find(existingItem => existingItem.id === newItem.id))
       return;
 
-    const item = await fetchItem(newItem.id);
-    newItem.gilShopPrice = getGilShopPrice(item);
-    newItem.materials = await fetchMaterials(item);
+    newItem.gilShopPrice = getGilShopPrice(queriedItem);
+    newItem.materials = await fetchMaterials(queriedItem);
 
     setItemList([...itemList, newItem]);
   };
@@ -51,7 +50,7 @@ function Searchbar() {
     };
 
     return (
-      <button key={result.ID} onClick={() => handleAddItem(newItem)} className='text-left w-full'>
+      <button key={result.ID} onClick={() => handleAddItem(newItem, result)} className='text-left w-full'>
         {result.Name}
       </button>
     );
