@@ -8,6 +8,8 @@ function Searchbar() {
   const [queryStatus, setQueryStatus] = useState("");
   const [showResults, setShowResults] = useState(false);
 
+  const [addItemStatus, setAddItemStatus] = useState("");
+
   const searchContainer = useRef(null);
   useOutsideIsClicked(searchContainer, setShowResults);
 
@@ -29,13 +31,17 @@ function Searchbar() {
   };
 
   const handleAddItem = async (newItem, queriedItem) => {
-    if (itemList.find(existingItem => existingItem.id === newItem.id))
+    setAddItemStatus("(adding...)");
+    if (itemList.find(existingItem => existingItem.id === newItem.id)) {
+      setAddItemStatus("");
       return alert("Item already exists in list.");
+    }
 
     newItem.gilShopPrice = getGilShopPrice(queriedItem);
     newItem.materials = await fetchMaterials(queriedItem);
 
     setItemList([...itemList, newItem]);
+    setAddItemStatus("");
   };
 
   const queryResultsDisplay = queryResults.map((result) => {
@@ -50,8 +56,11 @@ function Searchbar() {
     };
 
     return (
-      <button key={result.ID} onClick={() => handleAddItem(newItem, result)} className='text-left w-full'>
-        {result.Name}
+      <button key={result.ID} onClick={() => handleAddItem(newItem, result)} className='text-left w-full flex'>
+        <span>{result.Name}</span>
+        {itemList.find(existingItem => existingItem.id === result.ID) ?
+          <span className='ml-auto text-small'>(added)</span> : <></>
+        }
       </button>
     );
   });
@@ -69,9 +78,10 @@ function Searchbar() {
       </form>
       {/* Search Results */}
       {showResults ? <></> :
-        <div id="search-results" className='absolute w-full'>
+        <div id="search-results" className='flex-col absolute w-full'>
           {queryResultsDisplay}
-          {queryStatus == "" ? <></> : <div className="pad black">{queryStatus}</div>}
+          {queryStatus ? <div className="pad black">{queryStatus}</div> : <></>}
+          {addItemStatus ? <div className="status-overlay">Adding...</div> : <></>}
         </div>}
     </div>
   );

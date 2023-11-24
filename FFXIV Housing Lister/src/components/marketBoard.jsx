@@ -5,6 +5,7 @@ import { dataCentres, homeWorlds } from "../serverNames";
 
 function MarketBoard() {
   const [location, setLocation] = useState("");
+  const [fetchStatus, setFetchStatus] = useState("");
 
   const { itemList, updateAllMarketBoardPrices } = useContext(ItemListContext);
 
@@ -26,14 +27,20 @@ function MarketBoard() {
     }
   };
 
-  const handleFetch = async () => {
-    if (!handleValidation()) return;
+  const handleFetch = async (e) => {
+    e.preventDefault();
+    if (!handleValidation()) return setFetchStatus("");
 
     const notGilShopItems = itemList.filter(item => !item.gilShopPrice);
-    if (notGilShopItems.length == 0) return;
+    if (notGilShopItems.length == 0) return setFetchStatus("");
+
+    setFetchStatus("Fetching...");
 
     const fetchedListings = await fetchMarketBoardPrices(notGilShopItems.map(item => item.id), location);
     if (fetchedListings) updateAllMarketBoardPrices(fetchedListings);
+
+    setFetchStatus("Done!");
+    setTimeout(() => setFetchStatus(""), 1000);
   };
 
   return (
@@ -43,7 +50,7 @@ function MarketBoard() {
         Fetches market board prices via <a href="https://universalis.app/" target="_blank">Universalis</a>.
         Gil-column cells that are blank may have their prices fetched.
       </p>
-      <form className="flex-col w-full border-box">
+      <form className="flex-col relative w-full border-box">
         <select className={`${location == "" ? `default-option` : ``}`} defaultValue="default" onChange={e => setLocation(e.target.value)}>
           <option value="default" disabled>Data Centre / Home World</option>
           <optgroup label="Data Centres">
@@ -53,8 +60,9 @@ function MarketBoard() {
             {homeWorlds.map(name => <option key={name}>{name}</option>)}
           </optgroup>
         </select>
+        <button className="pad w-full" onClick={(e) => handleFetch(e)}>Fetch</button>
+        {fetchStatus ? <div className="status-overlay">{fetchStatus}</div> : <></>}
       </form>
-      <button className="pad w-full" onClick={() => handleFetch()}>Fetch</button>
       <p className="text-small">Items purchased from NPC gil merchants <img src="../../gilShopIcon.webp" className="icon-relative"></img> won't have their prices fetched.</p>
     </div >
   );
