@@ -1,4 +1,4 @@
-import { useState, createContext } from 'react';
+import { useState, createContext, useEffect } from 'react';
 import './App.css';
 import Searchbar from './components/searchbar';
 import ItemList from './components/itemlist';
@@ -40,7 +40,7 @@ function App() {
   const removeCheckedItems = () => {
     const checkedLength = document.getElementsByClassName("checked").length;
     if (checkedLength == 0)
-      return alert("Error: There are no selected items to remove...");
+      return alert("Error: There are no selected items to remove.");
 
     if (confirm(`Remove ${checkedLength} selected item${checkedLength > 1 ? `s` : ``}?`))
       setItemList(itemList.filter(item => !item.isChecked));

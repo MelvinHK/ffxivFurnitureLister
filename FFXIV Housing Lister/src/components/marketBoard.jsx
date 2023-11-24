@@ -44,7 +44,7 @@ function MarketBoard() {
         Gil-column cells that are blank may have their prices fetched.
       </p>
       <form className="flex-col w-full border-box">
-        <select defaultValue="default" onChange={e => setLocation(e.target.value)}>
+        <select className={`${location == "" ? `default-option` : ``}`} defaultValue="default" onChange={e => setLocation(e.target.value)}>
           <option value="default" disabled>Data Centre / Home World</option>
           <optgroup label="Data Centres">
             {dataCentres.map(name => <option key={name}>{name}</option>)}

@@ -98,3 +98,7 @@ select {
   font-family: inherit;
   font-size: inherit;
 }
+
+select *:not(:nth-child(1)) {
+  color: white;
+}
