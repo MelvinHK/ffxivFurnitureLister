@@ -19,10 +19,14 @@
 }
 
 @media (max-width:768px) {
+    #container {
+        overflow: hidden;
+    }
+
     #utility-column {
         position: absolute;
-        height: calc(100% - 2.5rem);
-        transition-duration: 0.3s;
+        height: calc(100vh - 2.5rem);
+        transition-duration: 0.25s;
         padding-right: 1.25rem;
         padding-top: 1.25rem;
         padding-bottom: 1.25rem;
@@ -31,23 +35,24 @@
     }
 
     .hide-menu {
-        margin-left: -500px;
+        margin-left: calc(-24rem - 1px);
+    }
+
+    #filterbar {
+        width: 0;
+        flex: 1;
     }
 
     #mobile-menu {
         display: initial;
     }
 
-    #name-col {
-        width: auto;
-    }
-
     #quantity-col {
-        width: 10%;
+        width: 10% !important;
     }
 
     #gil-col {
-        width: 10%;
+        width: 10% !important;
     }
 
     #materials-col {
@@ -63,8 +68,13 @@
     z-index: 2;
 }
 
+#toolbar {
+    flex-shrink: 1;
+}
+
 #item-list {
     height: 100%;
+    width: 100vw;
 }
 
 #item-table-container {
@@ -289,4 +299,8 @@
 .search-btn {
     width: 3rem;
     justify-content: center;
+}
+
+.default-option {
+    color: gray;
 }

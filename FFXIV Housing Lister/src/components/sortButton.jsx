@@ -2,13 +2,9 @@ import { useContext, useState } from "react";
 import { ItemListContext } from "../App";
 
 function SortButton() {
-  const [sortOption, setSortOption] = useState("-");
-
   const { itemList, setItemList } = useContext(ItemListContext);
 
   const handleSort = (value) => {
-    setSortOption(value);
-
     switch (value) {
       case "Name":
         sortByName();
@@ -62,10 +58,9 @@ function SortButton() {
 
   return (
     <div className="flex align-center text-nowrap">
-      <label className="pad">Sort By</label>
       <form>
-        <select value={sortOption} onChange={e => handleSort(e.target.value)}>
-          <option>-</option>
+        <select defaultValue="default" onChange={e => handleSort(e.target.value)}>
+          <option value="default" disabled>Sort By</option>
           <option>Name</option>
           <option>Quantity</option>
           <option>Gil</option>

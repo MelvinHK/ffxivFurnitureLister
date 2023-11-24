@@ -30,7 +30,7 @@ function Searchbar() {
 
   const handleAddItem = async (newItem, queriedItem) => {
     if (itemList.find(existingItem => existingItem.id === newItem.id))
-      return;
+      return alert("Item already exists in list.");
 
     newItem.gilShopPrice = getGilShopPrice(queriedItem);
     newItem.materials = await fetchMaterials(queriedItem);

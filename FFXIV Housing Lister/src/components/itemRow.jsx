@@ -33,8 +33,7 @@ function ItemRow({ item }) {
   };
 
   const calculateMarketBoardPrice = () => {
-    if (item.marketBoardPrice === "N/A")
-      return "N/A";
+    if (item.marketBoardPrice === "N/A") return "N/A";
 
     return item.marketBoardPrice.listings
       .slice(0, item.quantity)

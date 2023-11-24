@@ -4,7 +4,7 @@ import { fetchMarketBoardPrices } from "../functions";
 import { dataCentres, homeWorlds } from "../serverNames";
 
 function MarketBoard() {
-  const [location, setLocation] = useState("-");
+  const [location, setLocation] = useState("");
 
   const { itemList, updateAllMarketBoardPrices } = useContext(ItemListContext);
 
@@ -13,24 +13,27 @@ function MarketBoard() {
     if (itemList.length === 0)
       errors.push("- Add at least one item to the list");
 
-    if (location === "-")
+    if (!location)
       errors.push("- Select a data centre or home world");
 
     const errorMessage = errors.join('\n');
-    return errorMessage === '' ? errorMessage : alert(`Error(s):\n${errorMessage}`);
+
+    if (!errorMessage)
+      return true;
+    else {
+      alert(`Error(s):\n${errorMessage}`);
+      return false;
+    }
   };
 
   const handleFetch = async () => {
-    if (handleValidation() != '')
-      return;
+    if (!handleValidation()) return;
 
     const notGilShopItems = itemList.filter(item => !item.gilShopPrice);
-    if (notGilShopItems.length == 0)
-      return;
+    if (notGilShopItems.length == 0) return;
 
     const fetchedListings = await fetchMarketBoardPrices(notGilShopItems.map(item => item.id), location);
-    if (fetchedListings)
-      updateAllMarketBoardPrices(fetchedListings);
+    if (fetchedListings) updateAllMarketBoardPrices(fetchedListings);
   };
 
   return (
@@ -41,9 +44,8 @@ function MarketBoard() {
         Gil-column cells that are blank may have their prices fetched.
       </p>
       <form className="flex-col w-full border-box">
-        <label>Data Centre / Home World </label>
-        <select value={location} onChange={e => setLocation(e.target.value)}>
-          <option>-</option>
+        <select defaultValue="default" onChange={e => setLocation(e.target.value)}>
+          <option value="default" disabled>Data Centre / Home World</option>
           <optgroup label="Data Centres">
             {dataCentres.map(name => <option key={name}>{name}</option>)}
           </optgroup>
@@ -58,4 +60,4 @@ function MarketBoard() {
   );
 }
 
-export default MarketBoard;
+export default MarketBoard;;
