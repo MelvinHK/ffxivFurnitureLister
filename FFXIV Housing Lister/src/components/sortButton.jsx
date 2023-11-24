@@ -62,7 +62,7 @@ function SortButton() {
   return (
     <div className="flex align-center text-nowrap">
       <form>
-        <select className={`${option == "" ? `default-option` : ``}`} defaultValue="default" onChange={e => handleSort(e.target.value)}>
+        <select className={`${!option ? `default-option` : ``}`} defaultValue="default" onChange={e => handleSort(e.target.value)}>
           <option value="default" disabled>Sort By</option>
           <option>Name</option>
           <option>Quantity</option>
