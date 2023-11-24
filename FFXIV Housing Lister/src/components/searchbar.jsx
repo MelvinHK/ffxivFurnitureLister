@@ -40,7 +40,7 @@ function Searchbar() {
     newItem.gilShopPrice = getGilShopPrice(queriedItem);
     newItem.materials = await fetchMaterials(queriedItem);
 
-    setItemList([...itemList, newItem]);
+    setItemList([newItem, ...itemList]);
     setAddItemStatus("");
   };
 
