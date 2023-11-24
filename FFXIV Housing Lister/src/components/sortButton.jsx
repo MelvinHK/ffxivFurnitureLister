@@ -61,7 +61,7 @@ function SortButton() {
   };
 
   return (
-    <div className="flex align-center">
+    <div className="flex align-center text-nowrap">
       <label className="pad">Sort By</label>
       <form>
         <select value={sortOption} onChange={e => handleSort(e.target.value)}>

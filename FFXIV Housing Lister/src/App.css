@@ -35,6 +35,10 @@
     flex-direction: column;
 }
 
+.text-nowrap {
+    white-space: nowrap;
+}
+
 .align-center {
     align-items: center;
 }
@@ -232,4 +236,9 @@
     left: 0;
     width: 100%;
     cursor: pointer;
+}
+
+.search-btn {
+    width: 3rem;
+    justify-content: center;
 }

@@ -1,17 +1,20 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import ItemRow from "./itemRow";
 import { ItemListContext } from '../App';
 import SortButton from "./sortButton";
 import RemoveButton from "./removeButton";
 import AboutButton from "./aboutButton";
+import Filterbar from "./filterbar";
 
 function ItemList() {
   const { itemList } = useContext(ItemListContext);
+  const [filterText, setFilterText] = useState("");
 
   return (
     <div id="item-list" className='flex-1 flex-col gap'>
-      <div className="flex gap">
+      <div id="toolbar" className="flex gap">
         <SortButton />
+        <Filterbar filterText={filterText} setFilterText={setFilterText} />
         <RemoveButton />
         <AboutButton />
       </div>
@@ -24,7 +27,10 @@ function ItemList() {
             <col id="materials-col"></col>
           </colgroup>
           <tbody>
-            {itemList.map(item => <ItemRow key={item.id} item={item} />)}
+            {itemList.map(item => {
+              if (item.name.toLowerCase().indexOf(filterText.toLowerCase()) != -1)
+                return (<ItemRow key={item.id} item={item} />);
+            })}
           </tbody>
           <thead>
             <tr>
