@@ -5,6 +5,7 @@ import SortButton from "./sortButton";
 import RemoveButton from "./removeButton";
 import AboutButton from "./aboutButton";
 import Filterbar from "./filterbar";
+import MobileMenuButton from "./mobileMenuButton";
 
 function ItemList() {
   const { itemList } = useContext(ItemListContext);
@@ -13,6 +14,7 @@ function ItemList() {
   return (
     <div id="item-list" className='flex-1 flex-col gap'>
       <div id="toolbar" className="flex gap">
+        <MobileMenuButton />
         <SortButton />
         <Filterbar filterText={filterText} setFilterText={setFilterText} />
         <RemoveButton />

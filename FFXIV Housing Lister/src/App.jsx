@@ -6,6 +6,7 @@ import MarketBoard from './components/marketBoard';
 import Modal from './components/modal';
 import MakePlace from './components/makePlace';
 import OpenSaveButton from './components/openSaveButton';
+import MobileMenuButton from './components/mobileMenuButton';
 
 export const ItemListContext = createContext();
 
@@ -13,6 +14,7 @@ function App() {
   const [itemList, setItemList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState(<></>);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const updateItemValue = (id, updatedProperties) => {
     setItemList(itemList.map(item => {
@@ -36,10 +38,11 @@ function App() {
   };
 
   const removeCheckedItems = () => {
-    if (document.getElementsByClassName("checked").length == 0)
+    const checkedLength = document.getElementsByClassName("checked").length;
+    if (checkedLength == 0)
       return alert("Error: There are no selected items to remove...");
 
-    if (confirm("Remove selected items?"))
+    if (confirm(`Remove ${checkedLength} selected item${checkedLength > 1 ? `s` : ``}?`))
       setItemList(itemList.filter(item => !item.isChecked));
   };
 
@@ -50,14 +53,19 @@ function App() {
     updateAllMarketBoardPrices,
     removeCheckedItems,
     setShowModal,
-    setModalContent
+    setModalContent,
+    showMobileMenu,
+    setShowMobileMenu
   };
 
   return (
     <div id="container" className='flex gap m-5 border-box'>
       <ItemListContext.Provider value={itemListContextValues}>
-        <div id="utility-column" className='flex-col gap'>
-          <Searchbar />
+        <div id="utility-column" className={`flex-col gap ${showMobileMenu ? `` : `hide-menu`}`}>
+          <div className="flex gap">
+            <MobileMenuButton />
+            <Searchbar />
+          </div>
           <MarketBoard />
           <MakePlace />
           <OpenSaveButton />

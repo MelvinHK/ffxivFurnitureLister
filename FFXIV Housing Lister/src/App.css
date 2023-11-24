@@ -10,6 +10,53 @@
     width: 21.5rem;
     overflow: auto;
     overflow-x: hidden;
+    z-index: 2;
+    background-color: #242424;
+}
+
+#mobile-menu {
+    display: none;
+}
+
+@media (max-width:768px) {
+    #utility-column {
+        position: absolute;
+        height: calc(100% - 2.5rem);
+        transition-duration: 0.3s;
+        padding-right: 1.25rem;
+        padding-top: 1.25rem;
+        padding-bottom: 1.25rem;
+        margin-top: -1.25rem;
+        border-right: 1px solid gray;
+    }
+
+    .hide-menu {
+        margin-left: -500px;
+    }
+
+    #mobile-menu {
+        display: initial;
+    }
+
+    #name-col {
+        width: auto;
+    }
+
+    #quantity-col {
+        width: 10%;
+    }
+
+    #gil-col {
+        width: 10%;
+    }
+
+    #materials-col {
+        width: 30% !important;
+    }
+
+    td:not(last-child) {
+        font-size: 0.85rem;
+    }
 }
 
 #search-results {
@@ -158,6 +205,7 @@
     background: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
+    z-index: 3;
 }
 
 .modal-window {

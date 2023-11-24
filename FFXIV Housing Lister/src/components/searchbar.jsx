@@ -57,7 +57,7 @@ function Searchbar() {
   });
 
   return (
-    <div ref={searchContainer} className='relative'>
+    <div ref={searchContainer} className='relative flex-1'>
       {/* Search Bar */}
       <form className='flex'>
         <input type='text' className="flex-1" value={query} onChange={e => setQuery(e.target.value)} placeholder='Item Name'></input>
