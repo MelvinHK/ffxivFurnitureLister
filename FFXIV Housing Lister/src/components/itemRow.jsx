@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { ItemListContext } from '../App';
 
 function ItemRow({ item }) {
@@ -8,6 +8,8 @@ function ItemRow({ item }) {
   const [showMaterials, setShowMaterials] = useState(false);
 
   const { updateItemValue, handleModal } = useContext(ItemListContext);
+
+  const quantityInput = useRef(null);
 
   // Synchronise item quantity
   useEffect(() => {
@@ -87,10 +89,12 @@ function ItemRow({ item }) {
       </td>
       {/* Quantity */}
       <td className="pad-small">
-        <input className="pad-small" type="number" min="1" max={unitsForSale} value={tempQuantity}
-          onChange={e => setTempQuantity(e.target.value)}
-          onBlur={() => validateAndSetQuantity(tempQuantity)}>
-        </input>
+        <form onSubmit={(e) => { e.preventDefault(); quantityInput.current.blur(); }}>
+          <input ref={quantityInput} className="pad-small" type="number" min="1" max={unitsForSale} value={tempQuantity}
+            onChange={e => setTempQuantity(e.target.value)}
+            onBlur={() => validateAndSetQuantity(tempQuantity)}>
+          </input>
+        </form>
       </td>
       {/* Gil */}
       <td className="pad-small">

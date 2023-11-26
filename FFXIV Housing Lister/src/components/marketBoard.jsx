@@ -64,6 +64,7 @@ function MarketBoard() {
         {fetchStatus ? <div className="status-overlay">{fetchStatus}</div> : <></>}
       </form>
       <p className="text-small">Items purchased from NPC gil merchants <img src="gilShopIcon.webp" className="icon-relative"></img> won't have their prices fetched.</p>
+      <p className="text-small">Periodically re-fetch to have up-to-date prices.</p>
     </div >
   );
 }

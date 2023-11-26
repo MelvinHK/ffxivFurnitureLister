@@ -2,10 +2,6 @@ import { useContext, useState } from "react";
 import { ItemListContext } from "../App";
 
 function SavesList({ option }) {
-  const [saveName, setSaveName] = useState("");
-
-  const { itemList, setItemList, updateItemListKey, setShowModal } = useContext(ItemListContext);
-
   const getSaves = () => {
     const keys = Object.keys(localStorage);
     const items = {};
@@ -16,6 +12,11 @@ function SavesList({ option }) {
 
     return items;
   };
+
+  const [savesList, setSavesList] = useState(getSaves());
+  const [saveName, setSaveName] = useState("");
+
+  const { itemList, setItemList, updateItemListKey, setShowModal } = useContext(ItemListContext);
 
   const saveList = (key = null) => {
     key = key ? key : saveName;
@@ -38,7 +39,12 @@ function SavesList({ option }) {
     setShowModal(false);
   };
 
-  const [savesList, setSavesList] = useState(getSaves());
+  const removeList = (key) => {
+    if (!confirm(`Remove save file, "${key}?"`)) return;
+    localStorage.removeItem(key);
+    setSavesList(getSaves());
+    updateItemListKey(null);
+  };
 
   const handleClickExisting = (key) => {
     if (option == "Save")
@@ -47,13 +53,6 @@ function SavesList({ option }) {
     if (option == "Open") {
       openList(key);
     }
-  };
-
-  const removeList = (key) => {
-    if (!confirm(`Remove save file, "${key}?"`)) return;
-    localStorage.removeItem(key);
-    setSavesList(getSaves());
-    updateItemListKey(null);
   };
 
   return (<>
@@ -76,8 +75,8 @@ function SavesList({ option }) {
         {option == "Save" ? <p>Click on an existing save to overwrite it.</p> : <></>}
         <div className="grid">
           {Object.keys(savesList).map(key =>
-            <div key={key} className="flex align-center relative">
-              <button className="text-left w-full" onClick={() => handleClickExisting(key)}>{key}</button>
+            <div key={key} className="save-file-wrapper flex align-center relative">
+              <button className="text-left w-full save-file-text" onClick={() => handleClickExisting(key)}>{key}</button>
               <button className="icon-btn remove-btn ml-auto absolute right" onClick={() => removeList(key)}>&#x2715;</button>
             </div>
           )}
@@ -98,8 +97,8 @@ function OpenSaveButton() {
         <button className="flex-1" onClick={() => handleModal(<SavesList option={"Open"} />)}>Open</button>
         <button className="flex-1" onClick={() => handleModal(<SavesList option={"Save"} />)} > Save</button>
       </div>
-      <p className="text-small">Please manually re-save any important changes.</p>
-      {itemList.key ? <p className="text-small">Currently open: {itemList.key}</p> : <></>}
+      <p className="text-small">Please re-save any important changes.</p>
+      {itemList.key ? <p className="text-small">Opened: {itemList.key}</p> : <></>}
     </div >
   );
 }

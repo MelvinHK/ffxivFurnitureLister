@@ -148,6 +148,10 @@
     text-align: left;
 }
 
+.text-right {
+    text-align: right;
+}
+
 .pad {
     padding: 0.75rem 0.5rem;
 }
@@ -158,6 +162,10 @@
 
 .pad-0 {
     padding: 0;
+}
+
+.pad-sides {
+    padding: 0 0.5rem;
 }
 
 .checked {
@@ -253,6 +261,12 @@
     padding: 0.75rem 0.5rem;
 }
 
+#total-footer {
+    position: sticky;
+    bottom: 0;
+    background-color: #242424;
+}
+
 .modal-window th {
     padding-top: 1rem;
 }
@@ -329,4 +343,26 @@
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 1rem;
     width: 100%;
+}
+
+.save-file-wrapper {
+    overflow: hidden;
+}
+
+.save-file-text {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 1.75rem;
+}
+
+.column-container {
+    column-count: 2;
+    padding-top: 1rem;
+    margin-bottom: -1rem;
+}
+
+.column-container:first-child p {
+    margin-top: 0;
 }
