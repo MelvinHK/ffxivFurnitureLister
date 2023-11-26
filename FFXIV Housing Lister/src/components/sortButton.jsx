@@ -3,7 +3,7 @@ import { ItemListContext } from "../App";
 
 function SortButton() {
   const [option, setOption] = useState("");
-  const { itemList, setItemList } = useContext(ItemListContext);
+  const { itemList, updateItemListContent } = useContext(ItemListContext);
 
   const handleSort = (value) => {
     setOption(value);
@@ -21,22 +21,22 @@ function SortButton() {
   };
 
   const sortByName = () => {
-    const sortedList = [...itemList].sort((a, b) => {
+    const sortedList = [...itemList.content].sort((a, b) => {
       return (a.name < b.name) ? -1 : (a.name > b.name) ? 1 : 0;
     });
 
-    setItemList(sortedList);
+    updateItemListContent(sortedList);
   };
 
   const sortByQuantity = () => {
-    const sortedList = [...itemList].sort((a, b) => {
+    const sortedList = [...itemList.content].sort((a, b) => {
       return b.quantity - a.quantity;
     });
-    setItemList(sortedList);
+    updateItemListContent(sortedList);
   };
 
   const sortByGil = () => {
-    const sortedList = [...itemList].sort((a, b) => {
+    const sortedList = [...itemList.content].sort((a, b) => {
       const getPrice = (item) => {
         if (item.gilShopPrice) {
           return item.gilShopPrice * item.quantity;
@@ -56,7 +56,7 @@ function SortButton() {
       return getPrice(b) - getPrice(a);
     });
 
-    setItemList(sortedList);
+    updateItemListContent(sortedList);
   };
 
   return (

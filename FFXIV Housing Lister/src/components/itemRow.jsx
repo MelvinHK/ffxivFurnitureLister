@@ -7,7 +7,7 @@ function ItemRow({ item }) {
   const [unitsForSale, setUnitsForSale] = useState(999);
   const [showMaterials, setShowMaterials] = useState(false);
 
-  const { updateItemValue, setShowModal, setModalContent } = useContext(ItemListContext);
+  const { updateItemValue, handleModal } = useContext(ItemListContext);
 
   // Synchronise item quantity
   useEffect(() => {
@@ -108,7 +108,7 @@ function ItemRow({ item }) {
                   calculatedMarketPrice === "N/A" ?
                     <span className="o-5">{calculatedMarketPrice}</span>
                     :
-                    <button className="link-btn pad-0" onClick={() => { setShowModal(true); setModalContent(marketBoardModalContent()); }}>
+                    <button className="link-btn pad-0" onClick={() => handleModal(marketBoardModalContent())}>
                       {calculatedMarketPrice}
                     </button>
                 }

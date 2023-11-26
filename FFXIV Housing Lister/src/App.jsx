@@ -11,19 +11,34 @@ import MobileMenuButton from './components/mobileMenuButton';
 export const ItemListContext = createContext();
 
 function App() {
-  const [itemList, setItemList] = useState([]);
+  const [itemList, setItemList] = useState({ content: [], key: null });
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState(<></>);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
-  const updateItemValue = (id, updatedProperties) => {
-    setItemList(itemList.map(item => {
-      return (item.id === id) ? { ...item, ...updatedProperties } : item;
+  const updateItemListContent = (newContent) => {
+    setItemList(prevState => ({
+      ...prevState,
+      content: newContent
     }));
   };
 
+  const updateItemListKey = (newKey) => {
+    setItemList(prevState => ({
+      ...prevState,
+      key: newKey
+    }));
+  };
+
+  const updateItemValue = (id, updatedProperties) => {
+    updateItemListContent(
+      itemList.content.map(item => {
+        return (item.id === id) ? { ...item, ...updatedProperties } : item;
+      }));
+  };
+
   const updateAllMarketBoardPrices = (listings) => {
-    setItemList(itemList.map(item => {
+    updateItemListContent(itemList.content.map(item => {
       if (!listings[item.id] || listings[item.id].itemID == 0)
         return {
           ...item,
@@ -43,17 +58,24 @@ function App() {
       return alert("Error: There are no selected items to remove.");
 
     if (confirm(`Remove ${checkedLength} selected item${checkedLength > 1 ? `s` : ``}?`))
-      setItemList(itemList.filter(item => !item.isChecked));
+      updateItemListContent(itemList.content.filter(item => !item.isChecked));
+  };
+
+  const handleModal = (content) => {
+    setShowModal(true);
+    setModalContent(content);
   };
 
   const itemListContextValues = {
     itemList,
     setItemList,
+    updateItemListContent,
+    updateItemListKey,
     updateItemValue,
     updateAllMarketBoardPrices,
     removeCheckedItems,
     setShowModal,
-    setModalContent,
+    handleModal,
     showMobileMenu,
     setShowMobileMenu
   };

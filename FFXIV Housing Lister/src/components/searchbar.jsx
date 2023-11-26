@@ -13,7 +13,7 @@ function Searchbar() {
   const searchContainer = useRef(null);
   useOutsideIsClicked(searchContainer, setShowResults);
 
-  const { itemList, setItemList } = useContext(ItemListContext);
+  const { itemList, updateItemListContent } = useContext(ItemListContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +32,7 @@ function Searchbar() {
 
   const handleAddItem = async (newItem, queriedItem) => {
     setAddItemStatus("(adding...)");
-    if (itemList.find(existingItem => existingItem.id === newItem.id)) {
+    if (itemList.content.find(existingItem => existingItem.id === newItem.id)) {
       setAddItemStatus("");
       return alert("Item already exists in list.");
     }
@@ -40,7 +40,7 @@ function Searchbar() {
     newItem.gilShopPrice = getGilShopPrice(queriedItem);
     newItem.materials = await fetchMaterials(queriedItem);
 
-    setItemList([newItem, ...itemList]);
+    updateItemListContent([newItem, ...itemList.content]);
     setAddItemStatus("");
   };
 
@@ -58,7 +58,7 @@ function Searchbar() {
     return (
       <button key={result.ID} onClick={() => handleAddItem(newItem, result)} className='text-left w-full flex'>
         <span>{result.Name}</span>
-        {itemList.find(existingItem => existingItem.id === result.ID) ?
+        {itemList.content.find(existingItem => existingItem.id === result.ID) ?
           <span className='ml-auto text-small'>(added)</span> : <></>
         }
       </button>
@@ -68,22 +68,24 @@ function Searchbar() {
   return (
     <div ref={searchContainer} className='relative flex-1'>
       {/* Search Bar */}
-      <form className='flex'>
+      <form className={`flex ${addItemStatus ? `disabled` : ``}`}>
         <input type='text' className="flex-1" value={query} onChange={e => setQuery(e.target.value)} placeholder='Item Name'></input>
-        <button type='submit' title="Search" onClick={e => handleSubmit(e)} className='flex align-center search-btn'>
+        <button type='submit' title="Search" onClick={e => handleSubmit(e)} className='flex align-center square-btn'>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
           </svg>
         </button>
       </form>
       {/* Search Results */}
-      {showResults ? <></> :
-        <div id="search-results" className='flex-col absolute w-full'>
-          {queryResultsDisplay}
-          {queryStatus ? <div className="pad black">{queryStatus}</div> : <></>}
-          {addItemStatus ? <div className="status-overlay">Adding...</div> : <></>}
-        </div>}
-    </div>
+      {
+        showResults ? <></> :
+          <div id="search-results" className='flex-col absolute w-full'>
+            {queryResultsDisplay}
+            {queryStatus ? <div className="pad black">{queryStatus}</div> : <></>}
+            {addItemStatus ? <div className="status-overlay">Adding...</div> : <></>}
+          </div>
+      }
+    </div >
   );
 }
 

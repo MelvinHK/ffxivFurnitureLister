@@ -29,7 +29,7 @@ function ItemList() {
             <col id="materials-col"></col>
           </colgroup>
           <tbody>
-            {itemList.map(item => {
+            {itemList.content.map(item => {
               if (item.name.toLowerCase().indexOf(filterText.toLowerCase()) != -1)
                 return (<ItemRow key={item.id} item={item} />);
             })}

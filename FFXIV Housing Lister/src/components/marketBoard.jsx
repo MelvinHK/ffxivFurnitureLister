@@ -11,7 +11,7 @@ function MarketBoard() {
 
   const handleValidation = () => {
     const errors = [];
-    if (itemList.length === 0)
+    if (itemList.content.length === 0)
       errors.push("- Add at least one item to the list");
 
     if (!location)
@@ -31,7 +31,7 @@ function MarketBoard() {
     e.preventDefault();
     if (!handleValidation()) return setFetchStatus("");
 
-    const notGilShopItems = itemList.filter(item => !item.gilShopPrice);
+    const notGilShopItems = itemList.content.filter(item => !item.gilShopPrice);
     if (notGilShopItems.length == 0) return setFetchStatus("");
 
     setFetchStatus("Fetching...");
@@ -50,7 +50,7 @@ function MarketBoard() {
         Fetches market board prices via <a href="https://universalis.app/" target="_blank">Universalis</a>.
         Gil-column cells that are blank may have their prices fetched.
       </p>
-      <form className="flex-col relative w-full border-box">
+      <form className={`flex-col relative w-full border-box ${fetchStatus ? `disabled` : ``}`}>
         <select className={`${!location ? `default-option` : ``}`} defaultValue="default" onChange={e => setLocation(e.target.value)}>
           <option value="default" disabled>Data Centre / Home World</option>
           <optgroup label="Data Centres">
@@ -68,4 +68,4 @@ function MarketBoard() {
   );
 }
 
-export default MarketBoard;;
+export default MarketBoard;

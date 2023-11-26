@@ -1,9 +1,10 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ItemListContext } from "../App";
 import { fetchItemsByIDs, fetchMaterialsByIDs, getGilShopPrice } from "../functions";
 
 function MakePlace() {
-  const { setItemList } = useContext(ItemListContext);
+  const [fileStatus, setFileStatus] = useState("");
+  const { updateItemListContent } = useContext(ItemListContext);
 
   const getItemIDs = (file) => {
     const properties = ["exteriorFixture", "exteriorFurniture", "interiorFixture", "interiorFurniture"];
@@ -24,20 +25,20 @@ function MakePlace() {
       return acc;
     }, {});
 
-    const recipeIDs = items
-      .filter(item => item.Recipes)
-      .map(item => item.Recipes[0].ID);
+    const itemMaterials = await fetchMaterialsByIDs(
+      items
+        .filter(item => item.Recipes)
+        .map(item => item.Recipes[0].ID)
+    );
 
-    const multipleMaterials = await fetchMaterialsByIDs(recipeIDs);
-
-    setItemList(items.map(item => {
+    updateItemListContent(items.map(item => {
       return {
         id: item.ID,
         name: item.Name,
         quantity: itemQuantities[item.ID],
         gilShopPrice: getGilShopPrice(item),
         marketBoardPrice: null,
-        materials: multipleMaterials[item.ID] ? multipleMaterials[item.ID] : "N/A",
+        materials: itemMaterials[item.ID] ? itemMaterials[item.ID] : "N/A",
         isChecked: false
       };
     }));
@@ -50,7 +51,11 @@ function MakePlace() {
       try {
         const makePlaceFile = JSON.parse(e.target.result);
         const ids = getItemIDs(makePlaceFile);
+
+        setFileStatus("Loading...");
         await handleAddItems(ids);
+        setFileStatus("");
+
       } catch (error) {
         alert("Error parsing JSON:", error);
       }
@@ -63,8 +68,9 @@ function MakePlace() {
     <div>
       <h4>MakePlace</h4>
       <p className="text-small">Import a .json save file from <a href="https://makeplace.app/" target="_blank">MakePlace</a>.</p>
-      <button className="w-full pad makeplace-btn-wrapper">
-        <input className="makeplace-btn" type="file" accept="application/json" onChange={(e) => handleFile(e)} />Choose File
+      <button className={`w-full pad relative ${fileStatus ? `disabled` : ``}`}>
+        <input className="makeplace-btn" type="file" accept="application/json" onChange={(e) => handleFile(e)} />
+        {fileStatus ? fileStatus : "Choose File"}
       </button>
       <p className="text-small">Find in "MakePlace\Save\".</p>
     </div>

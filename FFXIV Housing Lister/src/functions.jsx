@@ -95,13 +95,13 @@ export const fetchMaterialsByIDs = async (ids) => {
 
     const data = await response.json();
 
-    const materialsObject = {};
+    const materials = {};
 
     data.Results.forEach(recipe => {
-      Object.assign(materialsObject, { [recipe.ItemResultTargetID]: getMaterialsFromRecipe(recipe) });
+      materials[recipe.ItemResultTargetID] = getMaterialsFromRecipe(recipe);
     });
 
-    return materialsObject;
+    return materials;
 
   } catch (error) {
     alert(`Error: Unable to fetch materials; something went wrong with the server request.`);
