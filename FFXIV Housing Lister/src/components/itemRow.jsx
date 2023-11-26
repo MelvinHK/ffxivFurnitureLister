@@ -98,7 +98,7 @@ function ItemRow({ item }) {
           {item.gilShopPrice ?
             <>
               {item.gilShopPrice * item.quantity}
-              <img className="icon" src="../../gilShopIcon.webp"></img>
+              <img className="icon" src="gilShopIcon.webp"></img>
             </> :
             item.marketBoardPrice ?
               <>
@@ -112,7 +112,7 @@ function ItemRow({ item }) {
                       {calculatedMarketPrice}
                     </button>
                 }
-                {calculatedMarketPrice != "N/A" ? <img className="icon" src="../../marketBoardIcon.webp"></img> : <></>}
+                {calculatedMarketPrice != "N/A" ? <img className="icon" src="marketBoardIcon.webp"></img> : <></>}
               </> : <></>
           }
         </div>
