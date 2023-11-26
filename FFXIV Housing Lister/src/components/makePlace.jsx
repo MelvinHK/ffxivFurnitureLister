@@ -72,7 +72,6 @@ function MakePlace() {
         <input className="makeplace-btn" type="file" accept="application/json" onChange={(e) => handleFile(e)} />
         {fileStatus ? fileStatus : "Choose File"}
       </button>
-      <p className="text-small">Find in "MakePlace\Save\".</p>
     </div>
   );
 }

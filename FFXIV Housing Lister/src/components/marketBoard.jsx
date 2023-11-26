@@ -48,7 +48,6 @@ function MarketBoard() {
       <h4>Market Board</h4>
       <p className="text-small">
         Fetches market board prices via <a href="https://universalis.app/" target="_blank">Universalis</a>.
-        Gil-column cells that are blank may have their prices fetched.
       </p>
       <form className={`flex-col relative w-full border-box ${fetchStatus ? `disabled` : ``}`}>
         <select className={`${!location ? `default-option` : ``}`} defaultValue="default" onChange={e => setLocation(e.target.value)}>
@@ -63,7 +62,6 @@ function MarketBoard() {
         <button className="pad w-full" onClick={(e) => handleFetch(e)}>Fetch</button>
         {fetchStatus ? <div className="status-overlay">{fetchStatus}</div> : <></>}
       </form>
-      <p className="text-small">Items purchased from NPC gil merchants <img src="gilShopIcon.webp" className="icon-relative"></img> won't have their prices fetched.</p>
       <p className="text-small">Periodically re-fetch to have up-to-date prices.</p>
     </div >
   );
