@@ -29,7 +29,7 @@ function ItemRow({ item }) {
   }, [item.marketBoardPrice]);
 
   const validateAndSetQuantity = (value) => {
-    value = (value < 1) ? 1 : (value > unitsForSale) ? unitsForSale : Number(value);
+    value = (value < 1) ? 1 : (value > unitsForSale && unitsForSale > 0) ? unitsForSale : Number(value);
     setTempQuantity(value);
     updateItemValue(item.id, { quantity: value });
   };
@@ -90,7 +90,9 @@ function ItemRow({ item }) {
       {/* Quantity */}
       <td className="pad-small">
         <form onSubmit={(e) => { e.preventDefault(); quantityInput.current.blur(); }}>
-          <input ref={quantityInput} className="pad-small" type="number" min="1" max={unitsForSale} value={tempQuantity}
+          <input ref={quantityInput} className="pad-small" type="number" value={tempQuantity}
+            min="1"
+            max={unitsForSale === 0 ? 999 : unitsForSale}
             onChange={e => setTempQuantity(e.target.value)}
             onBlur={() => validateAndSetQuantity(tempQuantity)}>
           </input>

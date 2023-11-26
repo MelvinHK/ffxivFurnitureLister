@@ -47,7 +47,7 @@ function App() {
       return {
         ...item,
         marketBoardPrice: listings[item.id],
-        quantity: (item.quantity > listings[item.id].unitsForSale) ? listings[item.id].unitsForSale : item.quantity
+        quantity: (item.quantity > listings[item.id].unitsForSale && listings[item.id].unitsForSale > 0) ? listings[item.id].unitsForSale : item.quantity
       };
     }));
   };
