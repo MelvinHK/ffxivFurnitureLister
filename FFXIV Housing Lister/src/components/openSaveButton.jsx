@@ -32,7 +32,7 @@ function SavesList({ option }) {
     setShowModal(false);
   };
 
-  const openList = () => {
+  const openList = (key) => {
     setItemList(JSON.parse(savesList[key]));
     updateItemListKey(key);
     setShowModal(false);
@@ -45,7 +45,7 @@ function SavesList({ option }) {
       saveList(key);
 
     if (option == "Open") {
-      openList();
+      openList(key);
     }
   };
 
