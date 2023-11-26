@@ -17,37 +17,32 @@ function SavesList({ option }) {
     return items;
   };
 
-  const handleSave = () => {
+  const handleSave = (key = null) => {
+    key = key ? key : saveName;
+
     if (itemList.content.length == 0)
       return alert("Error: There are no items in your list to save.");
 
-    updateItemListKey(saveName);
-    localStorage.setItem(saveName, JSON.stringify(itemList));
+    if (Object.keys(localStorage).includes(key))
+      confirm(`Overwrite save file, "${key}"?`);
+
+    updateItemListKey(key);
+    localStorage.setItem(key, JSON.stringify(itemList));
     setSavesList(getSaves());
+    setShowModal(false);
   };
 
   const [savesList, setSavesList] = useState(getSaves());
 
   const handleClick = (key) => {
-    if (option == "Save" && confirm(`Overwrite save file, "${key}"?`)) {
-      if (itemList.content.length == 0)
-        return alert("Error: There are no items in your list to save.");
-
-      if (saveName) {
-        localStorage.removeItem(key);
-        localStorage.setItem(saveName, JSON.stringify(itemList));
-        updateItemListKey(saveName);
-      } else {
-        localStorage.setItem(key, JSON.stringify(itemList));
-      }
-      setSavesList(getSaves());
-    }
+    if (option == "Save")
+      handleSave(key);
 
     if (option == "Open") {
       setItemList(JSON.parse(savesList[key]));
       updateItemListKey(key);
+      setShowModal(false);
     }
-    setShowModal(false);
   };
 
   const handleRemove = (key) => {
@@ -62,7 +57,7 @@ function SavesList({ option }) {
     {option == "Save" ?
       <form className="flex m-top">
         <input className="flex-1" placeholder="New Save Name" value={saveName} onChange={e => setSaveName(e.target.value)}></input>
-        <button type="submit" className="flex align-center square-btn" title="Save" onClick={(e) => { e.preventDefault(); handleSave(saveName); }}>
+        <button type="submit" className="flex align-center square-btn" title="Save" onClick={(e) => { e.preventDefault(); handleSave(); }}>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-floppy" viewBox="0 0 16 16">
             <path d="M11 2H9v3h2z" />
             <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
