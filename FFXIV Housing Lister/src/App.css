@@ -14,7 +14,7 @@
     background-color: #242424;
 }
 
-#mobile-menu {
+#mobile-menu-btn {
     display: none;
 }
 
@@ -36,6 +36,8 @@
 
     .hide-menu {
         margin-left: calc(-24rem - 1px);
+        visibility: hidden !important;
+        pointer-events: none;
     }
 
     #filterbar {
@@ -43,7 +45,7 @@
         flex: 1;
     }
 
-    #mobile-menu {
+    #mobile-menu-btn {
         display: initial;
     }
 
