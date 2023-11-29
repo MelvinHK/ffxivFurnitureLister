@@ -19,17 +19,19 @@ function MarketBoard() {
 
     const errorMessage = errors.join('\n');
 
-    if (!errorMessage)
-      return true;
-    else {
-      alert(`Error(s):\n${errorMessage}`);
-      return false;
-    }
+    if (errorMessage)
+      throw errorMessage;
   };
 
   const handleFetch = async (e) => {
     e.preventDefault();
-    if (!handleValidation()) return setFetchStatus("");
+
+    try {
+      handleValidation();
+    } catch (error) {
+      alert(`Error(s):\n${error}`);
+      return setFetchStatus("");
+    }
 
     const notGilShopItems = itemList.content.filter(item => !item.gilShopPrice);
     if (notGilShopItems.length == 0) return setFetchStatus("");

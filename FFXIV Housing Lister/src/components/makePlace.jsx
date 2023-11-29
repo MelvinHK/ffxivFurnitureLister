@@ -9,39 +9,48 @@ function MakePlace() {
   const getItemIDs = (file) => {
     const properties = ["exteriorFixture", "exteriorFurniture", "interiorFixture", "interiorFurniture"];
 
-    const ids = properties
-      .flatMap(property => file[property]
-        .filter(item => item.itemId !== 0)
-        .map(item => item.itemId));
+    try {
+      const ids = properties
+        .flatMap(property => file[property]
+          .filter(item => item.itemId !== 0)
+          .map(item => item.itemId));
 
-    return ids;
+      return ids;
+
+    } catch (error) {
+      throw error;
+    }
   };
 
   const handleAddItems = async (ids) => {
-    const items = await fetchItemsByIDs([...new Set(ids)]);
+    try {
+      const items = await fetchItemsByIDs([...new Set(ids)]);
 
-    const itemQuantities = ids.reduce((acc, value) => {
-      acc[value] = (acc[value] || 0) + 1;
-      return acc;
-    }, {});
+      const itemQuantities = ids.reduce((acc, value) => {
+        acc[value] = (acc[value] || 0) + 1;
+        return acc;
+      }, {});
 
-    const itemMaterials = await fetchMaterialsByIDs(
-      items
-        .filter(item => item.Recipes)
-        .map(item => item.Recipes[0].ID)
-    );
+      const itemMaterials = await fetchMaterialsByIDs(
+        items
+          .filter(item => item.Recipes)
+          .map(item => item.Recipes[0].ID)
+      );
 
-    updateItemListContent(items.map(item => {
-      return {
-        id: item.ID,
-        name: item.Name,
-        quantity: itemQuantities[item.ID],
-        gilShopPrice: getGilShopPrice(item),
-        marketBoardPrice: null,
-        materials: itemMaterials[item.ID] ? itemMaterials[item.ID] : "N/A",
-        isChecked: false
-      };
-    }));
+      updateItemListContent(items.map(item => {
+        return {
+          id: item.ID,
+          name: item.Name,
+          quantity: itemQuantities[item.ID],
+          gilShopPrice: getGilShopPrice(item),
+          marketBoardPrice: null,
+          materials: itemMaterials[item.ID] ? itemMaterials[item.ID] : "N/A",
+          isChecked: false
+        };
+      }));
+    } catch (error) {
+      throw error;
+    }
   };
 
   const handleFile = (e) => {
