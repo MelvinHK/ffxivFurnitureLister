@@ -111,13 +111,17 @@ export const fetchMaterialsByIDs = async (ids) => {
 
 export const fetchMarketBoardPrices = async (ids, location) => {
   try {
-    const response = await fetch(`https://universalis.app/api/v2/${location}/${String(ids)}`);
+    const response = await fetch(`https://universalis.app/api/v2/${location}${String(ids)}`);
     if (!response.ok) throw new Error(response.status);
 
     const listings = await response.json();
     return ids.length > 1 ? listings.items : { [String(ids)]: listings };
 
   } catch (error) {
-    alert(`Error: Unable to fetch market board prices; something went wrong with the server request.`);
+    if (error.message == "500") {
+      alert(`Error 500: Something went wrong on Universalis's end. Try again in a few seconds.`);
+    } else {
+      alert(`Error: Unable to fetch market board prices; something went wrong with the server request.`);
+    }
   }
 };
