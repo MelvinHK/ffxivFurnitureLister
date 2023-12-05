@@ -19,7 +19,7 @@ function SavesList({ option }) {
   const { itemList, setItemList, updateItemListKey, setShowModal } = useContext(ItemListContext);
 
   const saveList = (key = null) => {
-    key = key ? key : saveName;
+    key = key || saveName;
 
     if (itemList.content.length == 0)
       return alert("Error: There are no items in your list to save.");

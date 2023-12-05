@@ -44,7 +44,7 @@ function MakePlace() {
           quantity: itemQuantities[item.ID],
           gilShopPrice: getGilShopPrice(item),
           marketBoardPrice: null,
-          materials: itemMaterials[item.ID] ? itemMaterials[item.ID] : "N/A",
+          materials: itemMaterials[item.ID] || "N/A",
           isChecked: false
         };
       }));
