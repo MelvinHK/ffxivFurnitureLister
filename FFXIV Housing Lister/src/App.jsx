@@ -98,10 +98,9 @@ function App() {
           <MarketBoard />
           <MakePlace />
           <OpenSaveButton />
-          <button onClick={() => console.log(JSON.stringify(itemList.content))}></button>
         </div>
         <ItemList />
-        {showModal ? <Modal>{modalContent}</Modal> : <></>}
+        {showModal && <Modal>{modalContent}</Modal>}
       </ItemListContext.Provider>
     </div>
   );
