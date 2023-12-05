@@ -111,7 +111,7 @@ export const fetchMaterialsByIDs = async (ids) => {
 
 export const fetchMarketBoardPrices = async (ids, location) => {
   try {
-    const response = await fetch(`https://universalis.app/api/v2/${location}${String(ids)}`);
+    const response = await fetch(`https://universalis.app/api/v2/${location}/${String(ids)}`);
     if (!response.ok) throw new Error(response.status);
 
     const listings = await response.json();
