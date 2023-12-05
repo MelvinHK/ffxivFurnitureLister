@@ -1,11 +1,14 @@
 import { useEffect } from "react";
 
-export const useOutsideIsClicked = (ref, isOutside) => {
+export const useClickAway = (ref, isOutside) => {
   useEffect(() => {
-    const handleClickOutside = (event) => isOutside(ref.current && !ref.current.contains(event.target));
+    const handleClickOutside = (event) =>
+      isOutside(ref.current && !ref.current.contains(event.target));
+
     document.addEventListener("mouseup", handleClickOutside);
+
     return () => document.removeEventListener("mouseup", handleClickOutside);
-  }, [ref]);
+  }, [ref, isOutside]);
 };
 
 export const fetchItemsByName = async (name) => {

@@ -1,4 +1,4 @@
-import { useState, createContext, useEffect } from 'react';
+import { useState, createContext, useRef } from 'react';
 import './App.css';
 import Searchbar from './components/searchbar';
 import ItemList from './components/itemlist';
@@ -7,6 +7,7 @@ import Modal from './components/modal';
 import MakePlace from './components/makePlace';
 import OpenSaveButton from './components/openSaveButton';
 import MobileMenuButton from './components/mobileMenuButton';
+import { useClickAway } from './functions';
 
 export const ItemListContext = createContext();
 
@@ -14,7 +15,13 @@ function App() {
   const [itemList, setItemList] = useState({ content: [], key: null });
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState(<></>);
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [hideMobileMenu, setHideMobileMenu] = useState(true);
+
+  const mobileMenuContainer = useRef(null);
+  useClickAway(mobileMenuContainer, (isClickedAway) => {
+    if (!showModal)
+      setHideMobileMenu(isClickedAway);
+  });
 
   const updateItemListContent = (newContent) => {
     setItemList(prevState => ({
@@ -76,14 +83,14 @@ function App() {
     removeCheckedItems,
     setShowModal,
     handleModal,
-    showMobileMenu,
-    setShowMobileMenu
+    showMobileMenu: hideMobileMenu,
+    setShowMobileMenu: setHideMobileMenu
   };
 
   return (
     <div id="container" className='flex gap m-5 border-box'>
       <ItemListContext.Provider value={itemListContextValues}>
-        <div id="utility-column" className={`flex-col gap ${showMobileMenu ? `` : `hide-menu`}`}>
+        <div ref={mobileMenuContainer} id="utility-column" className={`flex-col gap ${hideMobileMenu ? `hide-menu` : ``}`}>
           <div className="flex gap">
             <MobileMenuButton />
             <Searchbar />
@@ -91,6 +98,7 @@ function App() {
           <MarketBoard />
           <MakePlace />
           <OpenSaveButton />
+          <button onClick={() => console.log(JSON.stringify(itemList.content))}></button>
         </div>
         <ItemList />
         {showModal ? <Modal>{modalContent}</Modal> : <></>}

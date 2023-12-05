@@ -79,7 +79,7 @@ function MakePlace() {
       <p className="text-small">Import a .json save file from <a href="https://makeplace.app/" target="_blank">MakePlace</a>.</p>
       <button className={`w-full pad relative ${fileStatus ? `disabled` : ``}`}>
         <input className="makeplace-btn" type="file" accept="application/json" onChange={(e) => handleFile(e)} />
-        {fileStatus ? fileStatus : "Choose File"}
+        {fileStatus || "Choose File"}
       </button>
     </div>
   );

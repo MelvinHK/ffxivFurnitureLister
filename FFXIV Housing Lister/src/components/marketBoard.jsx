@@ -62,7 +62,7 @@ function MarketBoard() {
           </optgroup>
         </select>
         <button className="pad w-full" onClick={(e) => handleFetch(e)}>Fetch</button>
-        {fetchStatus ? <div className="status-overlay">{fetchStatus}</div> : <></>}
+        {fetchStatus && <div className="status-overlay">{fetchStatus}</div>}
       </form>
       <p className="text-small">Periodically re-fetch to have up-to-date prices.</p>
     </div >

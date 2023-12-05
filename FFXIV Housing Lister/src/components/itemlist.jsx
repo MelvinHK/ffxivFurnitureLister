@@ -146,7 +146,7 @@ function ItemList() {
                 <th>Materials</th>
               </tr>
             </thead>
-            {itemList.content.length != 0 ?
+            {itemList.content.length != 0 &&
               <tfoot id="total-footer">
                 <tr>
                   <th className="pad-small">Total:</th>
@@ -165,8 +165,10 @@ function ItemList() {
                     </button>
                   </td>
                 </tr>
-              </tfoot> : <></>}
-          </table>}
+              </tfoot>
+            }
+          </table>
+        }
       </div>
     </div>
   );

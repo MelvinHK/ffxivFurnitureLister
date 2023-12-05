@@ -1,5 +1,5 @@
 import { useState, useRef, useContext } from 'react';
-import { useOutsideIsClicked, fetchItemsByName, getGilShopPrice, fetchMaterials } from '../functions';
+import { useClickAway, fetchItemsByName, getGilShopPrice, fetchMaterials } from '../functions';
 import { ItemListContext } from '../App';
 
 function Searchbar() {
@@ -11,7 +11,7 @@ function Searchbar() {
   const [addItemStatus, setAddItemStatus] = useState("");
 
   const searchContainer = useRef(null);
-  useOutsideIsClicked(searchContainer, setShowResults);
+  useClickAway(searchContainer, setShowResults);
 
   const { itemList, updateItemListContent } = useContext(ItemListContext);
 
@@ -58,8 +58,8 @@ function Searchbar() {
     return (
       <button key={result.ID} onClick={() => handleAddItem(newItem, result)} className='text-left w-full flex'>
         <span>{result.Name}</span>
-        {itemList.content.find(existingItem => existingItem.id === result.ID) ?
-          <span className='ml-auto text-small'>(added)</span> : <></>
+        {itemList.content.find(existingItem => existingItem.id === result.ID) &&
+          <span className='ml-auto text-small'>(added)</span>
         }
       </button>
     );
@@ -77,13 +77,12 @@ function Searchbar() {
         </button>
       </form>
       {/* Search Results */}
-      {
-        showResults ? <></> :
-          <div id="search-results" className='flex-col absolute w-full'>
-            {queryResultsDisplay}
-            {queryStatus ? <div className="pad black">{queryStatus}</div> : <></>}
-            {addItemStatus ? <div className="status-overlay">Adding...</div> : <></>}
-          </div>
+      {!showResults &&
+        <div id="search-results" className='flex-col absolute w-full'>
+          {queryResultsDisplay}
+          {queryStatus && <div className="pad black">{queryStatus}</div>}
+          {addItemStatus && <div className="status-overlay">Adding...</div>}
+        </div>
       }
     </div >
   );
