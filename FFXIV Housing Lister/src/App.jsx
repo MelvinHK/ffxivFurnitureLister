@@ -86,6 +86,8 @@ function App() {
     setShowMobileMenu: setHideMobileMenu
   };
 
+  
+
   return (
     <div id="container" className='flex gap m-5 border-box'>
       <ItemListContext.Provider value={itemListContextValues}>

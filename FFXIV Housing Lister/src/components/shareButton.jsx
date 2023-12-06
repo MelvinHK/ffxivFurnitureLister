@@ -10,18 +10,14 @@ function ShareButton() {
     if (itemList.content.length == 0) throw "Error: List is empty; nothing to share.";
 
     const items = {};
-    var isCheckedBinary = "";
-
-    itemList.content.map(item => {
-      items[item.id] = item.quantity;
-      isCheckedBinary += item.isChecked ? "1" : "0";
-    });
+    itemList.content.map(item =>
+      items[item.id] = Number(item.quantity + `${item.isChecked ? "1" : "0"}`)
+    );
 
     const encodedItems = deflateSync(JSON.stringify(items)).toString('base64');
-    const encodedIsChecked = encodeBinary(isCheckedBinary);
     const baseURL = window.location;
 
-    const link = `${baseURL}/${encodedItems}&${encodedIsChecked}`;
+    const link = `${baseURL}/${encodedItems}`;
 
     if (link.length > 2048) throw "Error: List is too large to turn into a shareable link, sorry...";
 
