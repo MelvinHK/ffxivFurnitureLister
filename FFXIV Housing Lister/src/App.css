@@ -149,6 +149,14 @@
     margin-top: 1rem;
 }
 
+.mt-0 {
+    margin-top: 0;
+}
+
+.mb-0 {
+    margin-bottom: 0;
+}
+
 .text-left {
     text-align: left;
 }
@@ -373,4 +381,18 @@
 
 .column-container p:last-child {
     margin-bottom: 0;
+}
+
+.sharelink-container {
+    max-width: 100%;
+    overflow: auto;
+}
+
+.market-overflow {
+    color: rgb(255, 75, 75);
+    text-decoration: line-through;
+}
+
+.market-overflow:hover {
+    text-decoration: line-through underline;
 }

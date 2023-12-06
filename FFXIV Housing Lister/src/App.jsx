@@ -1,4 +1,5 @@
 import { useState, createContext, useRef } from 'react';
+import { deflateSync } from 'react-zlib-js';
 import './App.css';
 import Searchbar from './components/searchbar';
 import ItemList from './components/itemlist';
@@ -54,7 +55,6 @@ function App() {
       return {
         ...item,
         marketBoardPrice: listings[item.id],
-        quantity: (item.quantity > listings[item.id].unitsForSale && listings[item.id].unitsForSale > 0) ? listings[item.id].unitsForSale : item.quantity
       };
     }));
   };

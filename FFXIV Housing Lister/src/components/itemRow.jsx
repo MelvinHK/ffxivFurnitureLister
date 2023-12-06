@@ -29,7 +29,7 @@ function ItemRow({ item }) {
   }, [item.marketBoardPrice]);
 
   const validateAndSetQuantity = (value) => {
-    value = (value < 1) ? 1 : (value > unitsForSale && unitsForSale > 0) ? unitsForSale : Number(value);
+    value = Math.min(999, Math.max(1, Number(value)));
     setTempQuantity(value);
     updateItemValue(item.id, { quantity: value });
   };
@@ -37,8 +37,10 @@ function ItemRow({ item }) {
   const calculateMarketBoardPrice = () => {
     if (item.marketBoardPrice === "N/A") return "N/A";
 
+    var listingsToCount = item.quantity > unitsForSale ? unitsForSale : item.quantity;
+
     return item.marketBoardPrice.listings
-      .slice(0, item.quantity)
+      .slice(0, listingsToCount)
       .reduce((total, listing) => total + listing.pricePerUnit, 0);
   };
 
@@ -49,30 +51,33 @@ function ItemRow({ item }) {
   const marketBoardModalContent = () => {
     const slicedListings = item.marketBoardPrice.listings.slice(0, item.quantity);
     return (
-      <table className='w-full'>
-        <thead>
-          <tr>
-            <th>Gil</th>
-            <th>World</th>
-            <th>Retainer</th>
-          </tr>
-        </thead>
-        <tbody>
-          {slicedListings.map((unit) =>
-            <tr key={unit.listingID}>
-              <td>
-                {unit.pricePerUnit}
-              </td>
-              <td>
-                {unit.worldName}
-              </td>
-              <td>
-                {unit.retainerName}
-              </td>
+      <>
+        <p className="mb-0">Displaying {slicedListings.length} / {unitsForSale} in stock:</p>
+        <table className='w-full'>
+          <thead>
+            <tr>
+              <th>Gil</th>
+              <th>World</th>
+              <th>Retainer</th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {slicedListings.map((unit) =>
+              <tr key={unit.listingID}>
+                <td>
+                  {unit.pricePerUnit}
+                </td>
+                <td>
+                  {unit.worldName}
+                </td>
+                <td>
+                  {unit.retainerName}
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </>
     );
   };
 
@@ -92,7 +97,7 @@ function ItemRow({ item }) {
         <form onSubmit={(e) => { e.preventDefault(); quantityInput.current.blur(); }}>
           <input ref={quantityInput} className="pad-small" type="number" value={tempQuantity}
             min="1"
-            max={unitsForSale === 0 ? 999 : unitsForSale}
+            max="999"
             onChange={e => setTempQuantity(e.target.value)}
             onBlur={() => validateAndSetQuantity(tempQuantity)}>
           </input>
@@ -100,26 +105,26 @@ function ItemRow({ item }) {
       </td>
       {/* Gil */}
       <td className="pad-small">
-        <div className="flex align-center">
+        <div className={`flex align-center`}>
           {item.gilShopPrice ?
             <>
               {item.gilShopPrice * item.quantity}
               <img className="icon" src="gilShopIcon.webp"></img>
             </> :
-            item.marketBoardPrice ?
-              <>
-                {unitsForSale === 0 ?
-                  <span className="text-small">Out of stock</span>
+            item.marketBoardPrice &&
+            <>
+              {unitsForSale === 0 ?
+                <span className="text-small">Out of stock</span>
+                :
+                calculatedMarketPrice === "N/A" ?
+                  <span className="o-5">{calculatedMarketPrice}</span>
                   :
-                  calculatedMarketPrice === "N/A" ?
-                    <span className="o-5">{calculatedMarketPrice}</span>
-                    :
-                    <button className="link-btn pad-0" onClick={() => handleModal(marketBoardModalContent())}>
-                      {calculatedMarketPrice}
-                    </button>
-                }
-                {calculatedMarketPrice != "N/A" ? <img className="icon" src="marketBoardIcon.webp"></img> : <></>}
-              </> : <></>
+                  <button className={`link-btn pad-0 ${item.quantity > unitsForSale ? `market-overflow` : ``}`} onClick={() => handleModal(marketBoardModalContent())}>
+                    {calculatedMarketPrice}
+                  </button>
+              }
+              {calculatedMarketPrice != "N/A" ? <img className="icon" src="marketBoardIcon.webp"></img> : <></>}
+            </>
           }
         </div>
       </td>
@@ -137,11 +142,11 @@ function ItemRow({ item }) {
                       <p className="text-small">
                         {item.quantity * material.amount} {material.name}
                       </p>
-                      {material.subMaterials ? material.subMaterials.map((subMaterial) =>
+                      {material.subMaterials && material.subMaterials.map((subMaterial) =>
                         <p key={item.id + material.name + subMaterial.name} className="text-small submaterial">
                           {item.quantity * subMaterial.amount} {subMaterial.name}
-                        </p>) : <></>
-                      }
+                        </p>
+                      )}
                     </div>
                   );
                 })}

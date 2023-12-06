@@ -6,6 +6,7 @@ import RemoveButton from "./removeButton";
 import AboutButton from "./aboutButton";
 import Filterbar from "./filterbar";
 import MobileMenuButton from "./mobileMenuButton";
+import ShareButton from "./shareButton";
 
 function ItemList() {
   const { itemList, handleModal } = useContext(ItemListContext);
@@ -61,9 +62,21 @@ function ItemList() {
   const gilInfoModalContent = () => {
     return (<>
       <h4>Gil Column Info</h4>
-      <p className="flex align-center">&#119909;<img className="icon" src="gilShopIcon.webp"></img>&nbsp;= purchased from NPC gil exchange.</p>
+
+      <p className="flex align-center">
+        &#119909;<img className="icon" src="gilShopIcon.webp"></img>&nbsp;= purchased from NPC gil exchange.
+      </p>
+
       <p className="flex align-center">Empty = not sold by NPC gil exchange; gil price may be fetched from the market board.</p>
-      <p className="flex align-center">&#119909;<img className="icon" src="marketBoardIcon.webp"></img>&nbsp;= purchased from the market board.</p>
+
+      <p className="flex align-center mb-0">
+        &#119909;<img className="icon" src="marketBoardIcon.webp"></img>&nbsp;= purchased from the market board.
+      </p>
+      <ul className="mt-0">
+        <li>Click to view individual stock details.</li>
+        <li>Red/Crossed out = quantity exceeds available stock.</li>
+      </ul>
+
       <p className="flex align-center">N/A = no available gil source.</p>
     </>);
   };
@@ -96,6 +109,7 @@ function ItemList() {
         <SortButton />
         <Filterbar filterText={filterText} setFilterText={setFilterText} />
         <RemoveButton />
+        <ShareButton />
         <AboutButton />
       </div>
       <div id="item-table-container" className="h-full">
@@ -122,15 +136,7 @@ function ItemList() {
               <tr>
                 <th>Item Name</th>
                 <th>
-                  <span className="flex align-center">
-                    Quantity&nbsp;
-                    <button className="flex align-center icon-btn pad-0" onClick={() => handleModal(quantityInfoModalContent())}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-info-circle" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
-                      </svg>
-                    </button>
-                  </span>
+                  Quantity
                 </th>
                 <th>
                   <span className="flex align-center">
