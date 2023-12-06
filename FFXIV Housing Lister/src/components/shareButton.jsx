@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { ItemListContext } from "../App";
-import { encodeBinary } from "../functions";
 import { deflateSync } from "react-zlib-js";
 
 function ShareButton() {
