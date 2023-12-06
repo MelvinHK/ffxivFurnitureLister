@@ -1,5 +1,4 @@
 import { useState, createContext, useRef } from 'react';
-import { deflateSync } from 'react-zlib-js';
 import './App.css';
 import Searchbar from './components/searchbar';
 import ItemList from './components/itemlist';

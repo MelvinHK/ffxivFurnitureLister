@@ -1,5 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { ItemListContext } from "../App";
+import { encodeBinary } from "../functions";
+import { deflateSync } from "react-zlib-js";
 
 function ShareButton() {
   const { itemList, handleModal } = useContext(ItemListContext);
@@ -8,11 +10,18 @@ function ShareButton() {
     if (itemList.content.length == 0) throw "Error: List is empty; nothing to share.";
 
     const items = {};
-    itemList.content.map(item => items[item.id] = item.quantity);
+    var isCheckedBinary = "";
 
-    const encodedList = btoa((JSON.stringify(items)));
+    itemList.content.map(item => {
+      items[item.id] = item.quantity;
+      isCheckedBinary += item.isChecked ? "1" : "0";
+    });
+
+    const encodedItems = deflateSync(JSON.stringify(items)).toString('base64');
+    const encodedIsChecked = encodeBinary(isCheckedBinary);
     const baseURL = window.location;
-    const link = `${baseURL}/${encodedList}`;
+
+    const link = `${baseURL}/${encodedItems}&${encodedIsChecked}`;
 
     if (link.length > 2048) throw "Error: List is too large to turn into a shareable link, sorry...";
 

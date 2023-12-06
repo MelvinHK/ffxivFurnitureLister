@@ -128,3 +128,22 @@ export const fetchMarketBoardPrices = async (ids, location) => {
     }
   }
 };
+
+const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_';
+
+export const encodeBinary = (binString) => {
+  const chunks = Array.from({ length: Math.ceil(binString.length / 6) }, (_, i) => binString.slice(i * 6, (i + 1) * 6));
+  const lastChunkLength = chunks[chunks.length - 1].length;
+  const decimals = chunks.map(chunk => parseInt(chunk, 2));
+  decimals.push(lastChunkLength);
+  const asciiString = decimals.map(decimal => charset[decimal]).join('');
+  return asciiString;
+};
+
+export const decodeBinary = (asciiString) => {
+  const decimals = Array.from(asciiString, char => charset.indexOf(char));
+  const lastChunkLength = decimals.pop();
+  const lastDecimal = decimals.pop();
+  const binString = decimals.map(decimal => (decimal >>> 0).toString(2).padStart(6, '0')).join('');
+  return binString + (lastDecimal >>> 0).toString(2).padStart(lastChunkLength, '0');
+};
