@@ -145,6 +145,14 @@
     margin-left: auto;
 }
 
+.ml-btn {
+    margin-left: -0.5rem;
+}
+
+.mr-btn {
+    margin-right: -0.5rem;
+}
+
 .m-top {
     margin-top: 1rem;
 }
@@ -213,11 +221,6 @@
 
 .remove-btn:hover {
     color: rgb(255, 75, 75);
-}
-
-.about-btn {
-    margin-left: auto;
-    margin-right: -0.5rem;
 }
 
 .link-btn {
@@ -384,7 +387,13 @@
 }
 
 .sharelink-container {
+    display: flex;
+    align-items: flex-start;
+}
+
+.sharelink {
     max-width: 100%;
+    white-space: nowrap;
     overflow: auto;
 }
 
