@@ -101,7 +101,7 @@ function App() {
         return;
       }
       finally {
-        window.history.replaceState(null, "", "ffxivFurnitureLister");
+        window.history.replaceState(null, "", "");
       }
 
       const ids = Object.keys(decodedItems);
