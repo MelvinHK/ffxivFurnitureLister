@@ -1,4 +1,6 @@
-import { useState, createContext, useRef } from 'react';
+import { useState, createContext, useRef, useEffect } from 'react';
+import { fetchItemsByIDs, fetchMaterialsByIDs, getGilShopPrice, useClickAway } from './functions';
+import { decode } from 'base2048';
 import './App.css';
 import Searchbar from './components/searchbar';
 import ItemList from './components/itemlist';
@@ -7,7 +9,7 @@ import Modal from './components/modal';
 import MakePlace from './components/makePlace';
 import OpenSaveButton from './components/openSaveButton';
 import MobileMenuButton from './components/mobileMenuButton';
-import { useClickAway } from './functions';
+
 
 export const ItemListContext = createContext();
 
@@ -86,7 +88,45 @@ function App() {
     setShowMobileMenu: setHideMobileMenu
   };
 
-  
+  useEffect(() => {
+    const handleShareParam = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const shareParam = urlParams.get("share");
+
+      if (!shareParam) return;
+
+      try {
+        var decodedItems = JSON.parse(pako.inflate(decode(shareParam), { to: 'string' }));
+      } catch (error) {
+        return;
+      }
+      finally {
+        window.history.replaceState(null, "Furniture Lister", "https://melvinhk.github.io/ffxivFurnitureLister/");
+      }
+
+      const ids = Object.keys(decodedItems);
+
+      const items = await fetchItemsByIDs(ids);
+      const itemMaterials = await fetchMaterialsByIDs(
+        items
+          .filter(item => item.Recipes)
+          .map(item => item.Recipes[0].ID)
+      );
+
+      updateItemListContent(items.map(item => {
+        return {
+          id: item.ID,
+          name: item.Name,
+          quantity: decodedItems[item.ID] / 10 ^ 0,
+          gilShopPrice: getGilShopPrice(item),
+          marketBoardPrice: null,
+          materials: itemMaterials[item.ID] || "N/A",
+          isChecked: decodedItems[item.ID] % 10 == 1 ? true : false
+        };
+      }));
+    };
+    handleShareParam();
+  }, []);
 
   return (
     <div id="container" className='flex gap m-5 border-box'>

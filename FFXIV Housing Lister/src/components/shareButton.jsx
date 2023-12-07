@@ -14,9 +14,9 @@ function ShareButton() {
     );
 
     const encodedItems = encode(pako.deflate(JSON.stringify(items)));
-    const baseURL = window.location;
+    const baseURL = "https://melvinhk.github.io/ffxivFurnitureLister/";
 
-    const link = `${baseURL}/${encodedItems}`;
+    const link = `${baseURL}?share=${encodedItems}`;
 
     if (link.length > 2048) throw "Error: List is too large to turn into a shareable link, sorry...";
 
