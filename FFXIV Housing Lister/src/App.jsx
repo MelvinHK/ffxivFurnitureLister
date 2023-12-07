@@ -100,9 +100,6 @@ function App() {
       } catch (error) {
         return;
       }
-      finally {
-        window.history.replaceState(null, "", "");
-      }
 
       const ids = Object.keys(decodedItems);
 
