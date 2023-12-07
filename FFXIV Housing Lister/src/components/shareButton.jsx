@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { ItemListContext } from "../App";
-import { deflateSync } from "react-zlib-js";
+import { encode } from 'base2048';
 
 function ShareButton() {
   const { itemList, handleModal } = useContext(ItemListContext);
@@ -13,7 +13,7 @@ function ShareButton() {
       items[item.id] = Number(item.quantity + `${item.isChecked ? "1" : "0"}`)
     );
 
-    const encodedItems = deflateSync(JSON.stringify(items)).toString('base64');
+    const encodedItems = encode(pako.deflate(JSON.stringify(items)));
     const baseURL = window.location;
 
     const link = `${baseURL}/${encodedItems}`;
