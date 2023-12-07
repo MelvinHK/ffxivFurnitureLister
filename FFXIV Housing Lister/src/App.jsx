@@ -101,7 +101,7 @@ function App() {
         return;
       }
       finally {
-        window.history.replaceState(null, "Furniture Lister", "https://melvinhk.github.io/ffxivFurnitureLister/");
+        window.history.replaceState(null, "", "ffxivFurnitureLister");
       }
 
       const ids = Object.keys(decodedItems);
