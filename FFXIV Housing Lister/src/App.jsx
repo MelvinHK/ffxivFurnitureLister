@@ -18,6 +18,7 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState(<></>);
   const [hideMobileMenu, setHideMobileMenu] = useState(true);
+  const [loadingStatus, setLoadingStatus] = useState(false);
 
   const mobileMenuContainer = useRef(null);
   useClickAway(mobileMenuContainer, (isClickedAway) => {
@@ -101,6 +102,8 @@ function App() {
         return;
       }
 
+      setLoadingStatus(true);
+
       const ids = Object.keys(decodedItems);
 
       const items = await fetchItemsByIDs(ids);
@@ -121,12 +124,14 @@ function App() {
           isChecked: decodedItems[item.ID] % 10 == 1 ? true : false
         };
       }));
+      setLoadingStatus(false);
     };
     handleShareParam();
   }, []);
 
   return (
     <div id="container" className='flex gap m-5 border-box'>
+
       <ItemListContext.Provider value={itemListContextValues}>
         <div ref={mobileMenuContainer} id="utility-column" className={`flex-col gap ${hideMobileMenu ? `hide-menu` : ``}`}>
           <div className="flex gap">
@@ -140,6 +145,11 @@ function App() {
         <ItemList />
         {showModal && <Modal>{modalContent}</Modal>}
       </ItemListContext.Provider>
+      {loadingStatus &&
+        <div id="load-shareable-link">
+          Loading...
+        </div>
+      }
     </div>
   );
 }

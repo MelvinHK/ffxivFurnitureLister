@@ -405,3 +405,17 @@
 .market-overflow:hover {
     text-decoration: line-through underline;
 }
+
+#load-shareable-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #1a1a1ad9;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+}

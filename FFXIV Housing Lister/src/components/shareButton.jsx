@@ -14,7 +14,7 @@ function ShareButton() {
     );
 
     const encodedItems = encode(pako.deflate(JSON.stringify(items)));
-    const baseURL = "https://melvinhk.github.io/ffxivFurnitureLister/";
+    const baseURL = "https://melvinhk.github.io/ffxivFurnitureLister/"; // Change if using dev server
 
     const link = `${baseURL}?share=${encodedItems}`;
 
