@@ -17,7 +17,7 @@ function Searchbar() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!key || query.match(/^\s*$/)) return;
+    if (!query || query.match(/^\s*$/)) return;
 
     setQueryResults([]);
     setShowResults(false);

@@ -114,15 +114,14 @@ function ItemList() {
               <tfoot id="total-footer">
                 <tr>
                   <th className="pad-small">Total:</th>
+
+                  <td className="pad-small">{totalQuantity}</td>
+
                   <td className="pad-small">
-                    <button className="link-btn pad-0">
-                      {totalQuantity}
-                    </button></td>
-                  <td className="pad-small">
-                    <span className="flex align-center">
-                      {totalGil}<img className="icon" src="gilIcon.webp"></img>
-                    </span>
+                    <button className="link-btn pad-0">{totalGil}</button>
+                    <img className="icon" src="gilIcon.webp"></img>
                   </td>
+
                   <td className="pad-small">
                     <button className="link-btn pad-sides" title="Total materials" onClick={() => handleModal(<TotalMaterialsModal totalMaterials={totalMaterials} />)}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-card-list" viewBox="0 0 16 16">
