@@ -68,7 +68,7 @@ function ItemRow({ item }) {
                   {unit.pricePerUnit}
                 </td>
                 <td>
-                  {unit.worldName}
+                  {unit.worldName || item.marketBoardPrice.worldName}
                 </td>
                 <td>
                   {unit.retainerName}

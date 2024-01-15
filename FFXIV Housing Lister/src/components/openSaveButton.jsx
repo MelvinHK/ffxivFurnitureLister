@@ -20,6 +20,7 @@ function SavesList({ option }) {
 
   const saveList = (key = null) => {
     key = key || saveName;
+    if (!key || key.match(/^\s*$/)) return;
 
     if (itemList.content.length == 0)
       return alert("Error: There are no items in your list to save.");
