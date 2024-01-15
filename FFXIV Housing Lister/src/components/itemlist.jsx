@@ -9,6 +9,7 @@ import MobileMenuButton from "./mobileMenuButton";
 import ShareButton from "./shareButton";
 import { GilInfoModal } from "./modalContent/gilInfoModal";
 import { TotalMaterialsModal } from "./modalContent/totalMaterialsModal";
+import { TotalItemsModal } from "./modalContent/totalItemsModal";
 
 function ItemList() {
   const { itemList, handleModal } = useContext(ItemListContext);
@@ -115,11 +116,12 @@ function ItemList() {
                 <tr>
                   <th className="pad-small">Total:</th>
 
-                  <td className="pad-small">{totalQuantity}</td>
+                  <td className="pad-small"><button title="Total items" onClick={() => handleModal(<TotalItemsModal itemList={itemList} totalQuantity={totalQuantity} />)} className="link-btn pad-0">{totalQuantity}</button></td>
 
                   <td className="pad-small">
-                    <button className="link-btn pad-0">{totalGil}</button>
-                    <img className="icon" src="gilIcon.webp"></img>
+                    <span className="flex align-center">
+                      {totalGil}<img className="icon" src="gilIcon.webp"></img>
+                    </span>
                   </td>
 
                   <td className="pad-small">
