@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { ItemListContext } from '../App';
+import { MarketBoardModal } from "./modalContent/marketBoardModal";
 
 function ItemRow({ item }) {
   const [tempQuantity, setTempQuantity] = useState(item.quantity);
@@ -48,39 +49,6 @@ function ItemRow({ item }) {
     updateItemValue(item.id, { isChecked: checked });
   };
 
-  const marketBoardModalContent = () => {
-    const slicedListings = item.marketBoardPrice.listings.slice(0, item.quantity);
-    return (
-      <>
-        <p className="mb-0">Displaying {slicedListings.length} / {unitsForSale} in stock:</p>
-        <table className='w-full'>
-          <thead>
-            <tr>
-              <th>Gil</th>
-              <th>World</th>
-              <th>Retainer</th>
-            </tr>
-          </thead>
-          <tbody>
-            {slicedListings.map((unit) =>
-              <tr key={unit.listingID}>
-                <td>
-                  {unit.pricePerUnit}
-                </td>
-                <td>
-                  {unit.worldName || item.marketBoardPrice.worldName}
-                </td>
-                <td>
-                  {unit.retainerName}
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </>
-    );
-  };
-
   return (
     <tr key={item.id} className={item.isChecked ? "checked" : ""}>
       {/* Item Name */}
@@ -119,7 +87,9 @@ function ItemRow({ item }) {
                 calculatedMarketPrice === "N/A" ?
                   <span className="o-5">{calculatedMarketPrice}</span>
                   :
-                  <button className={`link-btn pad-0 ${item.quantity > unitsForSale ? `market-overflow` : ``}`} onClick={() => handleModal(marketBoardModalContent())}>
+                  <button
+                    className={`link-btn pad-0 ${item.quantity > unitsForSale ? `market-overflow` : ``}`}
+                    onClick={() => handleModal(<MarketBoardModal item={item} unitsForSale={unitsForSale} />)}>
                     {calculatedMarketPrice}
                   </button>
               }
