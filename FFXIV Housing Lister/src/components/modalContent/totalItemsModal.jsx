@@ -50,7 +50,7 @@ export const TotalItemsModal = ({ itemList, totalQuantity }) => {
 
     <p className="mb-0">
       {npcItems.reduce((total, item) => total + item.quantity, 0)} purchasable from NPC gil exchange.&nbsp;
-      <button className="link-btn" onClick={() => setShowNpcItems(!showNpcItems)}>{showNpcItems ? "Hide" : "View"}</button>
+      {npcItems.length > 0 && <button className="link-btn" onClick={() => setShowNpcItems(!showNpcItems)}>{showNpcItems ? "Hide" : "View"}</button>}
     </p>
     {showNpcItems &&
       <ul className="column-container list-no-bullets mt-0">
@@ -60,7 +60,7 @@ export const TotalItemsModal = ({ itemList, totalQuantity }) => {
 
     <p>
       {marketBoardItems.reduce((total, item) => total + item.quantity, 0)} purchasable from the market board.&nbsp;
-      <button className="link-btn" onClick={() => setShowMarketBoardItems(!showMarketBoardItems)}>{showMarketBoardItems ? "Hide" : "View"}</button>
+      {marketBoardItems.length > 0 && <button className="link-btn" onClick={() => setShowMarketBoardItems(!showMarketBoardItems)}>{showMarketBoardItems ? "Hide" : "View"}</button>}
     </p>
     {showMarketBoardItems && <div>
       <form style={{ paddingLeft: "40px" }}>
@@ -79,7 +79,7 @@ export const TotalItemsModal = ({ itemList, totalQuantity }) => {
 
     <p>
       {outlierItems.reduce((total, item) => total + item.quantity, 0)} unresolved/non-gil-purchasable.&nbsp;
-      <button className="link-btn" onClick={() => setShowOutlierItems(!showOutlierItems)}>{showOutlierItems ? "Hide" : "View"}</button>
+      {outlierItems.length > 0 && <button className="link-btn" onClick={() => setShowOutlierItems(!showOutlierItems)}>{showOutlierItems ? "Hide" : "View"}</button>}
     </p>
     {showOutlierItems &&
       <ul className="column-container list-no-bullets mt-0 pt-0">

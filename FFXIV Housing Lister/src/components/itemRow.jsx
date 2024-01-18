@@ -17,17 +17,17 @@ function ItemRow({ item }) {
     setTempQuantity(item.quantity);
   }, [item.quantity]);
 
-  // Synchronise total market board prices
-  useEffect(() => {
-    if (item.marketBoardPrice)
-      setCalculatedMarketPrice(calculateMarketBoardPrice());
-  }, [item.quantity, item.marketBoardPrice]);
-
   // Synchronise max units available
   useEffect(() => {
     if (item.marketBoardPrice)
       setUnitsForSale(item.marketBoardPrice.unitsForSale);
   }, [item.marketBoardPrice]);
+
+  // Synchronise total market board prices
+  useEffect(() => {
+    if (item.marketBoardPrice)
+      setCalculatedMarketPrice(calculateMarketBoardPrice());
+  }, [item.quantity, item.marketBoardPrice, unitsForSale]);
 
   const validateAndSetQuantity = (value) => {
     value = Math.min(999, Math.max(1, Number(value)));
