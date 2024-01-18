@@ -88,7 +88,7 @@ function ItemRow({ item }) {
                   <span className="o-5">{calculatedMarketPrice}</span>
                   :
                   <button
-                    className={`link-btn pad-0 ${item.quantity > unitsForSale ? `market-overflow` : ``}`}
+                    className={`link-btn ${item.quantity > unitsForSale ? `market-overflow` : ``}`}
                     onClick={() => handleModal(<MarketBoardModal item={item} unitsForSale={unitsForSale} />)}>
                     {calculatedMarketPrice}
                   </button>
@@ -104,7 +104,7 @@ function ItemRow({ item }) {
           <span className="o-5">{item.materials}</span>
           :
           showMaterials ?
-            <button onClick={() => setShowMaterials(false)} className="icon-btn text-small ml-auto text-left pad-0" title="Collapse">
+            <button onClick={() => setShowMaterials(false)} className="icon-btn text-small ml-auto text-left" title="Collapse">
               <div>
                 {item.materials.map((material) => {
                   return (

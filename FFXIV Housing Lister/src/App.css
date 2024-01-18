@@ -194,7 +194,7 @@
 }
 
 .checked {
-    background-color: rgba(95, 186, 255, 0.337) !important;
+    background-color: rgba(255, 255, 255, 0.123) !important;
 }
 
 .black {
@@ -231,6 +231,8 @@
     background-color: transparent;
     border: none;
     color: #646cff;
+    padding: 0.75rem;
+    margin: -0.75rem;
 }
 
 .link-btn:hover {
