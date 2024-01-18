@@ -18,7 +18,7 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState(<></>);
   const [hideMobileMenu, setHideMobileMenu] = useState(true);
-  const [loadingStatus, setLoadingStatus] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const mobileMenuContainer = useRef(null);
   useClickAway(mobileMenuContainer, (isClickedAway) => {
@@ -102,7 +102,7 @@ function App() {
         return;
       }
 
-      setLoadingStatus(true);
+      setIsLoading(true);
 
       const ids = Object.keys(decodedItems);
 
@@ -124,7 +124,7 @@ function App() {
           isChecked: decodedItems[item.ID] % 10 == 1 ? true : false
         };
       }));
-      setLoadingStatus(false);
+      setIsLoading(false);
     };
     handleShareParam();
   }, []);
@@ -145,7 +145,7 @@ function App() {
         <ItemList />
         {showModal && <Modal>{modalContent}</Modal>}
       </ItemListContext.Provider>
-      {loadingStatus &&
+      {isLoading &&
         <div id="load-shareable-link">
           Loading...
         </div>

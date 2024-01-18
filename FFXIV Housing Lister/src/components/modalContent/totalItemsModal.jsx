@@ -2,17 +2,21 @@ import { useState } from "react";
 
 export const TotalItemsModal = ({ itemList, totalQuantity }) => {
   const [showNpcItems, setShowNpcItems] = useState(false);
-  const [showMarketBoardItems, setShowMarketBoardItems] = useState(false);
-  const [showOutlierItems, setShowOutlierItems] = useState(false);
 
+  const [showMarketBoardItems, setShowMarketBoardItems] = useState(false);
   const [worldOption, setWorldOption] = useState("");
+
+  const [showOutlierItems, setShowOutlierItems] = useState(false);
 
   const getItemsBy = (condition) => {
     return itemList.content.filter(item => condition(item));
   };
 
   const npcItems = getItemsBy(item => item.gilShopPrice);
+
   const marketBoardItems = getItemsBy(item => item.marketBoardPrice && item.marketBoardPrice !== "N/A");
+  const [filteredMbItems, setFilteredMbItems] = useState({});
+
   const outlierItems = getItemsBy(item => !item.gilShopPrice && (!item.marketBoardPrice || item.marketBoardPrice === "N/A"));
 
   const worlds = Array.from(new Set(
@@ -22,6 +26,23 @@ export const TotalItemsModal = ({ itemList, totalQuantity }) => {
         .map(unit => unit.worldName ?? item.marketBoardPrice.worldName)
     )
   ));
+
+  const handleWorldOption = (option) => {
+    setWorldOption(option);
+
+    const matchedListings = {};
+    marketBoardItems.map(item => {
+      const filteredList = item.marketBoardPrice.listings
+        .slice(0, Math.min(item.quantity, item.marketBoardPrice.unitsForSale))
+        .map(unit => (unit.worldName ?? item.marketBoardPrice.worldName) === option ? unit : null)
+        .filter(unit => unit);
+
+      filteredList.length > 0 && (matchedListings[item.name] = filteredList.length);
+      return filteredList;
+    });
+
+    setFilteredMbItems(matchedListings);
+  };
 
   return (<>
     <h4>Total Items</h4>
@@ -43,14 +64,16 @@ export const TotalItemsModal = ({ itemList, totalQuantity }) => {
     </p>
     {showMarketBoardItems && <div>
       <form style={{ paddingLeft: "40px" }}>
-        <select className="pad-small text-small" onChange={e => setWorldOption(e.target.value)}>
+        <select className="pad-small text-small" value={worldOption} onChange={e => handleWorldOption(e.target.value)}>
           <option>All Worlds</option>
           {worlds.map(world => <option key={world}>{world}</option>)}
         </select>
       </form>
 
       <ul className="column-container list-no-bullets mt-0">
-        {marketBoardItems.map(item => <li key={item.id} className="text-small">{item.quantity} {item.name}</li>)}
+        {marketBoardItems.map(item => (Object.keys(filteredMbItems).length === 0 || filteredMbItems[item.name]) &&
+          <li key={item.id} className="text-small">{filteredMbItems[item.name] ?? item.quantity} {item.name}</li>
+        )}
       </ul>
     </div>}
 
