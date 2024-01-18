@@ -4,14 +4,15 @@ import { ItemListContext } from '../App';
 
 function Searchbar() {
   const [query, setQuery] = useState("");
-  const [queryResults, setQueryResults] = useState([]);
-  const [queryStatus, setQueryStatus] = useState("");
-  const [showResults, setShowResults] = useState(false);
+
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchStatus, setSearchStatus] = useState("");
+  const [hideResults, setHideResults] = useState(false);
 
   const [addItemStatus, setAddItemStatus] = useState("");
 
   const searchContainer = useRef(null);
-  useClickAway(searchContainer, setShowResults);
+  useClickAway(searchContainer, setHideResults);
 
   const { itemList, updateItemListContent } = useContext(ItemListContext);
 
@@ -19,14 +20,14 @@ function Searchbar() {
     e.preventDefault();
     if (!query || query.match(/^\s*$/)) return;
 
-    setQueryResults([]);
-    setShowResults(false);
-    setQueryStatus("Searching...");
+    setSearchResults([]);
+    setHideResults(false);
+    setSearchStatus("Searching...");
 
     const items = await fetchItemsByName(query);
     if (items) {
-      items.length > 0 ? setQueryStatus("") : setQueryStatus(`No results found for "${query}"`);
-      setQueryResults(items);
+      items.length > 0 ? setSearchStatus("") : setSearchStatus(`No results found for "${query}"`);
+      setSearchResults(items);
     }
   };
 
@@ -44,7 +45,7 @@ function Searchbar() {
     setAddItemStatus("");
   };
 
-  const queryResultsDisplay = queryResults.map((result) => {
+  const searchResultsDisplay = searchResults.map((result) => {
     const newItem = {
       id: result.ID,
       name: result.Name,
@@ -77,10 +78,10 @@ function Searchbar() {
         </button>
       </form>
       {/* Search Results */}
-      {!showResults &&
+      {!hideResults &&
         <div id="search-results" className='flex-col absolute w-full'>
-          {queryResultsDisplay}
-          {queryStatus && <div className="pad black">{queryStatus}</div>}
+          {searchResultsDisplay}
+          {searchStatus && <div className="pad black">{searchStatus}</div>}
           {addItemStatus && <div className="status-overlay">Adding...</div>}
         </div>
       }

@@ -21,10 +21,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   const mobileMenuContainer = useRef(null);
-  useClickAway(mobileMenuContainer, (isClickedAway) => {
-    if (!showModal)
-      setHideMobileMenu(isClickedAway);
-  });
+  useClickAway(mobileMenuContainer, setHideMobileMenu);
 
   const updateItemListContent = (newContent) => {
     setItemList(prevState => ({
@@ -85,8 +82,8 @@ function App() {
     removeCheckedItems,
     setShowModal,
     handleModal,
-    showMobileMenu: hideMobileMenu,
-    setShowMobileMenu: setHideMobileMenu
+    hideMobileMenu,
+    setHideMobileMenu
   };
 
   useEffect(() => {

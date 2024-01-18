@@ -158,7 +158,7 @@
 }
 
 .mt-0 {
-    margin-top: 0;
+    margin-top: 0 !important;
 }
 
 .mb-0 {
@@ -434,4 +434,12 @@
     margin: 0;
     min-height: 1.15rem !important;
     min-width: 1.15rem !important;
+}
+
+.z-2 {
+    z-index: 2;
+}
+
+#total-materials-modal {
+    min-height: 27rem;
 }

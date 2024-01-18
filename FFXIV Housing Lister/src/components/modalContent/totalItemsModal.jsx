@@ -31,7 +31,7 @@ export const TotalItemsModal = ({ itemList, totalQuantity }) => {
     setWorldOption(option);
 
     const matchedListings = {};
-    marketBoardItems.map(item => {
+    marketBoardItems.forEach(item => {
       const filteredList = item.marketBoardPrice.listings
         .slice(0, Math.min(item.quantity, item.marketBoardPrice.unitsForSale))
         .map(unit => (unit.worldName ?? item.marketBoardPrice.worldName) === option ? unit : null)
