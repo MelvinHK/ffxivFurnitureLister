@@ -9,4 +9,5 @@ A list creator for FFXIV housing items.
 
 ## Changelog
 
+18/01/2024 - Added total-data preprocessing.
 7/12/2023 - Shareable links added
