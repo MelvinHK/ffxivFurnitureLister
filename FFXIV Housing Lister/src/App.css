@@ -429,3 +429,8 @@
 .list-no-bullets {
     list-style-type: none;
 }
+
+.checkbox-small {
+    min-height: 1.15rem !important;
+    min-width: 1.15rem !important;
+}
