@@ -22,9 +22,14 @@ export const TotalMaterialsModal = ({ itemList }) => {
 
   return (<>
     <h4>Total Materials</h4>
-    <div className="flex align-center">
-      <input type="checkbox" className="checkbox-small" checked={showGilShopItems} onChange={e => setShowGilShopItems(e.target.checked)}></input>
-      <label className="text-small">Include items from NPC gil exchange</label>
+    <div className="flex-col gap">
+      <div className="flex align-center gap">
+        <input type="text" className="pad-small text-small w-half" placeholder="Specify items..."></input>
+      </div>
+      <div className="flex align-center">
+        <input type="checkbox" className="checkbox-small" checked={showGilShopItems} onChange={e => setShowGilShopItems(e.target.checked)}></input>
+        <label className="text-small">&nbsp;Include items from NPC gil exchange</label>
+      </div>
     </div>
     {materialsList.length > 0 ? (<>
       <ul className="column-container pt-0 list-no-bullets">
