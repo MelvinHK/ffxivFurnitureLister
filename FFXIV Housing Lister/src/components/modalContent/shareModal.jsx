@@ -3,7 +3,7 @@ export const ShareModal = ({ link }) => {
 
   return (<>
     <h4>Share List</h4>
-    <p>Shares current state of list.</p>
+    <p>Share current state of the list.</p>
     <div className="sharelink-container">
       <button title="Copy to clipboard" onClick={() => copyToClipboard()} className="flex align-center ml-btn icon-btn">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-clipboard" viewBox="0 0 16 16">
@@ -15,5 +15,8 @@ export const ShareModal = ({ link }) => {
         {link}
       </div>
     </div>
+    <p className="text-small o-5 mb-0 text-right">
+      Encoded using <a href="https://github.com/qntm/base2048" target="_blank">base2048</a>
+    </p>
   </>);
 };

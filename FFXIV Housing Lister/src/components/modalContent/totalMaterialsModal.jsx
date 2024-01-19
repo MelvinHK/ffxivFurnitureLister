@@ -2,7 +2,8 @@ import { useState, useRef } from "react";
 import { useClickAway } from "../../functions";
 
 export const TotalMaterialsModal = ({ itemList }) => {
-  const [showGilShopItems, setShowGilShopItems] = useState(true);
+  const [hideGilShopItems, setHideGilShopItems] = useState(true);
+  const [hideCheckedItems, setHideCheckedItems] = useState(true);
 
   const [filterText, setFilterText] = useState("");
   const [specifiedItems, setSpecifiedItems] = useState(new Set());
@@ -14,7 +15,8 @@ export const TotalMaterialsModal = ({ itemList }) => {
   const totalMaterials = itemList.content.reduce((acc, item) => {
     if (
       item.materials !== "N/A" &&
-      (showGilShopItems || !item.gilShopPrice) &&
+      (!hideGilShopItems || !item.gilShopPrice) &&
+      (!hideCheckedItems || !item.isChecked) &&
       (specifiedItems.size === 0 || specifiedItems.has(item.name))
     )
       item.materials.forEach(({ name, amount }) => {
@@ -84,8 +86,12 @@ export const TotalMaterialsModal = ({ itemList }) => {
         </div>
       }
       <div className="flex align-center">
-        <input type="checkbox" className="checkbox-small" checked={showGilShopItems} onChange={e => setShowGilShopItems(e.target.checked)}></input>
-        <label className="text-small">&nbsp;Include items from NPC gil exchange</label>
+        <input type="checkbox" className="checkbox-small" checked={hideGilShopItems} onChange={e => setHideGilShopItems(e.target.checked)}></input>
+        <label className="text-small">&nbsp;Ignore items from NPC gil exchange</label>
+      </div>
+      <div className="flex align-center">
+        <input type="checkbox" className="checkbox-small" checked={hideCheckedItems} onChange={e => setHideCheckedItems(e.target.checked)}></input>
+        <label className="text-small">&nbsp;Ignore checked off items.</label>
       </div>
     </div >
     {
