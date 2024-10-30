@@ -49,6 +49,36 @@ function ItemRow({ item }) {
     updateItemValue(item.id, { isChecked: checked });
   };
 
+  const gilColumnDisplay = () => {
+    if (item.gilShopPrice) {
+      return <>
+        {item.gilShopPrice * item.quantity}
+        <img className="icon" src="gilShopIcon.webp"></img>
+      </>;
+    }
+    if (item.marketBoardPrice) {
+      return <>
+        {unitsForSale === 0 ?
+          <span className="text-small">Out of stock</span>
+          :
+          calculatedMarketPrice === "N/A" ?
+            <span className="o-5">{calculatedMarketPrice}</span>
+            :
+            <button
+              className={`link-btn ${item.quantity > unitsForSale ? `market-overflow` : ``}`}
+              onClick={() => handleModal(<MarketBoardModal item={item} unitsForSale={unitsForSale} />)}>
+              {calculatedMarketPrice}
+            </button>
+        }
+        {calculatedMarketPrice != "N/A" ? <img className="icon" src="marketBoardIcon.webp"></img> : <></>}
+      </>;
+    }
+    return <>
+      <span>?</span>
+      <img className="icon" src="marketBoardIcon.webp"></img>
+    </>;
+  };
+
   return (
     <tr key={item.id} className={item.isChecked ? "checked" : ""}>
       {/* Item Name */}
@@ -74,34 +104,13 @@ function ItemRow({ item }) {
       {/* Gil */}
       <td className="pad-small">
         <div className={`flex align-center`}>
-          {item.gilShopPrice ?
-            <>
-              {item.gilShopPrice * item.quantity}
-              <img className="icon" src="gilShopIcon.webp"></img>
-            </> :
-            item.marketBoardPrice &&
-            <>
-              {unitsForSale === 0 ?
-                <span className="text-small">Out of stock</span>
-                :
-                calculatedMarketPrice === "N/A" ?
-                  <span className="o-5">{calculatedMarketPrice}</span>
-                  :
-                  <button
-                    className={`link-btn ${item.quantity > unitsForSale ? `market-overflow` : ``}`}
-                    onClick={() => handleModal(<MarketBoardModal item={item} unitsForSale={unitsForSale} />)}>
-                    {calculatedMarketPrice}
-                  </button>
-              }
-              {calculatedMarketPrice != "N/A" ? <img className="icon" src="marketBoardIcon.webp"></img> : <></>}
-            </>
-          }
+          {gilColumnDisplay()}
         </div>
       </td>
       {/* Materials */}
       <td className="pad-small">
-        {item.materials === "N/A" ?
-          <span className="o-5">{item.materials}</span>
+        {item.materials === "N/A" || item.materials === null ?
+          <span className="o-5">{item.materials ?? "N/A"}</span>
           :
           showMaterials ?
             <button onClick={() => setShowMaterials(false)} className="icon-btn text-small ml-auto text-left" title="Collapse">
@@ -112,11 +121,6 @@ function ItemRow({ item }) {
                       <p className="text-small">
                         {item.quantity * material.amount} {material.name}
                       </p>
-                      {material.subMaterials && material.subMaterials.map((subMaterial) =>
-                        <p key={item.id + material.name + subMaterial.name} className="text-small submaterial">
-                          {item.quantity * subMaterial.amount} {subMaterial.name}
-                        </p>
-                      )}
                     </div>
                   );
                 })}

@@ -49,7 +49,7 @@ export const TotalItemsModal = ({ itemList, totalQuantity }) => {
     <p>{totalQuantity} items total.</p>
 
     <p className="mb-0">
-      {npcItems.reduce((total, item) => total + item.quantity, 0)} purchasable from NPC gil exchange.&nbsp;
+      {npcItems.reduce((total, item) => total + item.quantity, 0)} purchasable from NPCs for gil.&nbsp;
       {npcItems.length > 0 && <button className="link-btn" onClick={() => setShowNpcItems(!showNpcItems)}>{showNpcItems ? "Hide" : "View"}</button>}
     </p>
     {showNpcItems &&

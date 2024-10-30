@@ -1,5 +1,5 @@
 import { useState, createContext, useRef, useEffect } from 'react';
-import { fetchItemsByIDs, fetchMaterialsByIDs, getGilShopPrice, useClickAway } from './functions';
+import { fetchItemsByIDs, fetchRecipes, fetchGilShopItems, useClickAway, getGilPriceById } from './functions';
 import { decode } from 'base2048';
 import './App.css';
 import Searchbar from './components/searchbar';
@@ -102,23 +102,22 @@ function App() {
       setIsLoading(true);
 
       const ids = Object.keys(decodedItems);
-
-      const items = await fetchItemsByIDs(ids);
-      const itemMaterials = await fetchMaterialsByIDs(
-        items
-          .filter(item => item.Recipes)
-          .map(item => item.Recipes[0].ID)
-      );
+      const [items, gilShopItems, materials] = await Promise.all([
+        fetchItemsByIDs(ids),
+        fetchGilShopItems(ids),
+        fetchRecipes(ids),
+      ]);
 
       updateItemListContent(items.map(item => {
+        const id = item.row_id;
         return {
-          id: item.ID,
-          name: item.Name,
-          quantity: decodedItems[item.ID] / 10 ^ 0,
-          gilShopPrice: getGilShopPrice(item),
+          id: id,
+          name: item.fields.Name,
+          quantity: decodedItems[id] / 10 ^ 0,
+          gilShopPrice: getGilPriceById(id, gilShopItems),
           marketBoardPrice: null,
-          materials: itemMaterials[item.ID] || "N/A",
-          isChecked: decodedItems[item.ID] % 10 == 1 ? true : false
+          materials: materials[id] ?? null,
+          isChecked: decodedItems[id] % 10 == 1 ? true : false
         };
       }));
       setIsLoading(false);

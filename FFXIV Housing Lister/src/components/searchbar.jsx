@@ -1,5 +1,5 @@
 import { useState, useRef, useContext } from 'react';
-import { useClickAway, fetchItemsByName, getGilShopPrice, fetchMaterials } from '../functions';
+import { useClickAway, fetchItemsByName, fetchGilShopItems, getGilPriceById, fetchRecipes } from '../functions';
 import { ItemListContext } from '../App';
 
 function Searchbar() {
@@ -31,15 +31,21 @@ function Searchbar() {
     }
   };
 
-  const handleAddItem = async (newItem, queriedItem) => {
+  const handleAddItem = async (newItem) => {
     setAddItemStatus("(adding...)");
     if (itemList.content.find(existingItem => existingItem.id === newItem.id)) {
       setAddItemStatus("");
-      return alert("Item already exists in list.");
+      return;
     }
 
-    newItem.gilShopPrice = getGilShopPrice(queriedItem);
-    newItem.materials = await fetchMaterials(queriedItem);
+
+    const [gilShopItems, materials] = await Promise.all([
+      fetchGilShopItems([newItem.id]),
+      fetchRecipes([newItem.id])
+    ]);
+
+    newItem.gilShopPrice = getGilPriceById(newItem.id, gilShopItems);
+    newItem.materials = materials[newItem.id] ?? null;
 
     updateItemListContent([newItem, ...itemList.content]);
     setAddItemStatus("");
@@ -47,8 +53,8 @@ function Searchbar() {
 
   const searchResultsDisplay = searchResults.map((result) => {
     const newItem = {
-      id: result.ID,
-      name: result.Name,
+      id: result.fields.Item.row_id,
+      name: result.fields.Item.fields.Name,
       quantity: 1,
       gilShopPrice: null,
       marketBoardPrice: null,
@@ -57,9 +63,9 @@ function Searchbar() {
     };
 
     return (
-      <button key={result.ID} onClick={() => handleAddItem(newItem, result)} className='text-left w-full flex'>
-        <span>{result.Name}</span>
-        {itemList.content.find(existingItem => existingItem.id === result.ID) &&
+      <button key={newItem.id} onClick={() => handleAddItem(newItem)} className='text-left w-full flex'>
+        <span>{newItem.name}</span>
+        {itemList.content.find(existingItem => existingItem.id === newItem.id) &&
           <span className='ml-auto text-small'>(added)</span>
         }
       </button>

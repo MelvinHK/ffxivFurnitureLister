@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { ItemListContext } from "../App";
-import { fetchItemsByIDs, fetchMaterialsByIDs, getGilShopPrice } from "../functions";
+import { fetchItemsByIDs, fetchRecipes, fetchGilShopItems, getGilPriceById } from "../functions";
 
 function MakePlace() {
   const [fileStatus, setFileStatus] = useState("");
@@ -24,27 +24,28 @@ function MakePlace() {
 
   const handleAddItems = async (ids) => {
     try {
-      const items = await fetchItemsByIDs([...new Set(ids)]);
+      const setOfIds = [...new Set(ids)]; // Remove duplicate ids, as thats how MakePlace handles the quantity of items
 
-      const itemQuantities = ids.reduce((acc, value) => {
-        acc[value] = (acc[value] || 0) + 1;
+      const itemQuantities = ids.reduce((acc, id) => {
+        acc[id] = (acc[id] || 0) + 1;
         return acc;
       }, {});
 
-      const itemMaterials = await fetchMaterialsByIDs(
-        items
-          .filter(item => item.Recipes)
-          .map(item => item.Recipes[0].ID)
-      );
+      const [items, gilShopItems, itemMaterials] = await Promise.all([
+        fetchItemsByIDs(setOfIds),
+        fetchGilShopItems(setOfIds),
+        fetchRecipes(setOfIds),
+      ]);
 
       updateItemListContent(items.map(item => {
+        const id = item.row_id;
         return {
-          id: item.ID,
-          name: item.Name,
-          quantity: itemQuantities[item.ID],
-          gilShopPrice: getGilShopPrice(item),
+          id: id,
+          name: item.fields.Name,
+          quantity: itemQuantities[id],
+          gilShopPrice: getGilPriceById(id, gilShopItems),
           marketBoardPrice: null,
-          materials: itemMaterials[item.ID] || "N/A",
+          materials: itemMaterials[id] ?? null,
           isChecked: false
         };
       }));
@@ -63,10 +64,11 @@ function MakePlace() {
 
         setFileStatus("Loading...");
         await handleAddItems(ids);
-        setFileStatus("");
-
       } catch (error) {
+        console.log(error);
         alert("Error parsing JSON:", error);
+      } finally {
+        setFileStatus("");
       }
     };
 
